@@ -12,12 +12,21 @@ import {
 } from "../index.js";
 
 describe("Authentication Schemas", () => {
-  it("normalizes valid Bangladeshi phone numbers correctly", () => {
+  it("normalizes valid Bangladeshi phone numbers correctly (FR-A5: 6 valid, 4+ invalid)", () => {
+    // 6 valid inputs
     expect(normalizeBangladeshiPhone("01712345678")).toBe("+8801712345678");
     expect(normalizeBangladeshiPhone("8801812345678")).toBe("+8801812345678");
     expect(normalizeBangladeshiPhone("+8801912345678")).toBe("+8801912345678");
-    expect(normalizeBangladeshiPhone("01212345678")).toBeNull();
+    expect(normalizeBangladeshiPhone("01300000000")).toBe("+8801300000000");
+    expect(normalizeBangladeshiPhone("8801500000000")).toBe("+8801500000000");
+    expect(normalizeBangladeshiPhone("+8801600000000")).toBe("+8801600000000");
+
+    // 5 invalid inputs
     expect(normalizeBangladeshiPhone("12345")).toBeNull();
+    expect(normalizeBangladeshiPhone("0212345678")).toBeNull();
+    expect(normalizeBangladeshiPhone("017123456")).toBeNull();
+    expect(normalizeBangladeshiPhone("017123456789")).toBeNull();
+    expect(normalizeBangladeshiPhone("+880212345678")).toBeNull();
   });
 
   it("validates correct registration with email", () => {

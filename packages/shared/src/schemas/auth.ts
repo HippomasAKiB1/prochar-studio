@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { normalizeAndSanitizeText } from "../utils/sanitize.js";
 
-const BD_PHONE_REGEX = /^(?:\+?88)?(01[3-9]\d{8})$/;
+const BD_PHONE_REGEX = /^(?:\+?88)?(01\d{9})$/;
 
 export function normalizeBangladeshiPhone(input: string): string | null {
   const cleaned = input.replace(/[\s-]/g, "");
@@ -13,9 +13,11 @@ export function normalizeBangladeshiPhone(input: string): string | null {
 export const PasswordSchema = z
   .string()
   .min(8, { message: "পাসওয়ার্ড অন্তত ৮ অক্ষরের হতে হবে" })
-  .max(72, { message: "পাসওয়ার্ড সর্বোচ্চ ৭২ অক্ষরের হতে পারে" })
   .regex(/[A-Za-z]/, { message: "পাসওয়ার্ডে অন্তত একটি অক্ষর থাকতে হবে" })
-  .regex(/[0-9]/, { message: "পাসওয়ার্ডে অন্তত একটি সংখ্যা থাকতে হবে" });
+  .regex(/[0-9]/, { message: "পাসওয়ার্ডে অন্তত একটি সংখ্যা থাকতে হবে" })
+  .refine((val) => Buffer.byteLength(val, "utf8") <= 72, {
+    message: "পাসওয়ার্ড সর্বোচ্চ ৭২ বাইটের হতে পারে",
+  });
 
 export const RegisterSchema = z
   .object({
