@@ -54,14 +54,6 @@ FROM node:20-bookworm-slim AS builder
 
 WORKDIR /app
 
-# Install build dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 \
-    make \
-    g++ \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-
 # Copy package manifests
 COPY package*.json ./
 COPY packages/shared/package*.json ./packages/shared/
@@ -109,8 +101,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Configure Puppeteer environment variables
+# Configure Puppeteer and Node module resolution environment variables
 ENV NODE_ENV=production \
+    NODE_PATH=/app/node_modules:/app/apps/api/node_modules \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PORT=8080
@@ -132,6 +125,7 @@ RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
 
 # Copy production node_modules and built code
 COPY --from=prod-deps --chown=pptruser:pptruser /app/node_modules ./node_modules
+COPY --from=prod-deps --chown=pptruser:pptruser /app/apps/api/node_modules ./apps/api/node_modules
 COPY --from=builder --chown=pptruser:pptruser /app/packages/shared/dist ./packages/shared/dist
 COPY --from=builder --chown=pptruser:pptruser /app/packages/shared/package.json ./packages/shared/package.json
 COPY --from=builder --chown=pptruser:pptruser /app/apps/api/dist ./apps/api/dist

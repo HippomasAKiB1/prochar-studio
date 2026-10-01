@@ -6,7 +6,7 @@
     "@prochar/shared": "*",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2",
+    "express": "^4.22.3",
     "helmet": "^8.0.0",
     "mongoose": "^9.10.3",
     "pino": "^9.6.0",
