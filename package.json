@@ -1,0 +1,24 @@
+{
+  "name": "prochar-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Prochar Studio (প্রচার স্টুডিও) — AI-assisted Bangladeshi political poster generator",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "node -e \"process.exit(0)\"",
+    "build": "node -e \"process.exit(0)\"",
+    "start": "node -e \"process.exit(0)\"",
+    "lint": "node -e \"process.exit(0)\"",
+    "typecheck": "node -e \"process.exit(0)\"",
+    "test": "node -e \"process.exit(0)\"",
+    "seed": "node -e \"process.exit(0)\"",
+    "seed:thumbnails": "node -e \"process.exit(0)\""
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "license": "UNLICENSED"
+}
