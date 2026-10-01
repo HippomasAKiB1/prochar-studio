@@ -7,5 +7,6 @@
       "@prochar/shared": ["../../packages/shared/src/index.ts"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["src/**/__tests__/**/*", "dist", "node_modules"]
 }
