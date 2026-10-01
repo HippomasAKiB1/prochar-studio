@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280">
+  <g id="sunburst_rays-group" fill="var(--c-accent)">
+    <polygon id="sunburst_rays-r1" points="300,280 0,220 0,180"/>
+    <polygon id="sunburst_rays-r2" points="300,280 0,110 0,70"/>
+    <polygon id="sunburst_rays-r3" points="300,280 0,0 40,0"/>
+    <polygon id="sunburst_rays-r4" points="300,280 120,0 170,0"/>
+    <polygon id="sunburst_rays-r5" points="300,280 250,0 300,0"/>
+    <polygon id="sunburst_rays-r6" points="300,280 380,0 430,0"/>
+    <polygon id="sunburst_rays-r7" points="300,280 510,0 560,0"/>
+    <polygon id="sunburst_rays-r8" points="300,280 600,0 600,40"/>
+    <polygon id="sunburst_rays-r9" points="300,280 600,110 600,150"/>
+    <polygon id="sunburst_rays-r10" points="300,280 600,220 600,260"/>
+  </g>
+</svg>

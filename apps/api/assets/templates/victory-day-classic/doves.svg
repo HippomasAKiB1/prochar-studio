@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80">
+  <g id="doves-group" fill="var(--c-on-primary)">
+    <path id="doves-d1" d="M30 40 Q45 20 60 25 Q50 35 45 42 Q60 48 50 55 Q40 50 35 45 Q25 48 20 42 Q25 40 30 40 Z"/>
+    <path id="doves-d2" d="M100 25 Q115 5 130 10 Q120 20 115 27 Q130 33 120 40 Q110 35 105 30 Q95 33 90 27 Q95 25 100 25 Z"/>
+    <path id="doves-d3" d="M160 45 Q175 25 190 30 Q180 40 175 47 Q190 53 180 60 Q170 55 165 50 Q155 53 150 47 Q155 45 160 45 Z"/>
+  </g>
+</svg>

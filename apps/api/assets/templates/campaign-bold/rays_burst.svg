@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
+  <g id="rays_burst-group" fill="var(--c-on-primary)">
+    <polygon id="rays_burst-r1" points="300,0 0,60 0,90"/>
+    <polygon id="rays_burst-r2" points="300,0 0,160 0,200"/>
+    <polygon id="rays_burst-r3" points="300,0 0,280 40,330"/>
+    <polygon id="rays_burst-r4" points="300,0 120,330 160,330"/>
+    <polygon id="rays_burst-r5" points="300,0 240,330 280,330"/>
+    <polygon id="rays_burst-r6" points="300,0 340,330 380,330"/>
+    <polygon id="rays_burst-r7" points="300,0 460,330 500,330"/>
+    <polygon id="rays_burst-r8" points="300,0 580,330 600,280"/>
+    <polygon id="rays_burst-r9" points="300,0 600,180 600,140"/>
+    <polygon id="rays_burst-r10" points="300,0 600,70 600,40"/>
+  </g>
+</svg>

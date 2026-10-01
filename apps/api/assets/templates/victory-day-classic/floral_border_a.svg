@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 700">
+  <rect id="floral_border_a-outer" x="4" y="4" width="592" height="692" fill="none" stroke="var(--c-accent)" stroke-width="4"/>
+  <rect id="floral_border_a-inner" x="14" y="14" width="572" height="672" fill="none" stroke="var(--c-secondary)" stroke-width="2"/>
+  <circle id="floral_border_a-c1" cx="9" cy="9" r="5" fill="var(--c-accent)"/>
+  <circle id="floral_border_a-c2" cx="591" cy="9" r="5" fill="var(--c-accent)"/>
+  <circle id="floral_border_a-c3" cx="9" cy="691" r="5" fill="var(--c-accent)"/>
+  <circle id="floral_border_a-c4" cx="591" cy="691" r="5" fill="var(--c-accent)"/>
+</svg>

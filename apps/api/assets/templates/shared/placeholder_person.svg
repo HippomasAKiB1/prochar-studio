@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <rect id="placeholder_person-bg" width="400" height="500" fill="var(--c-background)"/>
+  <circle id="placeholder_person-head" cx="200" cy="180" r="70" fill="var(--c-secondary)"/>
+  <path id="placeholder_person-shoulders" d="M100 450 C100 320 140 280 200 280 C260 280 300 320 300 450 Z" fill="var(--c-secondary)"/>
+</svg>

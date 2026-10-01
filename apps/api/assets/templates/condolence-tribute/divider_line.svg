@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 8">
+  <line id="divider_line-l1" x1="0" y1="4" x2="94" y2="4" stroke="var(--c-secondary)" stroke-width="1"/>
+  <polygon id="divider_line-diamond" points="100,0 104,4 100,8 96,4" fill="var(--c-accent)"/>
+  <line id="divider_line-l2" x1="106" y1="4" x2="200" y2="4" stroke="var(--c-secondary)" stroke-width="1"/>
+</svg>
