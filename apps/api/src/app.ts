@@ -6,6 +6,7 @@ import { env } from "./config/env.js";
 import { httpLogger } from "./middleware/logging.js";
 import { healthRouter } from "./routes/health.js";
 import { authRouter } from "./routes/auth.js";
+import { storageRouter } from "./routes/storage.js";
 import { globalLimiter } from "./middleware/rate-limit.js";
 
 export const app = express();
@@ -27,4 +28,6 @@ app.use("/api", globalLimiter);
 // Mount routes
 app.use("/api/health", healthRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/storage", storageRouter);
+
 
