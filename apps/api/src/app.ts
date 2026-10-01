@@ -8,6 +8,7 @@ import { healthRouter } from "./routes/health.js";
 import { authRouter } from "./routes/auth.js";
 import { storageRouter } from "./routes/storage.js";
 import { uploadRouter } from "./routes/upload.js";
+import { templatesRouter } from "./routes/templates.js";
 import { globalLimiter } from "./middleware/rate-limit.js";
 
 export const app = express();
@@ -31,6 +32,7 @@ app.use("/api/health", healthRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/storage", storageRouter);
 app.use("/api/upload", uploadRouter);
+app.use("/api/templates", templatesRouter);
 
 
 
