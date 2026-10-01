@@ -11,18 +11,26 @@
     "dev": "npm run dev --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
     "start": "npm run start --workspace=@prochar/api",
-    "lint": "npm run lint --workspaces --if-present",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "seed": "npm run seed --workspace=@prochar/api",
     "seed:thumbnails": "npm run seed:thumbnails --workspace=@prochar/api"
   },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@typescript-eslint/eslint-plugin": "^8.26.0",
+    "@typescript-eslint/parser": "^8.26.0",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.1.1",
+    "prettier": "^3.5.3",
+    "typescript": "~5.7.3"
+  },
   "engines": {
     "node": ">=20.0.0"
   },
-  "license": "UNLICENSED",
-  "devDependencies": {
-    "@types/node": "^26.6.3",
-    "typescript": "^7.0.2"
-  }
+  "license": "UNLICENSED"
 }

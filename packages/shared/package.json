@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
-    "lint": "node -e \"process.exit(0)\"",
+    "lint": "eslint src/",
     "test": "node -e \"process.exit(0)\""
   }
 }
