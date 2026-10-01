@@ -32,8 +32,11 @@ export const RegisterSchema = z
       ),
     email: z
       .string()
-      .email({ message: "সঠিক ইমেইল ঠিকানা দিন" })
-      .transform((val) => val.toLowerCase().trim())
+      .transform((val) => val.trim().toLowerCase())
+      .refine(
+        (val) => !val || z.string().email().safeParse(val).success || normalizeBangladeshiPhone(val) !== null,
+        { message: "সঠিক ইমেইল ঠিকানা দিন" }
+      )
       .optional()
       .or(z.literal("")),
     phone: z
