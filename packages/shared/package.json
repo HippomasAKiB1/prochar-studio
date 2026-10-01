@@ -5,8 +5,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "node -e \"process.exit(0)\"",
-    "typecheck": "node -e \"process.exit(0)\"",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
     "lint": "node -e \"process.exit(0)\"",
     "test": "node -e \"process.exit(0)\""
   }
