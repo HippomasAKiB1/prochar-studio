@@ -37,6 +37,13 @@ export const EnvSchema = z.object({
   CLOUDINARY_API_SECRET: z.string().optional().default(""),
 
   // Rate limits
+  RATE_LIMIT_DISABLED: z
+    .preprocess((val) => {
+      if (val === "true" || val === true) return true;
+      if (process.env.NODE_ENV === "test") return true;
+      return false;
+    }, z.boolean())
+    .default(false),
   MAX_REGENERATIONS: z.coerce.number().default(3),
   GEN_RATE_PER_MIN: z.coerce.number().default(5),
   GEN_RATE_PER_DAY: z.coerce.number().default(30),

@@ -6,6 +6,7 @@ import { env } from "./config/env.js";
 import { httpLogger } from "./middleware/logging.js";
 import { healthRouter } from "./routes/health.js";
 import { authRouter } from "./routes/auth.js";
+import { globalLimiter } from "./middleware/rate-limit.js";
 
 export const app = express();
 
@@ -19,6 +20,9 @@ app.use(
 app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 app.use(httpLogger);
+
+// Global rate limiting on /api
+app.use("/api", globalLimiter);
 
 // Mount routes
 app.use("/api/health", healthRouter);

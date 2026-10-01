@@ -10,8 +10,17 @@ import {
   COOKIE_NAME,
 } from "../services/auth.service.js";
 import { requireAuth } from "../middleware/auth.middleware.js";
+import { authLimiter } from "../middleware/rate-limit.js";
 
 export const authRouter = Router();
+
+// Apply auth rate limiting (10 req / 15 min / IP) to all POST /api/auth/* routes
+authRouter.use((req, res, next) => {
+  if (req.method === "POST") {
+    return authLimiter(req, res, next);
+  }
+  next();
+});
 
 /**
  * POST /api/auth/register
