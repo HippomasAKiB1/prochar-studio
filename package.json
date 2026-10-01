@@ -8,14 +8,14 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "node -e \"process.exit(0)\"",
-    "build": "node -e \"process.exit(0)\"",
-    "start": "node -e \"process.exit(0)\"",
-    "lint": "node -e \"process.exit(0)\"",
-    "typecheck": "node -e \"process.exit(0)\"",
-    "test": "node -e \"process.exit(0)\"",
-    "seed": "node -e \"process.exit(0)\"",
-    "seed:thumbnails": "node -e \"process.exit(0)\""
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "start": "npm run start --workspace=@prochar/api",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "seed": "npm run seed --workspace=@prochar/api",
+    "seed:thumbnails": "npm run seed:thumbnails --workspace=@prochar/api"
   },
   "engines": {
     "node": ">=20.0.0"
