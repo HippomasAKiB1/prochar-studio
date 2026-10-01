@@ -40,7 +40,7 @@
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "seed": "node -e \"process.exit(0)\"",
+    "seed": "npm run build && node dist/scripts/seed.js",
     "seed:thumbnails": "node -e \"process.exit(0)\""
   }
 }
