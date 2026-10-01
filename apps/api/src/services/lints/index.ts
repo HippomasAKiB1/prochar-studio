@@ -187,12 +187,26 @@ export function lintContrast(config: TemplateLayoutConfig): LintResult {
 }
 
 /**
+ * Helper to resolve the templates asset root directory whether called from root or workspace.
+ */
+export function getAssetsRootDir(): string {
+  const cwd = process.cwd();
+  if (fs.existsSync(path.resolve(cwd, "assets/templates"))) {
+    return path.resolve(cwd, "assets/templates");
+  }
+  if (fs.existsSync(path.resolve(cwd, "apps/api/assets/templates"))) {
+    return path.resolve(cwd, "apps/api/assets/templates");
+  }
+  return path.resolve(cwd, "apps/api/assets/templates");
+}
+
+/**
  * 6. Assets Exist & Safe Lint
  * Every asset path exists on disk AND passes SVG safety validator.
  */
 export function lintAssetsExistAndSafe(
   config: TemplateLayoutConfig,
-  assetsRootDir: string = path.resolve(process.cwd(), "apps/api/assets/templates")
+  assetsRootDir: string = getAssetsRootDir()
 ): LintResult {
   const errors: string[] = [];
   const assetPaths = new Set<string>();
