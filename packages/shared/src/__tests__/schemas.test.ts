@@ -9,6 +9,7 @@ import {
   LayoutPlanSchema,
   escapeHtml,
   normalizeAndSanitizeText,
+  assertUserOwnsPublicId,
 } from "../index.js";
 
 describe("Authentication Schemas", () => {
@@ -222,3 +223,29 @@ describe("Sanitization and HTML Escape", () => {
     expect(normalizeAndSanitizeText(textWithControl)).toBe("Hello World");
   });
 });
+
+describe("assertUserOwnsPublicId (FR-U3 / CHECK 4)", () => {
+  const userId = "user123";
+
+  it("valid path → true", () => {
+    expect(assertUserOwnsPublicId(`posters/uploads/${userId}/photo_abc.webp`, userId)).toBe(true);
+  });
+
+  it("other user → false", () => {
+    expect(assertUserOwnsPublicId(`posters/uploads/otherUser456/photo_abc.webp`, userId)).toBe(false);
+  });
+
+  it("wrong folder (generated/) → false", () => {
+    expect(assertUserOwnsPublicId(`posters/generated/${userId}/photo_abc.webp`, userId)).toBe(false);
+  });
+
+  it("no trailing slash → false", () => {
+    expect(assertUserOwnsPublicId(`posters/uploads/${userId}evil/photo_abc.webp`, userId)).toBe(false);
+    expect(assertUserOwnsPublicId(`posters/uploads/${userId}`, userId)).toBe(false);
+  });
+
+  it("path traversal (../) → false", () => {
+    expect(assertUserOwnsPublicId(`posters/uploads/${userId}/../../victim/photo.webp`, userId)).toBe(false);
+  });
+});
+
