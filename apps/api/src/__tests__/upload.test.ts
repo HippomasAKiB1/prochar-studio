@@ -152,9 +152,10 @@ describe("POST /api/upload Endpoint", () => {
     const fetchRes = await request(app).get(photo.url);
     expect(fetchRes.status).toBe(200);
 
-    // Verify stripped output has NO exif metadata
+    // Verify stripped output has NO exif/icc metadata
     const processedMeta = await sharp(fetchRes.body).metadata();
     expect(processedMeta.exif).toBeUndefined();
+    expect(processedMeta.icc).toBeUndefined();
     expect(processedMeta.format).toBe("webp");
   });
 });

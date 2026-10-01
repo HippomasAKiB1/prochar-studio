@@ -382,6 +382,7 @@ describe("Phase 2 Integration Verification Suite (PRD & Constraints checklist)",
 
     const outputMeta = await sharp(fetchRes.body).metadata();
     expect(outputMeta.exif).toBeUndefined();
+    expect(outputMeta.icc).toBeUndefined();
     expect(outputMeta.format).toBe("webp");
   });
 
