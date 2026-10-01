@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 96">
+  <rect id="flag_wave-pole" x="10" y="4" width="4" height="88" fill="var(--c-accent)"/>
+  <path id="flag_wave-cloth" d="M14 12 Q50 0 85 14 Q120 28 140 16 L140 64 Q120 76 85 62 Q50 48 14 60 Z" fill="var(--c-primary)"/>
+  <circle id="flag_wave-circle" cx="72" cy="38" r="16" fill="var(--c-secondary)"/>
+</svg>

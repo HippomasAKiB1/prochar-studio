@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 100">
+  <g id="paddy-stalks" fill="none" stroke="var(--c-primary)" stroke-width="2">
+    <path id="paddy-stem-1" d="M30 100 Q40 50 50 10"/>
+    <path id="paddy-stem-2" d="M90 100 Q100 50 110 10"/>
+    <path id="paddy-stem-3" d="M150 100 Q160 50 170 10"/>
+    <path id="paddy-stem-4" d="M210 100 Q220 50 230 10"/>
+    <path id="paddy-stem-5" d="M270 100 Q280 50 290 10"/>
+    <path id="paddy-stem-6" d="M330 100 Q340 50 350 10"/>
+    <path id="paddy-stem-7" d="M390 100 Q400 50 410 10"/>
+    <path id="paddy-stem-8" d="M450 100 Q460 50 470 10"/>
+    <path id="paddy-stem-9" d="M510 100 Q520 50 530 10"/>
+    <path id="paddy-stem-10" d="M570 100 Q580 50 590 10"/>
+  </g>
+  <g id="paddy-grains" fill="var(--c-accent)">
+    <ellipse id="paddy-g-1" cx="50" cy="12" rx="4" ry="7"/>
+    <ellipse id="paddy-g-2" cx="110" cy="12" rx="4" ry="7"/>
+    <ellipse id="paddy-g-3" cx="170" cy="12" rx="4" ry="7"/>
+    <ellipse id="paddy-g-4" cx="230" cy="12" rx="4" ry="7"/>
+    <ellipse id="paddy-g-5" cx="290" cy="12" rx="4" ry="7"/>
+    <ellipse id="paddy-g-6" cx="350" cy="12" rx="4" ry="7"/>
+    <ellipse id="paddy-g-7" cx="410" cy="12" rx="4" ry="7"/>
+    <ellipse id="paddy-g-8" cx="470" cy="12" rx="4" ry="7"/>
+    <ellipse id="paddy-g-9" cx="530" cy="12" rx="4" ry="7"/>
+    <ellipse id="paddy-g-10" cx="590" cy="12" rx="4" ry="7"/>
+  </g>
+</svg>

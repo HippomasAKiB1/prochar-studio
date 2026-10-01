@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 12">
+  <g id="chevron_stripe-group" fill="none" stroke="var(--c-accent)" stroke-width="2">
+    <polyline id="chevron_stripe-p1" points="0,0 6,6 0,12"/>
+    <polyline id="chevron_stripe-p2" points="30,0 36,6 30,12"/>
+    <polyline id="chevron_stripe-p3" points="60,0 66,6 60,12"/>
+    <polyline id="chevron_stripe-p4" points="90,0 96,6 90,12"/>
+    <polyline id="chevron_stripe-p5" points="120,0 126,6 120,12"/>
+    <polyline id="chevron_stripe-p6" points="150,0 156,6 150,12"/>
+    <polyline id="chevron_stripe-p7" points="180,0 186,6 180,12"/>
+    <polyline id="chevron_stripe-p8" points="210,0 216,6 210,12"/>
+    <polyline id="chevron_stripe-p9" points="240,0 246,6 240,12"/>
+    <polyline id="chevron_stripe-p10" points="270,0 276,6 270,12"/>
+    <polyline id="chevron_stripe-p11" points="300,0 306,6 300,12"/>
+    <polyline id="chevron_stripe-p12" points="330,0 336,6 330,12"/>
+    <polyline id="chevron_stripe-p13" points="360,0 366,6 360,12"/>
+    <polyline id="chevron_stripe-p14" points="390,0 396,6 390,12"/>
+    <polyline id="chevron_stripe-p15" points="420,0 426,6 420,12"/>
+    <polyline id="chevron_stripe-p16" points="450,0 456,6 450,12"/>
+    <polyline id="chevron_stripe-p17" points="480,0 486,6 480,12"/>
+    <polyline id="chevron_stripe-p18" points="510,0 516,6 510,12"/>
+    <polyline id="chevron_stripe-p19" points="540,0 546,6 540,12"/>
+    <polyline id="chevron_stripe-p20" points="570,0 576,6 570,12"/>
+  </g>
+</svg>

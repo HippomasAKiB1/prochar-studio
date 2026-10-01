@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56">
+  <path id="corner_ornament-arc1" d="M4 52 A48 48 0 0 1 52 4" fill="none" stroke="var(--c-accent)" stroke-width="2"/>
+  <path id="corner_ornament-arc2" d="M4 42 A38 38 0 0 1 42 4" fill="none" stroke="var(--c-secondary)" stroke-width="1"/>
+  <circle id="corner_ornament-dot" cx="12" cy="12" r="3" fill="var(--c-accent)"/>
+</svg>
