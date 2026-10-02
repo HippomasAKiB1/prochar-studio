@@ -29,4 +29,28 @@ describe("Environment Validation", () => {
     expect(valid.PORT).toBe(9090);
     expect(valid.NODE_ENV).toBe("test");
   });
+
+  it("fails fast when AI_PROVIDER is gemini and GEMINI_API_KEY is missing", () => {
+    const stderrSpy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
+
+    expect(() =>
+      validateEnv({
+        JWT_SECRET: "secure_random_jwt_secret_min_32_characters_long",
+        AI_PROVIDER: "gemini",
+        GEMINI_API_KEY: "",
+      })
+    ).toThrowError(/GEMINI_API_KEY/);
+
+    stderrSpy.mockRestore();
+  });
+
+  it("passes when AI_PROVIDER is mock and GEMINI_API_KEY is empty", () => {
+    const valid = validateEnv({
+      JWT_SECRET: "secure_random_jwt_secret_min_32_characters_long",
+      AI_PROVIDER: "mock",
+      GEMINI_API_KEY: "",
+    });
+
+    expect(valid.AI_PROVIDER).toBe("mock");
+  });
 });
