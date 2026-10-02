@@ -50,22 +50,67 @@ describe("Layout Plan Validator, Clamp & Fallback (Chunk 4.12)", () => {
     expect(clamped.colors.primary).toBe("#006A4E");
   });
 
-  it("clamps zoom=2.5 to 1.6", () => {
-    const raw = {
-      ...validRawPlan,
-      photos: [{ index: 0, focal: { x: 0.5, y: 0.3 }, zoom: 2.5 }],
-    };
-    const clamped = validateAndClampPlan(raw, mockContext);
-    expect(clamped.photos[0].zoom).toBe(1.6);
+  it("asserts zoom range [1.0, 1.6] in schema: 0.9 throws, 1.0 passes, 1.6 passes, 1.7 throws, 2.5 throws", () => {
+    // zoom = 0.9 throws
+    expect(() =>
+      validateAndClampPlan(
+        {
+          ...validRawPlan,
+          photos: [{ index: 0, focal: { x: 0.5, y: 0.3 }, zoom: 0.9 }],
+        },
+        mockContext
+      )
+    ).toThrowError(ZodError);
+
+    // zoom = 1.0 passes
+    const plan10 = validateAndClampPlan(
+      {
+        ...validRawPlan,
+        photos: [{ index: 0, focal: { x: 0.5, y: 0.3 }, zoom: 1.0 }],
+      },
+      mockContext
+    );
+    expect(plan10.photos[0].zoom).toBe(1.0);
+
+    // zoom = 1.6 passes
+    const plan16 = validateAndClampPlan(
+      {
+        ...validRawPlan,
+        photos: [{ index: 0, focal: { x: 0.5, y: 0.3 }, zoom: 1.6 }],
+      },
+      mockContext
+    );
+    expect(plan16.photos[0].zoom).toBe(1.6);
+
+    // zoom = 1.7 throws
+    expect(() =>
+      validateAndClampPlan(
+        {
+          ...validRawPlan,
+          photos: [{ index: 0, focal: { x: 0.5, y: 0.3 }, zoom: 1.7 }],
+        },
+        mockContext
+      )
+    ).toThrowError(ZodError);
+
+    // zoom = 2.5 throws
+    expect(() =>
+      validateAndClampPlan(
+        {
+          ...validRawPlan,
+          photos: [{ index: 0, focal: { x: 0.5, y: 0.3 }, zoom: 2.5 }],
+        },
+        mockContext
+      )
+    ).toThrowError(ZodError);
   });
 
-  it("clamps focal.x=-0.1 to 0", () => {
+  it("asserts focal.x=-0.1 throws ZodError (out of range [0, 1])", () => {
     const raw = {
       ...validRawPlan,
       photos: [{ index: 0, focal: { x: -0.1, y: 0.3 }, zoom: 1.2 }],
     };
-    const clamped = validateAndClampPlan(raw, mockContext);
-    expect(clamped.photos[0].focal.x).toBe(0);
+    expect(() => validateAndClampPlan(raw, mockContext)).toThrowError(ZodError);
   });
 
   it("throws ZodError on bad hex 'not-a-hex'", () => {
