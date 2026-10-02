@@ -122,5 +122,6 @@ export async function renderPoster({
   }
 
   // 8. Render to 1800x2400 PNG buffer via Puppeteer service
-  return renderHtmlToPng(html, nonce, textSlotsWithOptions);
+  const requiredFonts = Array.from(fontMap.values());
+  return renderHtmlToPng(html, nonce, textSlotsWithOptions, requiredFonts);
 }
