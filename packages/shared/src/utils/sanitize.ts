@@ -8,19 +8,32 @@ const ESCAPE_MAP: Record<string, string> = {
 };
 
 /**
- * NFC Unicode normalization and stripping of control characters.
+ * NFC Unicode normalization.
+ */
+export function normalizeNfc(input: string): string {
+  if (!input) return "";
+  return input.normalize("NFC");
+}
+
+/**
+ * NFC Unicode normalization and stripping of control characters (\u0000-\u001F, \u007F-\u009F).
  */
 export function normalizeAndSanitizeText(input: string): string {
   if (!input) return "";
-  const normalized = input.normalize("NFC");
+  const normalized = normalizeNfc(input);
   return normalized.replace(/[\u0000-\u001F\u007F-\u009F]/g, "").trim();
 }
 
 /**
  * Deterministic HTML escaping for safe DOM text node injection (RENDERER_SPEC §5).
+ * - Normalizes to NFC
+ * - Strips Unicode control chars (\u0000-\u001F, \u007F-\u009F)
+ * - Escapes: & < > " ' /
+ * - Preserves Bangla conjuncts and characters safely
  */
 export function escapeHtml(input: string): string {
   if (!input) return "";
-  const sanitized = normalizeAndSanitizeText(input);
-  return sanitized.replace(/[&<>"'/]/g, (char) => ESCAPE_MAP[char] || char);
+  const normalized = normalizeNfc(input);
+  const stripped = normalized.replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
+  return stripped.replace(/[&<>"'/]/g, (char) => ESCAPE_MAP[char] || char);
 }
