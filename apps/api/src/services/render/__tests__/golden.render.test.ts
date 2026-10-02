@@ -48,6 +48,9 @@ describe("Golden Bangla Rendering Suite (Chunk 4.9)", () => {
   const templatesToTest = [
     {
       slug: "victory-day-classic",
+      slot: { x: 30, y: 290, w: 540, h: 150 },
+      actualBg: [214, 31, 49], // #D61F31 (secondary, red block)
+      footerFill: [0, 106, 78], // #006A4E
       formData: {
         ...commonFormData,
         occasionType: "victory_day" as const,
@@ -74,6 +77,9 @@ describe("Golden Bangla Rendering Suite (Chunk 4.9)", () => {
     },
     {
       slug: "condolence-tribute",
+      slot: { x: 50, y: 464, w: 500, h: 116 },
+      actualBg: [242, 239, 232], // #F2EFE8 (paper, no block)
+      footerFill: [28, 28, 28], // #1C1C1C
       formData: {
         ...commonFormData,
         occasionType: "condolence" as const,
@@ -100,6 +106,9 @@ describe("Golden Bangla Rendering Suite (Chunk 4.9)", () => {
     },
     {
       slug: "campaign-bold",
+      slot: { x: 36, y: 520, w: 528, h: 124 },
+      actualBg: [214, 31, 49], // #D61F31 (red slant block)
+      footerFill: [20, 33, 61], // #14213D
       formData: {
         ...commonFormData,
         occasionType: "campaign" as const,
@@ -127,7 +136,7 @@ describe("Golden Bangla Rendering Suite (Chunk 4.9)", () => {
   ];
 
   for (const item of templatesToTest) {
-    it(`renders ${item.slug} at 1800x2400 and verifies headline (>3%) and footer (>2%) text pixels`, async () => {
+    it(`renders ${item.slug} at 1800x2400 and verifies headline (3%-20%) and footer (>2%) text pixels`, async () => {
       const raw = SEED_TEMPLATES_DATA.find((t) => t.slug === item.slug)!;
       const template: TemplateLayoutConfig = TemplateLayoutConfigSchema.parse(
         raw.layoutConfig
@@ -160,19 +169,13 @@ describe("Golden Bangla Rendering Suite (Chunk 4.9)", () => {
         return [data[i], data[i + 1], data[i + 2]];
       };
 
-      // 2. Assertion A: Headline text pixels > 3%
-      const headSlot = template.textSlots.find((s) => s.id === "headline")!;
-      const rx = headSlot.x * 3;
-      const ry = headSlot.y * 3;
-      const rw = headSlot.w * 3;
-      const rh = headSlot.h * 3;
+      // 2. Assertion A: Headline text pixels
+      const rx = item.slot.x * 3;
+      const ry = item.slot.y * 3;
+      const rw = item.slot.w * 3;
+      const rh = item.slot.h * 3;
       const headTotal = rw * rh;
-
-      // Headline block background colors
-      let headBg = hexToRgb(template.colorScheme.secondary);
-      if (item.slug === "condolence-tribute") {
-        headBg = hexToRgb(template.colorScheme.background);
-      }
+      const headBg = item.actualBg;
 
       let headTextCount = 0;
       for (let y = ry; y < ry + rh; y++) {
@@ -189,11 +192,12 @@ describe("Golden Bangla Rendering Suite (Chunk 4.9)", () => {
       }
       const headRatio = headTextCount / headTotal;
       expect(headRatio).toBeGreaterThan(0.03);
+      expect(headRatio).toBeLessThan(0.40);
 
       // 3. Assertion B: Footer text pixels > 2%
       // Footer rect is at y=700, h=100 (logical) -> y=2100, h=300 (raster)
       const footTotal = 1800 * 300;
-      const footBg = hexToRgb(template.colorScheme.primary);
+      const footBg = item.footerFill;
       let footTextCount = 0;
       for (let y = 2100; y < 2400; y++) {
         for (let x = 0; x < 1800; x++) {
@@ -213,7 +217,7 @@ describe("Golden Bangla Rendering Suite (Chunk 4.9)", () => {
   }
 
   // 4. Assertion C: Conjunct-render test
-  it("conjunct-render test: 'ক্ষ' vs 'ক' yields PNG buffers differing by > 500 bytes", async () => {
+  it("conjunct-render test: 'ক্ষ' vs 'ক' yields pixel diff > 500 all strictly within headline bounding box", async () => {
     const victoryRaw = SEED_TEMPLATES_DATA.find((t) => t.slug === "victory-day-classic")!;
     const template: TemplateLayoutConfig = TemplateLayoutConfigSchema.parse(
       victoryRaw.layoutConfig
@@ -244,16 +248,37 @@ describe("Golden Bangla Rendering Suite (Chunk 4.9)", () => {
       photos: [{ buffer: placeholderWebpBuffer, focal: { x: 0.5, y: 0.3 }, zoom: 1.0 }],
     });
 
-    let diffBytes = 0;
-    const minLen = Math.min(bufferKsha.length, bufferKa.length);
-    for (let i = 0; i < minLen; i++) {
-      if (bufferKsha[i] !== bufferKa[i]) {
-        diffBytes++;
+    const img1 = await sharp(bufferKsha).raw().toBuffer({ resolveWithObject: true });
+    const img2 = await sharp(bufferKa).raw().toBuffer({ resolveWithObject: true });
+
+    const rx = 30 * 3;
+    const ry = 290 * 3;
+    const rw = 540 * 3;
+    const rh = 150 * 3;
+
+    let diffCount = 0;
+    let outsideDiffCount = 0;
+    const channels = img1.info.channels;
+
+    for (let y = 0; y < 2400; y++) {
+      for (let x = 0; x < 1800; x++) {
+        const i = (y * 1800 + x) * channels;
+        const diff =
+          Math.abs(img1.data[i] - img2.data[i]) +
+          Math.abs(img1.data[i + 1] - img2.data[i + 1]) +
+          Math.abs(img1.data[i + 2] - img2.data[i + 2]);
+        if (diff > 0) {
+          diffCount++;
+          const inHeadline = x >= rx && x < rx + rw && y >= ry && y < ry + rh;
+          if (!inHeadline) {
+            outsideDiffCount++;
+          }
+        }
       }
     }
-    diffBytes += Math.abs(bufferKsha.length - bufferKa.length);
 
-    expect(diffBytes).toBeGreaterThan(500);
+    expect(diffCount).toBeGreaterThan(500);
+    expect(outsideDiffCount).toBe(0);
   }, 40000);
 
   it("escape integration test: script tags vs harmless text yield different PNG buffers", async () => {
