@@ -122,10 +122,12 @@ export async function renderHtmlToPng(
       await document.fonts.ready;
     });
 
-    const fontsToVerify =
-      fontsToCheck && fontsToCheck.length > 0
-        ? fontsToCheck
-        : [{ family: "Hind Siliguri", weight: 700 }];
+    if (!fontsToCheck || fontsToCheck.length === 0) {
+      throw new Error(
+        "FONT_CHECK_EMPTY: caller must supply at least one family/weight pair"
+      );
+    }
+    const fontsToVerify = fontsToCheck;
 
     for (const f of fontsToVerify) {
       const fontSpec = `${f.weight} 36px '${f.family}'`;

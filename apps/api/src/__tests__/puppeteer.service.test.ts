@@ -33,7 +33,12 @@ describe("Puppeteer Service (Chunk 4.7)", () => {
 </body>
 </html>`;
 
-    const pngBuffer = await renderHtmlToPng(minimalHtml, nonce);
+    const pngBuffer = await renderHtmlToPng(
+      minimalHtml,
+      nonce,
+      [],
+      [{ family: "Hind Siliguri", weight: 700 }]
+    );
 
     // Assert buffer starts with PNG magic bytes (0x89, 'P', 'N', 'G')
     expect(pngBuffer[0]).toBe(0x89);
@@ -47,4 +52,12 @@ describe("Puppeteer Service (Chunk 4.7)", () => {
     expect(metadata.width).toBe(1800);
     expect(metadata.height).toBe(2400);
   }, 30000);
+
+  it("throws FONT_CHECK_EMPTY when fontsToCheck is empty or omitted", async () => {
+    const nonce = "TEST_NONCE_EMPTY";
+    const minimalHtml = `<!DOCTYPE html><html><body><script nonce="${nonce}"></script></body></html>`;
+    await expect(renderHtmlToPng(minimalHtml, nonce, [], [])).rejects.toThrow(
+      "FONT_CHECK_EMPTY"
+    );
+  }, 15000);
 });
