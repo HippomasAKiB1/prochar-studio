@@ -69,6 +69,11 @@ export async function seedDatabase(options: SeedOptions = {}): Promise<SeedResul
         console.error(
           `[seed] FIT LINT FAILURE on template '${tpl.slug}': ${fitResult.error}`
         );
+        if (options.uri) {
+          throw new Error(
+            `FIT LINT FAILURE on template '${tpl.slug}': ${fitResult.error}`
+          );
+        }
         process.exit(1);
       }
 
