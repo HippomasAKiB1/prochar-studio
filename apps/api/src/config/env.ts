@@ -50,6 +50,14 @@ export const EnvSchema = z.object({
 
   // Puppeteer
   PUPPETEER_EXECUTABLE_PATH: z.string().optional().default(""),
+}).superRefine((data, ctx) => {
+  if (data.AI_PROVIDER === "gemini" && (!data.GEMINI_API_KEY || data.GEMINI_API_KEY.trim() === "")) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "GEMINI_API_KEY is required when AI_PROVIDER is set to 'gemini'",
+      path: ["GEMINI_API_KEY"],
+    });
+  }
 });
 
 export type Env = z.infer<typeof EnvSchema>;
