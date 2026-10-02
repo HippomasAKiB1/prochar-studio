@@ -21,6 +21,7 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.10.3",
     "multer": "^2.4.0",
+    "p-limit": "^5.0.0",
     "pino": "^9.6.0",
     "pino-http": "^10.4.0",
     "puppeteer": "25.12.0",
