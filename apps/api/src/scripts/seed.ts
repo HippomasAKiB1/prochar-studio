@@ -79,26 +79,26 @@ export async function seedDatabase(options: SeedOptions = {}): Promise<SeedResul
       templatesCount++;
     }
 
-    // 3. Create or update demo user idempotently
+    // 3. Create or update demo user idempotently (PRD §11 & Chunk 3.5: $setOnInsert for passwordHash)
     const demoEmail = "demo@prochar.studio";
     const existingDemoUser = await User.findOne({ email: demoEmail });
-    let demoUserStatus: "created" | "existing_preserved" = "existing_preserved";
+    const demoUserStatus: "created" | "existing_preserved" = existingDemoUser
+      ? "existing_preserved"
+      : "created";
 
-    if (!existingDemoUser) {
-      const passwordHash = await hashPassword("ProcharDemo2026!");
-      await User.create({
-        name: "Prochar Demo",
-        email: demoEmail,
-        passwordHash,
-        role: "user",
-      });
-      demoUserStatus = "created";
+    const passwordHash = await hashPassword("ProcharDemo2026!");
+    await User.findOneAndUpdate(
+      { email: demoEmail },
+      {
+        $set: { name: "Prochar Demo", role: "user" },
+        $setOnInsert: { passwordHash },
+      },
+      { upsert: true, returnDocument: "after", setDefaultsOnInsert: true }
+    );
+
+    if (demoUserStatus === "created") {
       log("[seed] Demo user created: demo@prochar.studio");
     } else {
-      await User.updateOne(
-        { email: demoEmail },
-        { $set: { name: "Prochar Demo", role: "user" } }
-      );
       log("[seed] Demo user exists; password hash preserved.");
     }
 
