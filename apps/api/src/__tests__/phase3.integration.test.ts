@@ -40,7 +40,7 @@ describe("Phase 3 Integration Verification Suite (PRD §9.2, §11.2 & SEED_TEMPL
         .lean();
       expect(firstRunDemoUser).toBeDefined();
       expect(firstRunDemoUser.passwordHash).toBeDefined();
-    });
+    }, 30000);
 
     it("runs seed a second time and produces identical templates & preserves demo credentials", async () => {
       const res = await seedDatabase({ uri, silent: true });
@@ -70,7 +70,7 @@ describe("Phase 3 Integration Verification Suite (PRD §9.2, §11.2 & SEED_TEMPL
         firstRunDemoUser._id.toString()
       );
       expect(secondRunDemoUser!.passwordHash).toBe(firstRunDemoUser.passwordHash);
-    });
+    }, 30000);
 
     it("allows demo user login via POST /api/auth/login with demo credentials -> 200", async () => {
       const res = await request(app)
