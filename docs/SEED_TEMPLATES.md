@@ -328,6 +328,7 @@ The seed script **appends these three slots** to every template's `textSlots` (a
 - Allowed elements: `svg, g, path, rect, circle, ellipse, line, polyline, polygon, defs, pattern, clipPath`. **Forbidden:** `script, foreignObject, image, style, use` with external `href`, any `on*` attribute, external URLs. Any `id` must start with the file's base name + `-`.
 - Keep each file < 40 KB.
 - **If artwork isn't ready, create an original geometric placeholder matching the description, and list it as `PLACEHOLDER` in `ASSETS.md`.**
+- *Exception:* `shared/placeholder_person.svg` uses concrete hex colors because it is rasterized standalone by sharp (not inlined into Puppeteer HTML). All other template SVGs use `var(--c-*)`.
 
 | File | viewBox (w×h) | Description |
 |---|---|---|
