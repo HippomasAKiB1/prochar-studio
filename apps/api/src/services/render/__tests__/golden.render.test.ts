@@ -26,38 +26,13 @@ describe("Golden Bangla Rendering Suite (Chunk 4.9)", () => {
     await closeBrowser();
   });
 
-  async function calculateNonBackgroundRatio(pngBuffer: Buffer): Promise<number> {
-    const { data, info } = await sharp(pngBuffer)
-      .raw()
-      .toBuffer({ resolveWithObject: true });
-
-    const totalPixels = info.width * info.height;
-    const channels = info.channels;
-
-    const r0 = data[0];
-    const g0 = data[1];
-    const b0 = data[2];
-
-    const tolerance = 255 * 0.03;
-    let nonBgCount = 0;
-
-    for (let i = 0; i < totalPixels; i++) {
-      const offset = i * channels;
-      const r = data[offset];
-      const g = data[offset + 1];
-      const b = data[offset + 2];
-
-      const isClose =
-        Math.abs(r - r0) <= tolerance &&
-        Math.abs(g - g0) <= tolerance &&
-        Math.abs(b - b0) <= tolerance;
-
-      if (!isClose) {
-        nonBgCount++;
-      }
-    }
-
-    return nonBgCount / totalPixels;
+  function hexToRgb(hex: string): [number, number, number] {
+    const h = hex.replace("#", "");
+    return [
+      parseInt(h.slice(0, 2), 16),
+      parseInt(h.slice(2, 4), 16),
+      parseInt(h.slice(4, 6), 16),
+    ];
   }
 
   const commonFormData = {
@@ -152,7 +127,7 @@ describe("Golden Bangla Rendering Suite (Chunk 4.9)", () => {
   ];
 
   for (const item of templatesToTest) {
-    it(`renders ${item.slug} at 1800x2400 with non-trivial pixel content (> 5%)`, async () => {
+    it(`renders ${item.slug} at 1800x2400 and verifies headline (>3%) and footer (>2%) text pixels`, async () => {
       const raw = SEED_TEMPLATES_DATA.find((t) => t.slug === item.slug)!;
       const template: TemplateLayoutConfig = TemplateLayoutConfigSchema.parse(
         raw.layoutConfig
@@ -171,52 +146,114 @@ describe("Golden Bangla Rendering Suite (Chunk 4.9)", () => {
         ],
       });
 
-      // Assert PNG metadata
+      // 1. Dimensions check
       const meta = await sharp(buffer).metadata();
       expect(meta.format).toBe("png");
       expect(meta.width).toBe(1800);
       expect(meta.height).toBe(2400);
 
-      // Assert non-background pixel ratio > 0.05
-      const ratio = await calculateNonBackgroundRatio(buffer);
-      expect(ratio).toBeGreaterThan(0.05);
-    }, 35000);
+      const { data, info } = await sharp(buffer)
+        .raw()
+        .toBuffer({ resolveWithObject: true });
+      const px = (x: number, y: number) => {
+        const i = (y * info.width + x) * info.channels;
+        return [data[i], data[i + 1], data[i + 2]];
+      };
+
+      // 2. Assertion A: Headline text pixels > 3%
+      const headSlot = template.textSlots.find((s) => s.id === "headline")!;
+      const rx = headSlot.x * 3;
+      const ry = headSlot.y * 3;
+      const rw = headSlot.w * 3;
+      const rh = headSlot.h * 3;
+      const headTotal = rw * rh;
+
+      // Headline block background colors
+      let headBg = hexToRgb(template.colorScheme.secondary);
+      if (item.slug === "condolence-tribute") {
+        headBg = hexToRgb(template.colorScheme.background);
+      }
+
+      let headTextCount = 0;
+      for (let y = ry; y < ry + rh; y++) {
+        for (let x = rx; x < rx + rw; x++) {
+          const [r, g, b] = px(x, y);
+          if (
+            Math.abs(r - headBg[0]) > 20 ||
+            Math.abs(g - headBg[1]) > 20 ||
+            Math.abs(b - headBg[2]) > 20
+          ) {
+            headTextCount++;
+          }
+        }
+      }
+      const headRatio = headTextCount / headTotal;
+      expect(headRatio).toBeGreaterThan(0.03);
+
+      // 3. Assertion B: Footer text pixels > 2%
+      // Footer rect is at y=700, h=100 (logical) -> y=2100, h=300 (raster)
+      const footTotal = 1800 * 300;
+      const footBg = hexToRgb(template.colorScheme.primary);
+      let footTextCount = 0;
+      for (let y = 2100; y < 2400; y++) {
+        for (let x = 0; x < 1800; x++) {
+          const [r, g, b] = px(x, y);
+          if (
+            Math.abs(r - footBg[0]) > 20 ||
+            Math.abs(g - footBg[1]) > 20 ||
+            Math.abs(b - footBg[2]) > 20
+          ) {
+            footTextCount++;
+          }
+        }
+      }
+      const footRatio = footTextCount / footTotal;
+      expect(footRatio).toBeGreaterThan(0.02);
+    }, 40000);
   }
 
-  it("proves Bangla text presence: different headlines yield different PNG buffers in the first 500 KB", async () => {
+  // 4. Assertion C: Conjunct-render test
+  it("conjunct-render test: 'ক্ষ' vs 'ক' yields PNG buffers differing by > 500 bytes", async () => {
     const victoryRaw = SEED_TEMPLATES_DATA.find((t) => t.slug === "victory-day-classic")!;
     const template: TemplateLayoutConfig = TemplateLayoutConfigSchema.parse(
       victoryRaw.layoutConfig
     );
     const plan = templatesToTest[0].plan;
 
-    const bufferA = await renderPoster({
+    const bufferKsha = await renderPoster({
       template,
       formData: {
         ...commonFormData,
         occasionType: "victory_day",
-        headline: "বিজয়",
-        subtext: "সকলকে শুভেচ্ছা",
+        headline: "ক্ষ",
+        subtext: "পরীক্ষামূলক বার্তা",
       },
       layoutPlan: plan as LayoutPlan,
       photos: [{ buffer: placeholderWebpBuffer, focal: { x: 0.5, y: 0.3 }, zoom: 1.0 }],
     });
 
-    const bufferB = await renderPoster({
+    const bufferKa = await renderPoster({
       template,
       formData: {
         ...commonFormData,
         occasionType: "victory_day",
-        headline: "বিজয়XYZ",
-        subtext: "সকলকে শুভেচ্ছা",
+        headline: "ক",
+        subtext: "পরীক্ষামূলক বার্তা",
       },
       layoutPlan: plan as LayoutPlan,
       photos: [{ buffer: placeholderWebpBuffer, focal: { x: 0.5, y: 0.3 }, zoom: 1.0 }],
     });
 
-    const sliceA = bufferA.subarray(0, 500 * 1024);
-    const sliceB = bufferB.subarray(0, 500 * 1024);
-    expect(sliceA.equals(sliceB)).toBe(false);
+    let diffBytes = 0;
+    const minLen = Math.min(bufferKsha.length, bufferKa.length);
+    for (let i = 0; i < minLen; i++) {
+      if (bufferKsha[i] !== bufferKa[i]) {
+        diffBytes++;
+      }
+    }
+    diffBytes += Math.abs(bufferKsha.length - bufferKa.length);
+
+    expect(diffBytes).toBeGreaterThan(500);
   }, 40000);
 
   it("escape integration test: script tags vs harmless text yield different PNG buffers", async () => {
