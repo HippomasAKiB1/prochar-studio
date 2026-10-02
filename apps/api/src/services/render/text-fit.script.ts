@@ -28,9 +28,6 @@ window.__fitText = function(slotId, options) {
   function testFit(fontSize) {
     el.style.fontSize = fontSize + 'px';
     el.style.lineHeight = String(options.lineHeight);
-    el.style.display = '-webkit-box';
-    el.style.webkitBoxOrient = 'vertical';
-    el.style.webkitLineClamp = String(options.maxLines);
     el.style.overflow = 'hidden';
     // Force reflow
     void el.offsetHeight;

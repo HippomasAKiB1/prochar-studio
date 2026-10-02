@@ -21,4 +21,15 @@ describe("Text-fit Script (Chunk 4.3)", () => {
   it("defines window.__fitText", () => {
     expect(TEXT_FIT_SCRIPT).toContain("window.__fitText = function");
   });
+
+  it("does NOT contain webkitLineClamp inside testFit function body", () => {
+    const testFitBodyMatch = TEXT_FIT_SCRIPT.match(/function testFit\(fontSize\)\s*\{([\s\S]*?)\}/);
+    expect(testFitBodyMatch).not.toBeNull();
+    expect(testFitBodyMatch![1]).not.toContain("webkitLineClamp");
+  });
+
+  it("DOES contain webkitLineClamp in the truncate fallback path", () => {
+    const truncateSection = TEXT_FIT_SCRIPT.slice(TEXT_FIT_SCRIPT.indexOf("usedTruncate: true") - 300);
+    expect(truncateSection).toContain("webkitLineClamp");
+  });
 });
