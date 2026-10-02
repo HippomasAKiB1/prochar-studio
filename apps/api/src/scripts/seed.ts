@@ -9,6 +9,8 @@ import { Template } from "../models/Template.js";
 import { User } from "../models/User.js";
 import { hashPassword } from "../services/auth.service.js";
 import { lintAll, getAssetsRootDir } from "../services/lints/index.js";
+import { runFitLintForTemplate } from "../services/lints/fit.lint.js";
+import { closeBrowser } from "../services/render/puppeteer.service.js";
 import { SEED_TEMPLATES_DATA } from "./seed-data.js";
 import { env } from "../config/env.js";
 
@@ -60,6 +62,16 @@ export async function seedDatabase(options: SeedOptions = {}): Promise<SeedResul
         process.exit(1);
       }
 
+      // 2c-2. Run fit lint (stress) per SEED_TEMPLATES §7
+      log(`[seed] Running fit lint (stress) for '${tpl.slug}'...`);
+      const fitResult = await runFitLintForTemplate(expandedConfig, tpl.slug);
+      if (!fitResult.ok) {
+        console.error(
+          `[seed] FIT LINT FAILURE on template '${tpl.slug}': ${fitResult.error}`
+        );
+        process.exit(1);
+      }
+
       // 2d. Upsert by slug
       const thumbnailUrl = `/api/templates/thumbnail/${tpl.slug}`;
       await Template.findOneAndUpdate(
@@ -105,6 +117,7 @@ export async function seedDatabase(options: SeedOptions = {}): Promise<SeedResul
     log(`[seed] Complete! Upserted ${templatesCount} templates. Demo user: ${demoUserStatus}.`);
     return { templatesCount, demoUserStatus };
   } finally {
+    await closeBrowser().catch(() => {});
     // If running as CLI script, disconnect
     if (!options.uri) {
       await disconnectDb();
