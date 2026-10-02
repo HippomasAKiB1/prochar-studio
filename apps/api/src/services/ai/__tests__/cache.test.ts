@@ -41,6 +41,36 @@ describe("AI Cache Service (Chunk 4.13)", () => {
     expect(key1).toMatch(/^[0-9a-f]{64}$/);
   });
 
+  it("verifies /10 bucketing boundaries (0 & 9 match, 9 & 10 differ, 10 & 19 match)", () => {
+    const key0 = getAiCacheKey({
+      templateId: "t123",
+      occasionType: "victory_day",
+      variationSeed: 0,
+    });
+    const key9 = getAiCacheKey({
+      templateId: "t123",
+      occasionType: "victory_day",
+      variationSeed: 9,
+    });
+    const key10 = getAiCacheKey({
+      templateId: "t123",
+      occasionType: "victory_day",
+      variationSeed: 10,
+    });
+    const key19 = getAiCacheKey({
+      templateId: "t123",
+      occasionType: "victory_day",
+      variationSeed: 19,
+    });
+
+    // seed 0 and seed 9 -> same key (bucket 0)
+    expect(key0).toBe(key9);
+    // seed 9 and seed 10 -> different keys (bucket 0 vs bucket 1)
+    expect(key9).not.toBe(key10);
+    // seed 10 and seed 19 -> same key (bucket 1)
+    expect(key10).toBe(key19);
+  });
+
   it("different variationSeed within same /10 bucket produces same key", () => {
     const key1 = getAiCacheKey({
       templateId: "t123",
