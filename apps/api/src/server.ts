@@ -2,6 +2,7 @@ import { app } from "./app.js";
 import { env } from "./config/env.js";
 import { logger } from "./config/logger.js";
 import { connectDb, disconnectDb } from "./config/db.js";
+import { closeBrowser } from "./services/render/puppeteer.service.js";
 
 let server: ReturnType<typeof app.listen> | null = null;
 
@@ -21,6 +22,12 @@ async function bootstrap() {
 
 async function gracefulShutdown(signal: string) {
   logger.info(`Received ${signal}, initiating graceful shutdown...`);
+
+  try {
+    await closeBrowser();
+  } catch (err) {
+    logger.error({ err }, "Error closing browser during shutdown");
+  }
 
   if (server) {
     server.close(async () => {
