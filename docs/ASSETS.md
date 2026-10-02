@@ -37,6 +37,8 @@ All fonts are licensed under the **SIL Open Font License 1.1 (OFL)** and may be 
 
 Update the Status column to `FINAL` when a placeholder is replaced by finished artwork.
 
+> **Exception:** `shared/placeholder_person.svg` uses concrete hex colors because it is rasterized standalone by sharp (not inlined into Puppeteer HTML). All other template SVGs use `var(--c-*)` per §3.
+
 ## 4. Sample content policy
 Sample posters, thumbnails and marketing screenshots use **fictional names** ("নমুনা নাম") and the neutral `placeholder_person.svg` silhouette — never real politicians or real party symbols.
 

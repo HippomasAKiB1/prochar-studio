@@ -92,18 +92,20 @@ export function validateSvgSafety(svgContent: string, baseName?: string): SvgSaf
 
   // 5. Enforce no hardcoded hex colors (#RGB, #RRGGBB, #RRGGBBAA).
   // Colors must use CSS variables like var(--c-*) or currentColor.
-  // Note: internal fragment references like href="#my-id" or url(#my-id) are not colors.
-  // We first mask out legitimate fragment references (href="#...", url(#...)).
-  const maskedForHexCheck = svgContent
-    .replace(/\b(?:href|xlink:href)\s*=\s*["']#[^"']*["']/gi, 'href=""')
-    .replace(/url\(\s*#[^)]*\s*\)/gi, "url()");
+  // Exception: shared/placeholder_person.svg uses concrete hex colors
+  // because it is rasterized standalone by sharp (not inlined into Puppeteer HTML).
+  if (baseName !== "placeholder_person") {
+    const maskedForHexCheck = svgContent
+      .replace(/\b(?:href|xlink:href)\s*=\s*["']#[^"']*["']/gi, 'href=""')
+      .replace(/url\(\s*#[^)]*\s*\)/gi, "url()");
 
-  const hexColorRegex = /#([0-9A-Fa-f]{8}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{4}|[0-9A-Fa-f]{3})\b/g;
-  const hexMatch = maskedForHexCheck.match(hexColorRegex);
-  if (hexMatch) {
-    reasons.push(
-      `Forbidden hardcoded hex color(s) detected: ${hexMatch.slice(0, 3).join(", ")}. Colors must use var(--c-*) or currentColor.`
-    );
+    const hexColorRegex = /#([0-9A-Fa-f]{8}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{4}|[0-9A-Fa-f]{3})\b/g;
+    const hexMatch = maskedForHexCheck.match(hexColorRegex);
+    if (hexMatch) {
+      reasons.push(
+        `Forbidden hardcoded hex color(s) detected: ${hexMatch.slice(0, 3).join(", ")}. Colors must use var(--c-*) or currentColor.`
+      );
+    }
   }
 
   // 6. Validate id attribute prefix if baseName is provided
