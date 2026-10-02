@@ -5,3 +5,4 @@ export * from "./schemas/layout.js";
 export * from "./utils/sanitize.js";
 export * from "./utils/ownership.js";
 export * from "./utils/svg-safety.js";
+export * from "./utils/text.js";
