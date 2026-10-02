@@ -77,35 +77,7 @@ export function getContrastRatio(hex1: string, hex2: string): number {
  * Validates and clamps Gemini plan against template rules per GEMINI_SPEC §5.
  */
 export function validateAndClampPlan(raw: unknown, ctx: ClampContext): RawLayoutPlan {
-  // Pre-clamp numeric ranges for focal and zoom if numbers are out of range
-  const normalizedRaw =
-    typeof raw === "object" && raw !== null && "photos" in raw && Array.isArray((raw as any).photos)
-      ? {
-          ...(raw as any),
-          photos: (raw as any).photos.map((p: any) => ({
-            ...p,
-            focal:
-              p && typeof p === "object" && p.focal && typeof p.focal === "object"
-                ? {
-                    x:
-                      typeof p.focal.x === "number"
-                        ? Math.min(1.0, Math.max(0.0, p.focal.x))
-                        : p.focal.x,
-                    y:
-                      typeof p.focal.y === "number"
-                        ? Math.min(1.0, Math.max(0.0, p.focal.y))
-                        : p.focal.y,
-                  }
-                : p?.focal,
-            zoom:
-              typeof p?.zoom === "number"
-                ? Math.min(1.6, Math.max(1.0, p.zoom))
-                : p?.zoom,
-          })),
-        }
-      : raw;
-
-  const parsed = RawLayoutPlanSchema.parse(normalizedRaw);
+  const parsed = RawLayoutPlanSchema.parse(raw);
 
   // 1. Clamp photo focal coordinates and zoom
   const clampedPhotos = parsed.photos.map((p) => ({
