@@ -159,7 +159,7 @@ export function renderPhotoSlot(
   const focalX = Math.min(1.0, Math.max(0.0, focal?.x ?? 0.5));
   const focalY = Math.min(1.0, Math.max(0.0, focal?.y ?? 0.3));
   const zoomVal = Math.min(1.6, Math.max(1.0, zoom ?? 1.0));
-  const filterStyle = slot.filter ? ` filter:${slot.filter};` : "";
+  const filterStyle = slot.filter ? ` filter: ${slot.filter};` : "";
   const zIndex = 20 + slot.z;
 
   return `<div id="photo-${slot.id}" class="slot-photo" data-photo-id="${slot.id}" style="position:absolute; left:${slot.x}px; top:${slot.y}px; width:${slot.w}px; height:${slot.h}px; ${shapeStyle} ${borderStyle} z-index:${zIndex}; overflow:hidden;">` +
