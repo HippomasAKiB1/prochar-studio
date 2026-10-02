@@ -79,13 +79,19 @@ export async function closeBrowser(): Promise<void> {
   }
 }
 
+export interface FontRequirement {
+  family: string;
+  weight: number | string;
+}
+
 /**
  * Renders an HTML string into an 1800x2400 PNG buffer using Puppeteer (deviceScaleFactor: 3).
  */
 export async function renderHtmlToPng(
   html: string,
   nonce: string,
-  textSlotsWithOptions?: TextSlotFitConfig[]
+  textSlotsWithOptions?: TextSlotFitConfig[],
+  fontsToCheck?: FontRequirement[]
 ): Promise<Buffer> {
   const browser = await getBrowser();
   const page = await browser.newPage();
@@ -116,11 +122,17 @@ export async function renderHtmlToPng(
       await document.fonts.ready;
     });
 
-    const ok = await page.evaluate(() =>
-      document.fonts.check("700 36px 'Hind Siliguri'")
-    );
-    if (!ok) {
-      throw new Error("FONT_LOAD_FAILED");
+    const fontsToVerify =
+      fontsToCheck && fontsToCheck.length > 0
+        ? fontsToCheck
+        : [{ family: "Hind Siliguri", weight: 700 }];
+
+    for (const f of fontsToVerify) {
+      const fontSpec = `${f.weight} 36px '${f.family}'`;
+      const ok = await page.evaluate((spec) => document.fonts.check(spec), fontSpec);
+      if (!ok) {
+        throw new Error(`FONT_LOAD_FAILED: ${f.family} ${f.weight}`);
+      }
     }
 
     // 7a. Execute fit script from nonce'd tag
