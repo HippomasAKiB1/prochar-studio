@@ -10,6 +10,7 @@ import { storageRouter } from "./routes/storage.js";
 import { uploadRouter } from "./routes/upload.js";
 import { templatesRouter } from "./routes/templates.js";
 import { globalLimiter } from "./middleware/rate-limit.js";
+import { postersRouter } from "./routes/posters.js";
 
 export const app = express();
 
@@ -33,6 +34,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/storage", storageRouter);
 app.use("/api/upload", uploadRouter);
 app.use("/api/templates", templatesRouter);
+app.use("/api/posters", postersRouter);
 
 
 
