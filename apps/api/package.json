@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fontsource/hind-siliguri": "5.3.0",
+    "@fontsource/noto-sans-bengali": "5.3.0",
+    "@fontsource/noto-serif-bengali": "5.3.0",
+    "@fontsource/tiro-bangla": "5.3.0",
     "@prochar/shared": "*",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.11.0",
