@@ -3,13 +3,48 @@ import { env } from "./config/env.js";
 import { logger } from "./config/logger.js";
 import { connectDb, disconnectDb } from "./config/db.js";
 import { closeBrowser } from "./services/render/puppeteer.service.js";
+import { Poster } from "./models/Poster.js";
+
+
+/**
+ * Chunk 5.9 — Stuck-job recovery.
+ * On boot, find any posters that were left in "generating" status for > 5 minutes
+ * (indicating the process crashed mid-job) and mark them as "failed".
+ * retryCount is NOT incremented (per FR-R3).
+ */
+export async function recoverStuckJobs(): Promise<void> {
+  const cutoff = new Date(Date.now() - 5 * 60 * 1000); // 5 minutes ago
+  const result = await Poster.updateMany(
+    { status: "generating", updatedAt: { $lt: cutoff } },
+    {
+      $set: {
+        status: "failed",
+        error: {
+          code: "JOB_INTERRUPTED",
+          message: "Generation was interrupted. Please try again.",
+        },
+      },
+    }
+  );
+
+  if (result.modifiedCount > 0) {
+    logger.warn(
+      { recovered: result.modifiedCount },
+      `Stuck-job recovery: marked ${result.modifiedCount} interrupted poster(s) as failed`
+    );
+  }
+}
 
 let server: ReturnType<typeof app.listen> | null = null;
+
 
 async function bootstrap() {
   try {
     await connectDb();
     logger.info("Connected to MongoDB successfully");
+
+    // Chunk 5.9: Stuck-job recovery (one-shot on boot, not an interval)
+    await recoverStuckJobs();
 
     server = app.listen(env.PORT, () => {
       logger.info(`Prochar Studio API listening on port ${env.PORT} [${env.NODE_ENV}]`);
