@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import fs from "fs";
 import path from "path";
 import { validateSvgSafety } from "@prochar/shared";
+import { getTemplateSvg } from "../services/render/template-svg-registry.js";
 
 const TEMPLATE_ASSETS = [
   "shared/placeholder_person.svg",
@@ -41,5 +42,9 @@ describe("Template SVG Assets (Chunk 3.4)", () => {
     const safety = validateSvgSafety(content, baseName);
     expect(safety.ok, `Safety failure for ${relPath}: ${safety.reasons.join("; ")}`).toBe(true);
     expect(safety.reasons).toHaveLength(0);
+  });
+
+  it("throws SVG_ASSET_MISSING when requesting a nonexistent asset", () => {
+    expect(() => getTemplateSvg("nonexistent.svg")).toThrow("SVG_ASSET_MISSING: nonexistent.svg");
   });
 });

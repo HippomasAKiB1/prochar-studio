@@ -4,21 +4,37 @@ import path from "node:path";
 const svgCache = new Map<string, string>();
 
 /**
- * Resolves the root directory for template assets dynamically across environments (repo root vs workspace cwd).
+ * Resolves the root directory for template assets using module-relative resolution.
+ * Does not depend on process.cwd().
  */
 export function getAssetsRootDir(): string {
-  const cwd = process.cwd();
-  if (fs.existsSync(path.resolve(cwd, "assets/templates"))) {
-    return path.resolve(cwd, "assets/templates");
+  const directPath = path.resolve(__dirname, "../../../assets/templates");
+  if (fs.existsSync(directPath)) {
+    return directPath;
   }
-  if (fs.existsSync(path.resolve(cwd, "apps/api/assets/templates"))) {
-    return path.resolve(cwd, "apps/api/assets/templates");
+
+  // Walk up to locate assets/templates if directory nesting varies
+  let curr = __dirname;
+  for (let i = 0; i < 6; i++) {
+    const candidate = path.resolve(curr, "assets/templates");
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+    const candidateApi = path.resolve(curr, "apps/api/assets/templates");
+    if (fs.existsSync(candidateApi)) {
+      return candidateApi;
+    }
+    const parent = path.dirname(curr);
+    if (parent === curr) break;
+    curr = parent;
   }
-  return path.resolve(cwd, "apps/api/assets/templates");
+
+  return directPath;
 }
 
 /**
  * Reads an SVG template asset from disk and caches in memory after first read.
+ * Throws SVG_ASSET_MISSING if the file cannot be found.
  */
 export function getTemplateSvg(assetPath: string): string {
   const normalized = assetPath.replace(/^\/+|\\/g, "/");
@@ -29,13 +45,15 @@ export function getTemplateSvg(assetPath: string): string {
   const baseDir = getAssetsRootDir();
   const fullPath = path.resolve(baseDir, normalized);
 
-  if (fs.existsSync(fullPath)) {
-    const content = fs.readFileSync(fullPath, "utf8").trim();
-    svgCache.set(normalized, content);
-    return content;
+  if (!fs.existsSync(fullPath)) {
+    throw new Error(
+      `SVG_ASSET_MISSING: ${assetPath} (resolved to ${fullPath})`
+    );
   }
 
-  return "";
+  const content = fs.readFileSync(fullPath, "utf8").trim();
+  svgCache.set(normalized, content);
+  return content;
 }
 
 /**
