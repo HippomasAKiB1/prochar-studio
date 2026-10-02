@@ -1,27 +1,46 @@
-/**
- * In-memory SVG asset registry for deterministic HTML rendering (zero-IO during render).
- */
-export const TEMPLATE_SVG_MAP: Record<string, string> = {
-  "campaign-bold/chevron_stripe.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 12\">\r\n  <g id=\"chevron_stripe-group\" fill=\"none\" stroke=\"var(--c-accent)\" stroke-width=\"2\">\r\n    <polyline id=\"chevron_stripe-p1\" points=\"0,0 6,6 0,12\"/>\r\n    <polyline id=\"chevron_stripe-p2\" points=\"30,0 36,6 30,12\"/>\r\n    <polyline id=\"chevron_stripe-p3\" points=\"60,0 66,6 60,12\"/>\r\n    <polyline id=\"chevron_stripe-p4\" points=\"90,0 96,6 90,12\"/>\r\n    <polyline id=\"chevron_stripe-p5\" points=\"120,0 126,6 120,12\"/>\r\n    <polyline id=\"chevron_stripe-p6\" points=\"150,0 156,6 150,12\"/>\r\n    <polyline id=\"chevron_stripe-p7\" points=\"180,0 186,6 180,12\"/>\r\n    <polyline id=\"chevron_stripe-p8\" points=\"210,0 216,6 210,12\"/>\r\n    <polyline id=\"chevron_stripe-p9\" points=\"240,0 246,6 240,12\"/>\r\n    <polyline id=\"chevron_stripe-p10\" points=\"270,0 276,6 270,12\"/>\r\n    <polyline id=\"chevron_stripe-p11\" points=\"300,0 306,6 300,12\"/>\r\n    <polyline id=\"chevron_stripe-p12\" points=\"330,0 336,6 330,12\"/>\r\n    <polyline id=\"chevron_stripe-p13\" points=\"360,0 366,6 360,12\"/>\r\n    <polyline id=\"chevron_stripe-p14\" points=\"390,0 396,6 390,12\"/>\r\n    <polyline id=\"chevron_stripe-p15\" points=\"420,0 426,6 420,12\"/>\r\n    <polyline id=\"chevron_stripe-p16\" points=\"450,0 456,6 450,12\"/>\r\n    <polyline id=\"chevron_stripe-p17\" points=\"480,0 486,6 480,12\"/>\r\n    <polyline id=\"chevron_stripe-p18\" points=\"510,0 516,6 510,12\"/>\r\n    <polyline id=\"chevron_stripe-p19\" points=\"540,0 546,6 540,12\"/>\r\n    <polyline id=\"chevron_stripe-p20\" points=\"570,0 576,6 570,12\"/>\r\n  </g>\r\n</svg>",
-  "campaign-bold/diagonal_band.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 330\">\r\n  <polygon id=\"diagonal_band-poly\" points=\"0,0 600,0 600,330 0,300\" fill=\"var(--c-primary)\"/>\r\n</svg>",
-  "campaign-bold/halftone_dots.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 330\">\r\n  <g id=\"halftone_dots-grid\" fill=\"var(--c-on-primary)\">\r\n    <circle id=\"halftone_dots-c1\" cx=\"50\" cy=\"50\" r=\"2\"/>\r\n    <circle id=\"halftone_dots-c2\" cx=\"50\" cy=\"150\" r=\"2\"/>\r\n    <circle id=\"halftone_dots-c3\" cx=\"50\" cy=\"250\" r=\"2\"/>\r\n    <circle id=\"halftone_dots-c4\" cx=\"150\" cy=\"50\" r=\"3\"/>\r\n    <circle id=\"halftone_dots-c5\" cx=\"150\" cy=\"150\" r=\"3\"/>\r\n    <circle id=\"halftone_dots-c6\" cx=\"150\" cy=\"250\" r=\"3\"/>\r\n    <circle id=\"halftone_dots-c7\" cx=\"250\" cy=\"50\" r=\"4\"/>\r\n    <circle id=\"halftone_dots-c8\" cx=\"250\" cy=\"150\" r=\"4\"/>\r\n    <circle id=\"halftone_dots-c9\" cx=\"250\" cy=\"250\" r=\"4\"/>\r\n    <circle id=\"halftone_dots-c10\" cx=\"350\" cy=\"50\" r=\"5\"/>\r\n    <circle id=\"halftone_dots-c11\" cx=\"350\" cy=\"150\" r=\"5\"/>\r\n    <circle id=\"halftone_dots-c12\" cx=\"350\" cy=\"250\" r=\"5\"/>\r\n    <circle id=\"halftone_dots-c13\" cx=\"450\" cy=\"50\" r=\"6\"/>\r\n    <circle id=\"halftone_dots-c14\" cx=\"450\" cy=\"150\" r=\"6\"/>\r\n    <circle id=\"halftone_dots-c15\" cx=\"450\" cy=\"250\" r=\"6\"/>\r\n    <circle id=\"halftone_dots-c16\" cx=\"550\" cy=\"50\" r=\"7\"/>\r\n    <circle id=\"halftone_dots-c17\" cx=\"550\" cy=\"150\" r=\"7\"/>\r\n    <circle id=\"halftone_dots-c18\" cx=\"550\" cy=\"250\" r=\"7\"/>\r\n  </g>\r\n</svg>",
-  "campaign-bold/headline_block_slant.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 212\">\r\n  <polygon id=\"headline_block_slant-poly\" points=\"0,24 600,0 600,212 0,212\" fill=\"var(--c-secondary)\"/>\r\n</svg>",
-  "campaign-bold/rays_burst.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 330\">\r\n  <g id=\"rays_burst-group\" fill=\"var(--c-on-primary)\">\r\n    <polygon id=\"rays_burst-r1\" points=\"300,0 0,60 0,90\"/>\r\n    <polygon id=\"rays_burst-r2\" points=\"300,0 0,160 0,200\"/>\r\n    <polygon id=\"rays_burst-r3\" points=\"300,0 0,280 40,330\"/>\r\n    <polygon id=\"rays_burst-r4\" points=\"300,0 120,330 160,330\"/>\r\n    <polygon id=\"rays_burst-r5\" points=\"300,0 240,330 280,330\"/>\r\n    <polygon id=\"rays_burst-r6\" points=\"300,0 340,330 380,330\"/>\r\n    <polygon id=\"rays_burst-r7\" points=\"300,0 460,330 500,330\"/>\r\n    <polygon id=\"rays_burst-r8\" points=\"300,0 580,330 600,280\"/>\r\n    <polygon id=\"rays_burst-r9\" points=\"300,0 600,180 600,140\"/>\r\n    <polygon id=\"rays_burst-r10\" points=\"300,0 600,70 600,40\"/>\r\n  </g>\r\n</svg>",
-  "condolence-tribute/corner_ornament.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 56 56\">\r\n  <path id=\"corner_ornament-arc1\" d=\"M4 52 A48 48 0 0 1 52 4\" fill=\"none\" stroke=\"var(--c-accent)\" stroke-width=\"2\"/>\r\n  <path id=\"corner_ornament-arc2\" d=\"M4 42 A38 38 0 0 1 42 4\" fill=\"none\" stroke=\"var(--c-secondary)\" stroke-width=\"1\"/>\r\n  <circle id=\"corner_ornament-dot\" cx=\"12\" cy=\"12\" r=\"3\" fill=\"var(--c-accent)\"/>\r\n</svg>",
-  "condolence-tribute/divider_line.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 8\">\r\n  <line id=\"divider_line-l1\" x1=\"0\" y1=\"4\" x2=\"94\" y2=\"4\" stroke=\"var(--c-secondary)\" stroke-width=\"1\"/>\r\n  <polygon id=\"divider_line-diamond\" points=\"100,0 104,4 100,8 96,4\" fill=\"var(--c-accent)\"/>\r\n  <line id=\"divider_line-l2\" x1=\"106\" y1=\"4\" x2=\"200\" y2=\"4\" stroke=\"var(--c-secondary)\" stroke-width=\"1\"/>\r\n</svg>",
-  "condolence-tribute/dove_single.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 92 74\">\r\n  <path id=\"dove_single-path\" d=\"M15 42 Q32 18 55 22 Q42 34 38 42 Q58 48 46 58 Q34 52 28 46 Q16 50 8 44 Q14 42 15 42 Z\" fill=\"var(--c-primary)\"/>\r\n  <circle id=\"dove_single-eye\" cx=\"50\" cy=\"24\" r=\"2\" fill=\"var(--c-background)\"/>\r\n</svg>",
-  "shared/placeholder_person.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 500\">\r\n  <rect id=\"placeholder_person-bg\" width=\"400\" height=\"500\" fill=\"var(--c-background)\"/>\r\n  <circle id=\"placeholder_person-head\" cx=\"200\" cy=\"180\" r=\"70\" fill=\"var(--c-secondary)\"/>\r\n  <path id=\"placeholder_person-shoulders\" d=\"M100 450 C100 320 140 280 200 280 C260 280 300 320 300 450 Z\" fill=\"var(--c-secondary)\"/>\r\n</svg>",
-  "victory-day-classic/doves.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 80\">\r\n  <g id=\"doves-group\" fill=\"var(--c-on-primary)\">\r\n    <path id=\"doves-d1\" d=\"M30 40 Q45 20 60 25 Q50 35 45 42 Q60 48 50 55 Q40 50 35 45 Q25 48 20 42 Q25 40 30 40 Z\"/>\r\n    <path id=\"doves-d2\" d=\"M100 25 Q115 5 130 10 Q120 20 115 27 Q130 33 120 40 Q110 35 105 30 Q95 33 90 27 Q95 25 100 25 Z\"/>\r\n    <path id=\"doves-d3\" d=\"M160 45 Q175 25 190 30 Q180 40 175 47 Q190 53 180 60 Q170 55 165 50 Q155 53 150 47 Q155 45 160 45 Z\"/>\r\n  </g>\r\n</svg>",
-  "victory-day-classic/flag_wave.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 150 96\">\r\n  <rect id=\"flag_wave-pole\" x=\"10\" y=\"4\" width=\"4\" height=\"88\" fill=\"var(--c-accent)\"/>\r\n  <path id=\"flag_wave-cloth\" d=\"M14 12 Q50 0 85 14 Q120 28 140 16 L140 64 Q120 76 85 62 Q50 48 14 60 Z\" fill=\"var(--c-primary)\"/>\r\n  <circle id=\"flag_wave-circle\" cx=\"72\" cy=\"38\" r=\"16\" fill=\"var(--c-secondary)\"/>\r\n</svg>",
-  "victory-day-classic/floral_border_a.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 700\">\r\n  <rect id=\"floral_border_a-outer\" x=\"4\" y=\"4\" width=\"592\" height=\"692\" fill=\"none\" stroke=\"var(--c-accent)\" stroke-width=\"4\"/>\r\n  <rect id=\"floral_border_a-inner\" x=\"14\" y=\"14\" width=\"572\" height=\"672\" fill=\"none\" stroke=\"var(--c-secondary)\" stroke-width=\"2\"/>\r\n  <circle id=\"floral_border_a-c1\" cx=\"9\" cy=\"9\" r=\"5\" fill=\"var(--c-accent)\"/>\r\n  <circle id=\"floral_border_a-c2\" cx=\"591\" cy=\"9\" r=\"5\" fill=\"var(--c-accent)\"/>\r\n  <circle id=\"floral_border_a-c3\" cx=\"9\" cy=\"691\" r=\"5\" fill=\"var(--c-accent)\"/>\r\n  <circle id=\"floral_border_a-c4\" cx=\"591\" cy=\"691\" r=\"5\" fill=\"var(--c-accent)\"/>\r\n</svg>",
-  "victory-day-classic/paddy.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 100\">\r\n  <g id=\"paddy-stalks\" fill=\"none\" stroke=\"var(--c-primary)\" stroke-width=\"2\">\r\n    <path id=\"paddy-stem-1\" d=\"M30 100 Q40 50 50 10\"/>\r\n    <path id=\"paddy-stem-2\" d=\"M90 100 Q100 50 110 10\"/>\r\n    <path id=\"paddy-stem-3\" d=\"M150 100 Q160 50 170 10\"/>\r\n    <path id=\"paddy-stem-4\" d=\"M210 100 Q220 50 230 10\"/>\r\n    <path id=\"paddy-stem-5\" d=\"M270 100 Q280 50 290 10\"/>\r\n    <path id=\"paddy-stem-6\" d=\"M330 100 Q340 50 350 10\"/>\r\n    <path id=\"paddy-stem-7\" d=\"M390 100 Q400 50 410 10\"/>\r\n    <path id=\"paddy-stem-8\" d=\"M450 100 Q460 50 470 10\"/>\r\n    <path id=\"paddy-stem-9\" d=\"M510 100 Q520 50 530 10\"/>\r\n    <path id=\"paddy-stem-10\" d=\"M570 100 Q580 50 590 10\"/>\r\n  </g>\r\n  <g id=\"paddy-grains\" fill=\"var(--c-accent)\">\r\n    <ellipse id=\"paddy-g-1\" cx=\"50\" cy=\"12\" rx=\"4\" ry=\"7\"/>\r\n    <ellipse id=\"paddy-g-2\" cx=\"110\" cy=\"12\" rx=\"4\" ry=\"7\"/>\r\n    <ellipse id=\"paddy-g-3\" cx=\"170\" cy=\"12\" rx=\"4\" ry=\"7\"/>\r\n    <ellipse id=\"paddy-g-4\" cx=\"230\" cy=\"12\" rx=\"4\" ry=\"7\"/>\r\n    <ellipse id=\"paddy-g-5\" cx=\"290\" cy=\"12\" rx=\"4\" ry=\"7\"/>\r\n    <ellipse id=\"paddy-g-6\" cx=\"350\" cy=\"12\" rx=\"4\" ry=\"7\"/>\r\n    <ellipse id=\"paddy-g-7\" cx=\"410\" cy=\"12\" rx=\"4\" ry=\"7\"/>\r\n    <ellipse id=\"paddy-g-8\" cx=\"470\" cy=\"12\" rx=\"4\" ry=\"7\"/>\r\n    <ellipse id=\"paddy-g-9\" cx=\"530\" cy=\"12\" rx=\"4\" ry=\"7\"/>\r\n    <ellipse id=\"paddy-g-10\" cx=\"590\" cy=\"12\" rx=\"4\" ry=\"7\"/>\r\n  </g>\r\n</svg>",
-  "victory-day-classic/sunburst_rays.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 280\">\r\n  <g id=\"sunburst_rays-group\" fill=\"var(--c-accent)\">\r\n    <polygon id=\"sunburst_rays-r1\" points=\"300,280 0,220 0,180\"/>\r\n    <polygon id=\"sunburst_rays-r2\" points=\"300,280 0,110 0,70\"/>\r\n    <polygon id=\"sunburst_rays-r3\" points=\"300,280 0,0 40,0\"/>\r\n    <polygon id=\"sunburst_rays-r4\" points=\"300,280 120,0 170,0\"/>\r\n    <polygon id=\"sunburst_rays-r5\" points=\"300,280 250,0 300,0\"/>\r\n    <polygon id=\"sunburst_rays-r6\" points=\"300,280 380,0 430,0\"/>\r\n    <polygon id=\"sunburst_rays-r7\" points=\"300,280 510,0 560,0\"/>\r\n    <polygon id=\"sunburst_rays-r8\" points=\"300,280 600,0 600,40\"/>\r\n    <polygon id=\"sunburst_rays-r9\" points=\"300,280 600,110 600,150\"/>\r\n    <polygon id=\"sunburst_rays-r10\" points=\"300,280 600,220 600,260\"/>\r\n  </g>\r\n</svg>"
-};
+import fs from "node:fs";
+import path from "node:path";
 
+const svgCache = new Map<string, string>();
+
+/**
+ * Resolves the root directory for template assets dynamically across environments (repo root vs workspace cwd).
+ */
+export function getAssetsRootDir(): string {
+  const cwd = process.cwd();
+  if (fs.existsSync(path.resolve(cwd, "assets/templates"))) {
+    return path.resolve(cwd, "assets/templates");
+  }
+  if (fs.existsSync(path.resolve(cwd, "apps/api/assets/templates"))) {
+    return path.resolve(cwd, "apps/api/assets/templates");
+  }
+  return path.resolve(cwd, "apps/api/assets/templates");
+}
+
+/**
+ * Reads an SVG template asset from disk and caches in memory after first read.
+ */
 export function getTemplateSvg(assetPath: string): string {
   const normalized = assetPath.replace(/^\/+|\\/g, "/");
-  if (TEMPLATE_SVG_MAP[normalized]) {
-    return TEMPLATE_SVG_MAP[normalized];
+  if (svgCache.has(normalized)) {
+    return svgCache.get(normalized)!;
   }
+
+  const baseDir = getAssetsRootDir();
+  const fullPath = path.resolve(baseDir, normalized);
+
+  if (fs.existsSync(fullPath)) {
+    const content = fs.readFileSync(fullPath, "utf8").trim();
+    svgCache.set(normalized, content);
+    return content;
+  }
+
   return "";
+}
+
+/**
+ * Clears the in-memory SVG cache (useful in tests or hot-reloading).
+ */
+export function clearTemplateSvgCache(): void {
+  svgCache.clear();
 }
