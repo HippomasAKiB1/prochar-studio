@@ -257,7 +257,8 @@ export function wrapDocument(
   body: string,
   cssVars: string,
   fontFaceCss: string,
-  nonce: string
+  nonce: string,
+  scriptContent = ""
 ): string {
   return `<!DOCTYPE html>
 <html lang="bn">
@@ -286,7 +287,7 @@ export function wrapDocument(
 </head>
 <body>
   ${body}
-  <script nonce="${nonce}"></script>
+  <script nonce="${nonce}">${scriptContent}</script>
 </body>
 </html>`;
 }

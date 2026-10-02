@@ -4,5 +4,6 @@ export default defineConfig({
   test: {
     include: ["**/__tests__/**/*.test.ts"],
     exclude: ["**/dist/**", "**/node_modules/**", "**/.next/**"],
+    fileParallelism: false,
   },
 });
