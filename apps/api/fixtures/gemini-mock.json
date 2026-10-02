@@ -1,0 +1,53 @@
+{
+  "victory_day": {
+    "photos": [
+      { "index": 0, "focal": { "x": 0.5, "y": 0.25 }, "zoom": 1.05 },
+      { "index": 1, "focal": { "x": 0.5, "y": 0.3 }, "zoom": 1.0 },
+      { "index": 2, "focal": { "x": 0.5, "y": 0.3 }, "zoom": 1.0 }
+    ],
+    "colors": {
+      "primary": "#006A4E",
+      "secondary": "#D61F31",
+      "accent": "#F7C948",
+      "textOnPrimary": "#FFFFFF",
+      "textOnLight": "#1A1A1A"
+    },
+    "decorations": ["paddy", "doves", "flag_wave", "floral_border_a"],
+    "decorationIntensity": "medium",
+    "headlineTier": "large"
+  },
+  "condolence": {
+    "photos": [
+      { "index": 0, "focal": { "x": 0.5, "y": 0.25 }, "zoom": 1.0 },
+      { "index": 1, "focal": { "x": 0.5, "y": 0.3 }, "zoom": 1.0 },
+      { "index": 2, "focal": { "x": 0.5, "y": 0.3 }, "zoom": 1.0 }
+    ],
+    "colors": {
+      "primary": "#1C1C1C",
+      "secondary": "#6B6B6B",
+      "accent": "#9A8B5A",
+      "textOnPrimary": "#F7F5F0",
+      "textOnLight": "#1C1C1C"
+    },
+    "decorations": ["corner_ornament", "dove_single", "divider_line"],
+    "decorationIntensity": "medium",
+    "headlineTier": "large"
+  },
+  "campaign": {
+    "photos": [
+      { "index": 0, "focal": { "x": 0.5, "y": 0.25 }, "zoom": 1.1 },
+      { "index": 1, "focal": { "x": 0.5, "y": 0.3 }, "zoom": 1.0 },
+      { "index": 2, "focal": { "x": 0.5, "y": 0.3 }, "zoom": 1.0 }
+    ],
+    "colors": {
+      "primary": "#14213D",
+      "secondary": "#D61F31",
+      "accent": "#F2B705",
+      "textOnPrimary": "#FFFFFF",
+      "textOnLight": "#14213D"
+    },
+    "decorations": ["halftone_dots", "chevron_stripe"],
+    "decorationIntensity": "medium",
+    "headlineTier": "large"
+  }
+}
