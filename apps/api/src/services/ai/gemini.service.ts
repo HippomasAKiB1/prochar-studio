@@ -70,18 +70,7 @@ export async function generateLayoutPlan(
   const startTime = Date.now();
   const { template, formData, photos, variationSeed } = input;
 
-  // 1. If AI_PROVIDER === "mock", return mock fixture directly
-  if (env.AI_PROVIDER === "mock") {
-    const mockPlan = loadMockFixture(formData.occasionType, template.slug);
-    return {
-      plan: mockPlan,
-      aiAssisted: true,
-      cacheHit: false,
-      geminiLatencyMs: Date.now() - startTime,
-    };
-  }
-
-  // 2. Compute cache key
+  // 1. Compute cache key
   const templateId = template._id ? template._id.toString() : template.slug;
   const cacheKey = getAiCacheKey({
     templateId,
@@ -89,7 +78,7 @@ export async function generateLayoutPlan(
     variationSeed,
   });
 
-  // 3. Try cache hit
+  // 2. Try cache hit
   try {
     const cached = await getCachedScheme(cacheKey);
     if (cached) {
@@ -117,6 +106,23 @@ export async function generateLayoutPlan(
     }
   } catch {
     // Cache read failure shouldn't block generation, proceed to cache miss
+  }
+
+  // 3. If AI_PROVIDER === "mock", return mock fixture and populate cache
+  if (env.AI_PROVIDER === "mock") {
+    const mockPlan = loadMockFixture(formData.occasionType, template.slug);
+    await setCachedScheme(cacheKey, {
+      colors: mockPlan.colors,
+      decorations: mockPlan.decorations,
+      decorationIntensity: mockPlan.decorationIntensity,
+    }).catch(() => {});
+
+    return {
+      plan: mockPlan,
+      aiAssisted: true,
+      cacheHit: false,
+      geminiLatencyMs: Date.now() - startTime,
+    };
   }
 
   // 4. Cache miss: prepare prompt
