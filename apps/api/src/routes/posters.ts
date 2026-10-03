@@ -231,6 +231,9 @@ postersRouter.get("/:id", requireAuth, async (req: Request, res: Response): Prom
 // ============================================================================
 // POST /api/posters/:id/regenerate
 // ============================================================================
+// TODO: Phase 8 - Differentiate user-initiated retry-after-failure from user-initiated regeneration.
+// Rule: If poster.status === "failed", a retry call (e.g. ?attempt=fresh) is free and does NOT increment retryCount or consume retries.
+// If poster.status === "completed", regenerate costs one retry against retryCount/maxRetries.
 postersRouter.post(
   "/:id/regenerate",
   requireAuth,

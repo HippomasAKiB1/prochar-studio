@@ -337,10 +337,11 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
                     <button
                       type="button"
                       disabled
+                      aria-disabled="true"
                       title="শীঘ্রই আসছে"
-                      className="inline-flex items-center justify-center min-h-12 px-5 font-body font-bold text-ink/40 bg-lime-wash border-2 border-ink/40 rounded cursor-not-allowed"
+                      className="inline-flex items-center justify-center min-h-12 px-5 font-body font-bold text-ink/40 bg-lime-wash border-2 border-ink/40 rounded cursor-not-allowed select-none"
                     >
-                      PDF (শীঘ্রই)
+                      PDF (শীঘ্রই আসছে)
                     </button>
                   </div>
                 </div>
