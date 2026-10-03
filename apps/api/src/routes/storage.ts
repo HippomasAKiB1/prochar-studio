@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import path from "node:path";
+import { resolveInsideRoot } from "../services/storage/local.provider.js";
 import fs from "node:fs";
 import { env } from "../config/env.js";
 import { getStorageProvider, LocalStorageProvider } from "../services/storage/index.js";
@@ -30,10 +30,11 @@ storageRouter.get("/*", (req: Request, res: Response): void => {
 
   const relPath = req.params[0] || req.path.replace(/^\//, "");
   const baseDir = provider.getBaseDir();
-  const filePath = path.resolve(baseDir, relPath);
-
-  // Security check: Guard against directory traversal
-  if (!filePath.startsWith(path.resolve(baseDir))) {
+  let filePath: string;
+  try {
+    // Security check: Guard against directory traversal
+    filePath = resolveInsideRoot(baseDir, relPath);
+  } catch {
     res.status(403).json({
       error: "FORBIDDEN",
       message: "Invalid file path",

@@ -7,6 +7,7 @@ import { Template } from "../../models/Template.js";
 import { generateLayoutPlan } from "../ai/gemini.service.js";
 import { renderPoster } from "../render/render.service.js";
 import { getStorageProvider } from "../storage/index.js";
+import { resolveInsideRoot } from "../storage/local.provider.js";
 import { assertUserOwnsPublicId } from "@prochar/shared";
 import { logger } from "../../config/logger.js";
 import { PROMPT_VERSION } from "../ai/prompt.js";
@@ -114,14 +115,12 @@ async function fetchPhotoBuffer(url: string, publicId: string): Promise<Buffer> 
     // Local storage: read the file from disk
     const storage = getStorageProvider();
     const fs = await import("node:fs/promises");
-    const path = await import("node:path");
     const localStorageWithDir = storage as unknown as { getBaseDir?: () => string };
     const baseDir =
       typeof localStorageWithDir.getBaseDir === "function"
         ? localStorageWithDir.getBaseDir()
         : "./apps/api/.local-storage";
-    const filePath = path.resolve(baseDir, publicId);
-    return await fs.readFile(filePath);
+    return await fs.readFile(resolveInsideRoot(baseDir, publicId));
   }
   // Remote (Cloudinary): URL is derived from the trusted publicId, never from stored/client url
   const remoteUrl = getStorageProvider().getUrl(publicId);

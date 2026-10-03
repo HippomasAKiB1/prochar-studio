@@ -27,12 +27,10 @@ export async function recoverStuckJobs(): Promise<void> {
     }
   );
 
-  if (result.modifiedCount > 0) {
-    logger.warn(
-      { recovered: result.modifiedCount },
-      `Stuck-job recovery: marked ${result.modifiedCount} interrupted poster(s) as failed`
-    );
-  }
+  logger.info(
+    { recovered: result.modifiedCount },
+    `Stuck-job recovery: marked ${result.modifiedCount} interrupted poster(s) as failed`
+  );
 }
 
 let server: ReturnType<typeof app.listen> | null = null;
