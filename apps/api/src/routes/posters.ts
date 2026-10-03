@@ -102,7 +102,11 @@ postersRouter.post(
       userId: new Types.ObjectId(userId),
       templateId: new Types.ObjectId(templateId),
       formData,
-      uploadedPhotoUrls: photos,
+      uploadedPhotoUrls: photos.map((p) => ({
+        // url is derived server-side from the (ownership-verified) publicId; the client url is never trusted
+        url: getStorageProvider().getUrl(p.publicId),
+        publicId: p.publicId,
+      })),
       status: "generating",
       stage: "queued",
       variationSeed: 0,

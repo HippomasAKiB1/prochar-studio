@@ -5,7 +5,14 @@ import { normalizeAndSanitizeText } from "../utils/sanitize.js";
 const OBJECT_ID_REGEX = /^[0-9a-fA-F]{24}$/;
 
 export const PhotoItemSchema = z.object({
-  url: z.string().url({ message: "ছবির সঠিক URL আবশ্যক" }),
+  url: z
+    .string()
+    .refine(
+      (val) =>
+        (val.startsWith("/api/storage/") && !val.includes("..")) ||
+        /^https:\/\/res\.cloudinary\.com\//i.test(val),
+      { message: "ছবির সঠিক URL আবশ্যক" }
+    ),
   publicId: z.string().min(1, { message: "ছবির publicId আবশ্যক" }),
 });
 
