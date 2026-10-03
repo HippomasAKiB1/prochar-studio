@@ -123,8 +123,9 @@ async function fetchPhotoBuffer(url: string, publicId: string): Promise<Buffer> 
     const filePath = path.resolve(baseDir, publicId);
     return await fs.readFile(filePath);
   }
-  // Remote URL (Cloudinary, etc.)
-  const response = await fetch(url);
+  // Remote (Cloudinary): URL is derived from the trusted publicId, never from stored/client url
+  const remoteUrl = getStorageProvider().getUrl(publicId);
+  const response = await fetch(remoteUrl);
   if (!response.ok) throw new Error(`HTTP ${response.status} fetching photo`);
   const ab = await response.arrayBuffer();
   return Buffer.from(ab);
