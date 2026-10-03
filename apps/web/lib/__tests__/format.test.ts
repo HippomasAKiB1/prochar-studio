@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { toBanglaNumber } from "../format";
+import { toBanglaNumber, formatBanglaDate } from "../format";
 
 describe("toBanglaNumber", () => {
   it("maps 0-9 to Bangla digits", () => {
@@ -10,3 +10,14 @@ describe("toBanglaNumber", () => {
     expect(toBanglaNumber("№ 2")).toBe("№ ২");
   });
 });
+
+describe("formatBanglaDate", () => {
+  it("formats date to Bangla format", () => {
+    const d = new Date(2026, 9, 3); // Oct 3, 2026
+    expect(formatBanglaDate(d)).toBe("৩ অক্টোবর ২০২৬");
+  });
+  it("returns empty string on invalid date", () => {
+    expect(formatBanglaDate("invalid")).toBe("");
+  });
+});
+
