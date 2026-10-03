@@ -9,6 +9,7 @@ import { GenerationLog } from "../models/GenerationLog.js";
 import { Template } from "../models/Template.js";
 import { enqueueGeneration } from "../services/jobs/job-runner.js";
 import { getStorageProvider } from "../services/storage/index.js";
+import { resolveInsideRoot } from "../services/storage/local.provider.js";
 import { containsBlocklistedContent } from "../config/blocklist.js";
 import { logger } from "../config/logger.js";
 
@@ -407,17 +408,15 @@ postersRouter.get(
       if (pngUrl.startsWith("/api/storage/")) {
         // Local storage: read from disk using generatedPublicId
         const fs = await import("node:fs/promises");
-        const path = await import("node:path");
         const localStorageWithDir = storage as unknown as { getBaseDir?: () => string };
         const baseDir =
           typeof localStorageWithDir.getBaseDir === "function"
             ? localStorageWithDir.getBaseDir()
             : "./apps/api/.local-storage";
-        const filePath = path.resolve(baseDir, poster.generatedPublicId!);
-        pngBuffer = await fs.readFile(filePath);
+        pngBuffer = await fs.readFile(resolveInsideRoot(baseDir, poster.generatedPublicId!));
       } else {
-        // Remote (Cloudinary, etc.)
-        const response = await fetch(pngUrl);
+        // Remote (Cloudinary, etc.): URL derived from server-held publicId
+        const response = await fetch(storage.getUrl(poster.generatedPublicId!));
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const ab = await response.arrayBuffer();
         pngBuffer = Buffer.from(ab);

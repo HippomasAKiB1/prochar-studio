@@ -3,6 +3,23 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { StorageProvider, UploadOptions, UploadResult } from "./types.js";
 
+/**
+ * Resolve publicId under baseDir. Throws if it escapes the root.
+ * Uses path.relative so sibling dirs like "<root>-evil" are rejected too.
+ */
+export function resolveInsideRoot(baseDir: string, publicId: string): string {
+  if (typeof publicId !== "string" || publicId.length === 0 || publicId.includes("\0")) {
+    throw new Error("Invalid publicId");
+  }
+  const root = path.resolve(baseDir);
+  const full = path.resolve(root, publicId);
+  const rel = path.relative(root, full);
+  if (rel === "" || rel.startsWith("..") || path.isAbsolute(rel)) {
+    throw new Error("Invalid publicId path traversal detected");
+  }
+  return full;
+}
+
 export class LocalStorageProvider implements StorageProvider {
   private baseDir: string;
 
@@ -31,11 +48,7 @@ export class LocalStorageProvider implements StorageProvider {
       publicId = `${folder}/${filename}`;
     }
 
-    const fullPath = path.resolve(this.baseDir, publicId);
-    // Security check: Guard against path traversal
-    if (!fullPath.startsWith(path.resolve(this.baseDir))) {
-      throw new Error("Invalid publicId path traversal detected");
-    }
+    const fullPath = resolveInsideRoot(this.baseDir, publicId);
 
     await fs.mkdir(path.dirname(fullPath), { recursive: true });
     await fs.writeFile(fullPath, buffer);
@@ -48,10 +61,7 @@ export class LocalStorageProvider implements StorageProvider {
   }
 
   async delete(publicId: string): Promise<void> {
-    const fullPath = path.resolve(this.baseDir, publicId);
-    if (!fullPath.startsWith(path.resolve(this.baseDir))) {
-      throw new Error("Invalid publicId path traversal detected");
-    }
+    const fullPath = resolveInsideRoot(this.baseDir, publicId);
 
     try {
       await fs.unlink(fullPath);
@@ -63,7 +73,13 @@ export class LocalStorageProvider implements StorageProvider {
   }
 
   getUrl(publicId: string): string {
+    // Validates containment; throws on traversal.
+    resolveInsideRoot(this.baseDir, publicId);
     return `/api/storage/${publicId}`;
+  }
+
+  async readFile(publicId: string): Promise<Buffer> {
+    return fs.readFile(resolveInsideRoot(this.baseDir, publicId));
   }
 
   getBaseDir(): string {
