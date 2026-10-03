@@ -4,6 +4,7 @@ const API_URL = process.env.API_URL || "http://localhost:8080";
 module.exports = {
   reactStrictMode: true,
   poweredByHeader: false,
+  transpilePackages: ["@prochar/shared", "@tanstack/react-query"],
   // Same-origin proxy: browser calls /api/* and Next forwards to the API,
   // keeping cookies first-party (SameSite=Lax) and avoiding CORS.
   async rewrites() {

@@ -1,10 +1,11 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { PosterProgressView } from "./client";
+import { metaMessages, commonMessages } from "@/messages/bn";
 
 export const metadata: Metadata = {
-  title: "পোস্টার রূপরেখা ও প্রস্তুতি — Prochar Studio",
-  description: "পোস্টার তৈরি ও ডাউনলোডের অগ্রগতি।",
+  title: metaMessages.posterDetailTitle,
+  description: metaMessages.posterDetailDesc,
 };
 
 interface PageProps {
@@ -18,7 +19,7 @@ export default function PosterPage({ params }: PageProps) {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-paper text-ink font-body">
-          লোড হচ্ছে...
+          {commonMessages.loading}
         </div>
       }
     >

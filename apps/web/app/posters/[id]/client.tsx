@@ -9,6 +9,7 @@ import { Button, Card, EmptyState, Input, Skeleton, Textarea, Stamp, Stepper, us
 import { AppHeader } from "@/components/layout/AppHeader";
 import { get, post, ApiError } from "@/lib/api";
 import { toBanglaNumber } from "@/lib/format";
+import { posterProgressMessages, navMessages, createMessages, commonMessages } from "@/messages/bn";
 
 export interface PosterDetail {
   id: string;
@@ -38,7 +39,12 @@ interface RegenerateFormValues {
   creditLine: string;
 }
 
-const STEPPER_STATIONS = ["ছবি প্রস্তুত", "লেআউট", "ছাপা হচ্ছে", "সংরক্ষণ"];
+const STEPPER_STATIONS = [
+  posterProgressMessages.stepperStations[0],
+  posterProgressMessages.stepperStations[1],
+  posterProgressMessages.stepperStations[2],
+  posterProgressMessages.stepperStations[3],
+];
 
 function getStationIndex(stage?: string): number {
   switch (stage) {
@@ -125,7 +131,7 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
           creditLine: values.creditLine || undefined,
         },
       });
-      toast("পুনরায় তৈরি শুরু হয়েছে", "success");
+      toast(posterProgressMessages.regenerateStartedToast, "success");
       setElapsed(0);
       setAccordionOpen(false);
       await queryClient.invalidateQueries({ queryKey: ["poster", posterId] });
@@ -133,7 +139,7 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
       if (err instanceof ApiError) {
         toast(err.message, "error");
       } else {
-        toast("পুনরায় তৈরি করা সম্ভব হয়নি।", "error");
+        toast(posterProgressMessages.regenerateFailedToast, "error");
       }
     } finally {
       setRegenerating(false);
@@ -141,18 +147,18 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
   };
 
   const handleRetryFailed = async () => {
-    // TODO: Phase 8 - differentiate retry-after-failure from user regeneration without consuming retry
+    // Note: until Phase 8 backend refinement, this calls regenerate directly (costs a retry)
     setRegenerating(true);
     try {
       await post(`/api/posters/${posterId}/regenerate`, {});
-      toast("আবার চেষ্টা শুরু হয়েছে", "success");
+      toast(posterProgressMessages.retryStartedToast, "success");
       setElapsed(0);
       await queryClient.invalidateQueries({ queryKey: ["poster", posterId] });
     } catch (err: unknown) {
       if (err instanceof ApiError) {
         toast(err.message, "error");
       } else {
-        toast("আবার চেষ্টা ব্যর্থ হয়েছে।", "error");
+        toast(posterProgressMessages.retryFailedToast, "error");
       }
     } finally {
       setRegenerating(false);
@@ -174,10 +180,10 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-paper text-ink p-4">
         <EmptyState
-          message="পোস্টার খুঁজে পাওয়া যায়নি।"
+          message={posterProgressMessages.notFoundMessage}
           action={
             <Link href="/templates">
-              <Button>নতুন পোস্টার তৈরি করুন</Button>
+              <Button>{posterProgressMessages.createPosterButton}</Button>
             </Link>
           }
         />
@@ -186,7 +192,7 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
   }
 
   const isTimedOut = elapsed >= 120 && (poster.status === "generating" || poster.status === "queued");
-  const jobCaption = `JOB № ${poster.id.slice(-6).toUpperCase()} · সাধারণত ১০–২০ সেকেন্ড লাগে`;
+  const jobCaption = `JOB № ${poster.id.slice(-6).toUpperCase()} · ${posterProgressMessages.jobDurationHint}`;
 
   return (
     <div className="min-h-screen flex flex-col bg-paper text-ink">
@@ -200,10 +206,10 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
             className="inline-flex items-center gap-2 min-h-12 py-2 font-body font-semibold text-ink hover:text-press-red focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
           >
             <ArrowLeft size={18} weight="bold" />
-            <span>গ্যালারিতে ফিরুন</span>
+            <span>{navMessages.backToGallery}</span>
           </Link>
           <span className="font-mono text-xs uppercase tracking-wider text-ink/75">
-            পোস্টার প্রস্তুতি
+            {navMessages.posterPreparation}
           </span>
         </div>
       </div>
@@ -214,13 +220,13 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
         <div className="border-y-4 border-double border-ink py-2 text-center mb-6">
           <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-ink">
             {poster.status === "completed"
-              ? "পোস্টার প্রস্তুত"
+              ? posterProgressMessages.statusCompletedHeading
               : poster.status === "failed" || isTimedOut
-              ? "পোস্টার তৈরিতে ত্রুটি"
-              : "পোস্টার তৈরি হচ্ছে"}
+              ? posterProgressMessages.statusFailedHeading
+              : posterProgressMessages.statusGeneratingHeading}
           </h1>
           <p className="font-body text-xs sm:text-sm text-ink/75 mt-0.5">
-            {poster.formData?.headline || "প্রচার পোস্টার"}
+            {poster.formData?.headline || posterProgressMessages.defaultPosterHeadline}
           </p>
         </div>
 
@@ -248,16 +254,17 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
                       aria-hidden="true"
                       className="absolute inset-y-0 w-10 bg-ink/75 animate-roller shadow-hard pointer-events-none"
                     />
+
                     <div className="relative z-10 bg-paper-hi border-2 border-ink rounded p-4 text-center shadow-hard max-w-[220px]">
-                      <p className="font-display font-bold text-lg text-ink">পোস্টার ছাপা হচ্ছে</p>
-                      <p className="font-body text-xs text-ink/75 mt-1">অনুগ্রহ করে কিছুক্ষণ অপেক্ষা করুন...</p>
+                      <p className="font-display font-bold text-lg text-ink">{posterProgressMessages.printingHeadline}</p>
+                      <p className="font-body text-xs text-ink/75 mt-1">{posterProgressMessages.printingSubtext}</p>
                     </div>
                   </div>
                 </Card>
               </div>
 
               <div className="text-center font-mono text-xs text-ink/70">
-                অতিবাহিত সময়: {toBanglaNumber(elapsed)} সেকেন্ড
+                {posterProgressMessages.elapsedLabel} {toBanglaNumber(elapsed)} {posterProgressMessages.secondsSuffix}
               </div>
             </div>
           )}
@@ -270,14 +277,14 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
               <div className="w-full">
                 <Card cropMarks className="bg-paper-hi border-dashed">
                   <div className="aspect-[3/4] w-full border-2 border-dashed border-ink rounded bg-paper flex flex-col items-center justify-center p-6 text-center gap-4">
-                    <Stamp variant="failed">ব্যর্থ</Stamp>
+                    <Stamp variant="failed">{posterProgressMessages.failedStamp}</Stamp>
                     <p className="font-body text-base font-semibold text-press-red-deep">
                       {isTimedOut
-                        ? "পোস্টার তৈরিতে প্রত্যাশার চেয়ে বেশি সময় লেগেছে।"
-                        : poster.error?.message || "পোস্টার প্রক্রিয়াকরণে অপ্রত্যাশিত ত্রুটি ঘটেছে।"}
+                        ? posterProgressMessages.timeoutMessage
+                        : poster.error?.message || posterProgressMessages.genericFailedMessage}
                     </p>
                     <p className="font-body text-xs text-ink/70">
-                      কোনো ক্রেডিট বা রিকুয়েস্ট ক্ষতি হয়নি। আপনি পুনরায় চেষ্টা করতে পারেন।
+                      {posterProgressMessages.noLossNote}
                     </p>
                   </div>
                 </Card>
@@ -285,11 +292,11 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
 
               <div className="flex gap-4">
                 <Button size="lg" loading={regenerating} onClick={handleRetryFailed}>
-                  আবার চেষ্টা করুন
+                  {posterProgressMessages.retryButton}
                 </Button>
                 <Link href="/templates">
                   <Button variant="secondary" size="lg">
-                    অন্য টেমপ্লেট
+                    {posterProgressMessages.otherTemplateButton}
                   </Button>
                 </Link>
               </div>
@@ -307,18 +314,18 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
                   <div className="aspect-[3/4] w-full border-2 border-ink rounded bg-paper overflow-hidden relative">
                     {/* Stamp landing animation */}
                     <div className="absolute top-3 right-3 z-20 animate-stamp-land">
-                      <Stamp variant="ready">প্রস্তুত</Stamp>
+                      <Stamp variant="ready">{posterProgressMessages.readyStamp}</Stamp>
                     </div>
 
                     {poster.generatedImageUrl ? (
                       <img
                         src={poster.generatedImageUrl}
-                        alt="তৈরিকৃত পোস্টার"
+                        alt={posterProgressMessages.generatedPosterAlt}
                         className="w-full h-full object-contain"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center p-4 text-center">
-                        <span className="font-display font-bold text-ink">পোস্টার ছবি প্রস্তুত</span>
+                        <span className="font-display font-bold text-ink">{posterProgressMessages.posterImageReadyPlaceholder}</span>
                       </div>
                     )}
                   </div>
@@ -326,7 +333,7 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
 
                 {poster.aiAssisted === false && (
                   <p className="font-body text-xs text-ink/75 italic">
-                    টেমপ্লেটের ডিফল্ট সাজ ব্যবহার করা হয়েছে।
+                    {posterProgressMessages.defaultLayoutNote}
                   </p>
                 )}
               </div>
@@ -334,9 +341,9 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
               {/* Right Column: Controls & Accordion (6 cols) */}
               <div className="md:col-span-6 flex flex-col gap-6">
                 <div className="border-2 border-ink rounded bg-paper-hi p-6 shadow-hard flex flex-col gap-4">
-                  <h2 className="font-display font-extrabold text-2xl text-ink">পোস্টার প্রস্তুত!</h2>
+                  <h2 className="font-display font-extrabold text-2xl text-ink">{posterProgressMessages.completedTitle}</h2>
                   <p className="font-body text-sm text-ink/80">
-                    আপনার পোস্টারটি সফলভাবে তৈরি হয়েছে। এখনই হাই-রেজোলিউশন ফরম্যাটে ডাউনলোড করুন।
+                    {posterProgressMessages.completedSubtext}
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-3 pt-2">
@@ -347,7 +354,7 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
                       className="flex-1 inline-flex items-center justify-center gap-2 min-h-12 px-6 font-body font-bold text-paper-hi bg-press-red border-2 border-ink rounded shadow-hard transition-[transform,box-shadow] duration-[80ms] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                     >
                       <DownloadSimple size={20} weight="bold" />
-                      <span>PNG ডাউনলোড</span>
+                      <span>{posterProgressMessages.downloadPngButton}</span>
                     </a>
 
                     {/* Secondary PDF button (disabled) */}
@@ -355,22 +362,22 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
                       type="button"
                       disabled
                       aria-disabled="true"
-                      title="শীঘ্রই আসছে"
+                      title={posterProgressMessages.pdfComingSoonTitle}
                       className="inline-flex items-center justify-center min-h-12 px-5 font-body font-bold text-ink/40 bg-lime-wash border-2 border-ink/40 rounded cursor-not-allowed select-none"
                     >
-                      PDF (শীঘ্রই আসছে)
+                      {posterProgressMessages.pdfButtonComingSoon}
                     </button>
                   </div>
                 </div>
 
-                {/* Accordion: লেখা বদলান */}
+                {/* Accordion: Edit Copy */}
                 <div className="border-2 border-ink rounded bg-paper-hi p-5 sm:p-6 shadow-hard">
                   <button
                     type="button"
                     onClick={() => setAccordionOpen((prev) => !prev)}
                     className="w-full flex items-center justify-between min-h-12 font-display font-bold text-lg text-ink focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                   >
-                    <span>লেখা বদলান</span>
+                    <span>{posterProgressMessages.editCopyTitle}</span>
                     {accordionOpen ? <CaretUp size={20} weight="bold" /> : <CaretDown size={20} weight="bold" />}
                   </button>
 
@@ -380,11 +387,11 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
                         <span className="font-body text-xs font-semibold text-ink">
                           {poster.retriesLeft > 0 ? (
                             <span className="border border-ink rounded px-2 py-1 bg-mustard text-ink">
-                              আরও {toBanglaNumber(poster.retriesLeft)} বার আবার ছাপতে পারবেন
+                              {posterProgressMessages.retriesRemaining(toBanglaNumber(poster.retriesLeft))}
                             </span>
                           ) : (
                             <span className="text-press-red-deep">
-                              আবার ছাপার সুযোগ শেষ। নতুন পোস্টার বানাতে পারেন।
+                              {posterProgressMessages.retriesExhausted}
                             </span>
                           )}
                         </span>
@@ -393,20 +400,20 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
                       <form onSubmit={handleSubmit(onRegenerateSubmit)} className="flex flex-col gap-4">
                         <Input
                           id="edit-headline"
-                          label="শিরোনাম (বাংলায়)"
+                          label={createMessages.headlineLabel}
                           bangla
                           {...register("headline")}
                         />
                         <Textarea
                           id="edit-subtext"
-                          label="সংক্ষিপ্ত বার্তা"
+                          label={createMessages.subtextLabel}
                           bangla
                           rows={2}
                           {...register("subtext")}
                         />
                         <Input
                           id="edit-credit"
-                          label="প্রচারে লাইন"
+                          label={createMessages.creditLabel}
                           bangla
                           {...register("creditLine")}
                         />
@@ -417,7 +424,7 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
                           disabled={poster.retriesLeft <= 0 || regenerating}
                           className="w-full mt-2"
                         >
-                          আবার ছাপুন
+                          {posterProgressMessages.reprintButton}
                         </Button>
                       </form>
                     </div>
@@ -431,7 +438,7 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
 
       {/* Footer */}
       <footer className="border-t-2 border-ink bg-paper-hi py-4 text-center text-xs font-body text-ink/70 mt-auto">
-        প্রচারে: Prochar Studio · গোপনীয়তা
+        {commonMessages.footerCopyright}
       </footer>
     </div>
   );

@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { SignOut, FolderSimple } from "@phosphor-icons/react/dist/ssr";
 import { Wordmark, useToast } from "@/components/ui";
 import { get, post } from "@/lib/api";
+import { navMessages, authMessages } from "@/messages/bn";
 
 interface UserProfile {
   user: {
@@ -41,7 +42,7 @@ export function AppHeader() {
       router.refresh();
     } catch {
       setLoggingOut(false);
-      toast("লগআউট করতে সমস্যা হয়েছে।", "error");
+      toast(authMessages.logoutErrorToast, "error");
     }
   };
 
@@ -51,7 +52,7 @@ export function AppHeader() {
         {/* Left: Wordmark links to /templates */}
         <Link
           href="/templates"
-          aria-label="Prochar Studio — টেমপ্লেট গ্যালারি"
+          aria-label={navMessages.galleryAria}
           className="inline-flex items-center min-h-12 py-2 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
         >
           <Wordmark />
@@ -73,18 +74,18 @@ export function AppHeader() {
             className="inline-flex items-center gap-1.5 min-h-12 px-3 py-2 font-body text-sm font-semibold text-ink hover:text-press-red border border-transparent hover:border-ink/20 rounded focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink transition-colors"
           >
             <FolderSimple size={18} weight="bold" />
-            <span>আমার পোস্টার</span>
+            <span>{navMessages.myPosters}</span>
           </Link>
 
           <button
             type="button"
             onClick={handleLogout}
             disabled={loggingOut}
-            aria-label="লগআউট"
+            aria-label={navMessages.logout}
             className="inline-flex items-center gap-1.5 min-h-12 px-3 py-2 border border-ink rounded bg-paper hover:bg-lime-wash font-body text-sm font-semibold text-ink transition-[transform,box-shadow] duration-[80ms] active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
           >
             <SignOut size={16} weight="bold" />
-            <span className="hidden xs:inline">লগআউট</span>
+            <span className="hidden xs:inline">{navMessages.logout}</span>
           </button>
         </div>
       </div>

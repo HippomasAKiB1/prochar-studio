@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, Chip, EmptyState, Skeleton, Button } from "@/components/ui";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { get } from "@/lib/api";
+import { templatesMessages, commonMessages } from "@/messages/bn";
 
 export interface TemplateSummary {
   id: string;
@@ -17,12 +18,12 @@ export interface TemplateSummary {
 }
 
 const OCCASIONS = [
-  { slug: "", label: "সব" },
-  { slug: "victory_day", label: "বিজয় দিবস" },
-  { slug: "condolence", label: "শোক/স্মরণ" },
-  { slug: "campaign", label: "নির্বাচনী প্রচার" },
-  { slug: "greetings", label: "শুভেচ্ছা" },
-  { slug: "eid_festival", label: "ঈদ/উৎসব" },
+  { slug: "", label: templatesMessages.occasions.all },
+  { slug: "victory_day", label: templatesMessages.occasions.victory_day },
+  { slug: "condolence", label: templatesMessages.occasions.condolence },
+  { slug: "campaign", label: templatesMessages.occasions.campaign },
+  { slug: "greetings", label: templatesMessages.occasions.greetings },
+  { slug: "eid_festival", label: templatesMessages.occasions.eid_festival },
 ] as const;
 
 export function TemplatesGallery() {
@@ -80,10 +81,10 @@ export function TemplatesGallery() {
       <main className="flex-1 mx-auto w-full max-w-6xl px-4 py-8">
         <div className="mb-6 flex flex-col gap-1">
           <h1 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">
-            পোস্টার টেমপ্লেট
+            {templatesMessages.pageTitle}
           </h1>
           <p className="font-body text-base text-ink/80">
-            যেকোনো একটি নকশা বেছে নিন এবং আপনার তথ্য দিয়ে পোস্টার তৈরি করুন।
+            {templatesMessages.pageSubtitle}
           </p>
         </div>
 
@@ -104,10 +105,10 @@ export function TemplatesGallery() {
         {isError && (
           <div className="py-12">
             <EmptyState
-              message="টেমপ্লেট লোড করা যায়নি।"
+              message={templatesMessages.loadError}
               action={
                 <Button variant="secondary" onClick={() => refetch()}>
-                  আবার চেষ্টা করুন
+                  {commonMessages.retry}
                 </Button>
               }
             />
@@ -117,7 +118,7 @@ export function TemplatesGallery() {
         {/* Empty State */}
         {!isLoading && !isError && templates && templates.length === 0 && (
           <div className="py-12">
-            <EmptyState message="এই বিভাগের টেমপ্লেট শিগগিরই আসছে।" />
+            <EmptyState message={templatesMessages.emptyCategory} />
           </div>
         )}
 
@@ -170,7 +171,7 @@ export function TemplatesGallery() {
 
       {/* Footer */}
       <footer className="border-t-2 border-ink bg-paper-hi py-4 text-center text-xs font-body text-ink/70 mt-auto">
-        প্রচারে: Prochar Studio · গোপনীয়তা
+        {commonMessages.footerCopyright}
       </footer>
     </div>
   );

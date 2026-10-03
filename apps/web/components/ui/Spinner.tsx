@@ -1,4 +1,6 @@
-export function Spinner({ label = "লোড হচ্ছে" }: { label?: string }) {
+import { commonMessages } from "@/messages/bn";
+
+export function Spinner({ label = commonMessages.loading }: { label?: string }) {
   return (
     <span
       role="status"

@@ -6,8 +6,10 @@
 export const commonMessages = {
   appName: "প্রচার",
   appWordmark: "STUDIO",
+  appBrandLabel: "প্রচার স্টুডিও",
   loading: "লোড হচ্ছে...",
   footerCopyright: "প্রচারে: Prochar Studio · গোপনীয়তা",
+  creditPrefix: "প্রচারে:",
   all: "সব",
   retry: "আবার চেষ্টা করুন",
   cancel: "বাতিল",
@@ -16,10 +18,62 @@ export const commonMessages = {
   next: "পরবর্তী",
   page: "পৃষ্ঠা",
   of: "এর",
+  steps: "ধাপ",
+  completed: "সম্পন্ন",
+} as const;
+
+export const metaMessages = {
+  rootTitle: "Prochar Studio — প্রচার স্টুডিও",
+  rootDesc: "ছবি দিন, নাম লিখুন — ছাপার উপযোগী পোস্টার পান কয়েক মিনিটে।",
+  loginTitle: "লগইন — Prochar Studio",
+  loginDesc: "প্রচার স্টুডিও অ্যাকাউন্টে প্রবেশ করুন।",
+  registerTitle: "নিবন্ধন — Prochar Studio",
+  registerDesc: "প্রচার স্টুডিওতে নতুন অ্যাকাউন্ট তৈরি করুন।",
+  templatesTitle: "পোস্টার টেমপ্লেট — Prochar Studio",
+  templatesDesc: "প্রচার পোস্টারের জন্য টেমপ্লেট বেছে নিন।",
+  createTitle: "নতুন পোস্টার — Prochar Studio",
+  createDesc: "তথ্য দিন ও পোস্টার তৈরি করুন।",
+  postersTitle: "আমার পোস্টার — Prochar Studio",
+  postersDesc: "আপনার তৈরি করা সকল প্রচার পোস্টারের তালিকা ও ইতিহাস।",
+  posterDetailTitle: "পোস্টার রূপরেখা ও প্রস্তুতি — Prochar Studio",
+  posterDetailDesc: "পোস্টার তৈরি ও ডাউনলোডের অগ্রগতি।",
+} as const;
+
+export const landingMessages = {
+  loginButton: "লগইন",
+  heroHeadline1: "আপনার প্রচার,",
+  heroHeadline2: "আপনার পোস্টার",
+  heroSubtitle: "ছবি দিন, নাম লিখুন — ছাপার উপযোগী পোস্টার পান কয়েক মিনিটে।",
+  createPosterCta: "পোস্টার বানান →",
+  sampleVictoryCaption: "নমুনা ০১ · বিজয় দিবস",
+  sampleVictorySub: "মহান বিজয় দিবস",
+  sampleVictoryTitle: "শুভেচ্ছা ও অভিনন্দন",
+  sampleCondolenceCaption: "নমুনা ০২ · শোক ও শ্রদ্ধা",
+  sampleCondolenceSub: "বিনম্র শ্রদ্ধা",
+  sampleCondolenceTitle: "স্মরণ সভা ও দোয়া",
+  sampleCampaignCaption: "নমুনা ০৩ · নির্বাচনী প্রচার",
+  sampleCampaignSub: "নির্বাচনী প্রচার",
+  sampleCampaignTitle: "উন্নয়নের পক্ষে থাকুন",
+  samplePhotoLabel: "ছবি",
+  sampleName: "নমুনা নাম",
+  sampleVictoryDesignation: "সভাপতি · নমুনা সংগঠন",
+  sampleCondolenceDesignation: "সাধারণ সম্পাদক · নমুনা পরিষদ",
+  sampleCampaignDesignation: "চেয়ারম্যান পদপ্রার্থী · নমুনা ইউনিয়ন",
+  stepsHeading: "পোস্টার তৈরির ধাপসমূহ",
+  step1Title: "ফর্ম পূরণ",
+  step1Desc: "নাম, পদবি ও ছবি দিন — জটিল গ্রাফিক ডিজাইনের কোনো প্রয়োজন নেই।",
+  step2Title: "আমরা সাজাই",
+  step2Desc: "স্বয়ংক্রিয় বাংলা টাইপোগ্রাফি ও লেআউট নিখুঁতভাবে পোস্টারে বসে যাবে।",
+  step3Title: "ডাউনলোড",
+  step3Desc: "ছাপার উপযোগী উচ্চ রেজোলিউশন ১৮০০×২৪০০ পিক্সেল PNG পোস্টার সঙ্গে সঙ্গেই প্রস্তুত।",
+  occasionsHeading: "উপলক্ষ সূচি",
+  classifiedsIndex: "CLASSIFIEDS INDEX",
+  footerTerms: "গোপনীয়তা ও শর্তাবলী সংরক্ষিত",
 } as const;
 
 export const navMessages = {
   gallery: "গ্যালারি",
+  galleryAria: "Prochar Studio — টেমপ্লেট গ্যালারি",
   myPosters: "আমার পোস্টার",
   newPoster: "নতুন পোস্টার",
   logout: "লগআউট",
@@ -47,6 +101,13 @@ export const authMessages = {
   loginErrorToast: "ইমেইল/ফোন অথবা পাসওয়ার্ড ভুল",
   registerErrorToast: "নিবন্ধন সম্পন্ন করা যায়নি। পুনরায় চেষ্টা করুন।",
   logoutErrorToast: "লগআউট করতে সমস্যা হয়েছে।",
+  nameHelperRegister: "আপনার পূর্ণ নাম বাংলায় লিখুন",
+  identifierHelperRegister: "যেকোনো একটি দিলেই হবে",
+  nameLengthMin: "নাম অন্তত ২ অক্ষরের হতে হবে",
+  nameLengthMax: "নাম সর্বোচ্চ ৬০ অক্ষরের হতে পারে",
+  identifierInvalid: "সঠিক ইমেইল বা ফোন নম্বর দিন",
+  identifierBangladeshiPhonePrompt: "সঠিক ইমেইল বা ১১ সংখ্যার বাংলাদেশি মোবাইল নম্বর দিন (যেমন: 01712345678)",
+  accountConflictToast: "এই ইমেইল বা ফোন নম্বর দিয়ে ইতিমধ্যেই একটি অ্যাকাউন্ট রয়েছে",
 } as const;
 
 export const templatesMessages = {
@@ -112,6 +173,8 @@ export const uploaderMessages = {
   fileTooLarge: (name: string) => `"${name}" ফাইলটির আকার ৫MB এর বেশি।`,
   maxFilesLimit: (max: string) => `সর্বোচ্চ ${max}টি ছবি যোগ করা যাবে।`,
   networkError: "নেটওয়ার্ক সমস্যার কারণে ছবি আপলোড করা যায়নি।",
+  deletePhotoN: (n: string) => `ছবি ${n} মুছুন`,
+  photoAlt: (n: string) => `পোস্টারের ছবি ${n}`,
 } as const;
 
 export const posterProgressMessages = {
@@ -144,6 +207,13 @@ export const posterProgressMessages = {
   regenerateFailedToast: "পুনরায় তৈরি করা সম্ভব হয়নি।",
   retryStartedToast: "আবার চেষ্টা শুরু হয়েছে",
   retryFailedToast: "আবার চেষ্টা ব্যর্থ হয়েছে।",
+  statusCompletedHeading: "পোস্টার প্রস্তুত",
+  statusFailedHeading: "পোস্টার তৈরিতে ত্রুটি",
+  statusGeneratingHeading: "পোস্টার তৈরি হচ্ছে",
+  defaultPosterHeadline: "প্রচার পোস্টার",
+  generatedPosterAlt: "তৈরিকৃত পোস্টার",
+  posterImageReadyPlaceholder: "পোস্টার ছবি প্রস্তুত",
+  pdfComingSoonTitle: "শীঘ্রই আসছে",
 } as const;
 
 export const postersHistoryMessages = {
@@ -163,4 +233,5 @@ export const postersHistoryMessages = {
   untitledPoster: "নামহীন পোস্টার",
   printingThumbnail: "ছাপা হচ্ছে...",
   fallbackThumbnail: "পোস্টার",
+  downloadUnavailable: "ডাউনলোড অনুপলব্ধ",
 } as const;

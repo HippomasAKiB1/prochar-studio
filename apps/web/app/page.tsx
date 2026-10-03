@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { Wordmark, Card, Button } from "@/components/ui";
 import { toBanglaNumber } from "@/lib/format";
+import { landingMessages, templatesMessages, commonMessages } from "@/messages/bn";
 
 const OCCASIONS = [
-  { slug: "victory_day", label: "বিজয় দিবস" },
-  { slug: "condolence", label: "শোক/স্মরণ" },
-  { slug: "campaign", label: "নির্বাচনী প্রচার" },
-  { slug: "greetings", label: "শুভেচ্ছা" },
-  { slug: "eid_festival", label: "ঈদ/উৎসব" },
+  { slug: "victory_day", label: templatesMessages.occasions.victory_day },
+  { slug: "condolence", label: templatesMessages.occasions.condolence },
+  { slug: "campaign", label: templatesMessages.occasions.campaign },
+  { slug: "greetings", label: templatesMessages.occasions.greetings },
+  { slug: "eid_festival", label: templatesMessages.occasions.eid_festival },
 ] as const;
 
 export default function HomePage() {
@@ -23,7 +24,7 @@ export default function HomePage() {
             href="/login"
             className="inline-flex items-center justify-center min-h-12 px-5 font-body font-bold text-ink bg-paper-hi border-2 border-ink rounded shadow-hard transition-[transform,box-shadow] duration-[80ms] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
           >
-            লগইন
+            {landingMessages.loginButton}
           </Link>
         </div>
       </header>
@@ -36,18 +37,18 @@ export default function HomePage() {
             className="text-ink font-display font-extrabold text-3xl sm:text-5xl md:text-6xl leading-[1.15] select-none"
             style={{ textShadow: "2px 2px 0 var(--press-red)" }}
           >
-            আপনার প্রচার,
+            {landingMessages.heroHeadline1}
             <br />
-            আপনার পোস্টার
+            {landingMessages.heroHeadline2}
           </h1>
 
           <p className="font-body text-lg sm:text-xl text-ink max-w-prose leading-relaxed">
-            ছবি দিন, নাম লিখুন — ছাপার উপযোগী পোস্টার পান কয়েক মিনিটে।
+            {landingMessages.heroSubtitle}
           </p>
 
           <Link href="/templates">
             <Button size="lg" className="text-lg">
-              পোস্টার বানান →
+              {landingMessages.createPosterCta}
             </Button>
           </Link>
 
@@ -55,58 +56,58 @@ export default function HomePage() {
           <div className="w-full pt-6">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {/* Sample 1: Victory Day */}
-              <Card cropMarks caption="নমুনা ০১ · বিজয় দিবস" className="bg-paper-hi">
+              <Card cropMarks caption={landingMessages.sampleVictoryCaption} className="bg-paper-hi">
                 <div className="aspect-[3/4] border border-ink p-3 flex flex-col justify-between bg-paper">
                   <div className="text-center border-b border-ink pb-2">
-                    <p className="font-display font-bold text-xs text-press-red">মহান বিজয় দিবস</p>
-                    <p className="font-display font-extrabold text-sm sm:text-base text-ink">শুভেচ্ছা ও অভিনন্দন</p>
+                    <p className="font-display font-bold text-xs text-press-red">{landingMessages.sampleVictorySub}</p>
+                    <p className="font-display font-extrabold text-sm sm:text-base text-ink">{landingMessages.sampleVictoryTitle}</p>
                   </div>
                   <div className="my-auto flex flex-col items-center py-2">
                     <div className="w-16 h-16 sm:w-20 sm:h-20 border-2 border-ink rounded bg-lime-wash flex items-center justify-center halftone">
-                      <span className="font-mono text-[10px] text-ink">ছবি</span>
+                      <span className="font-mono text-[10px] text-ink">{landingMessages.samplePhotoLabel}</span>
                     </div>
                   </div>
                   <div className="text-center border-t border-ink pt-2 bg-paper-hi">
-                    <p className="font-display font-bold text-sm text-ink">নমুনা নাম</p>
-                    <p className="font-body text-xs text-ink">সভাপতি · নমুনা সংগঠন</p>
+                    <p className="font-display font-bold text-sm text-ink">{landingMessages.sampleName}</p>
+                    <p className="font-body text-xs text-ink">{landingMessages.sampleVictoryDesignation}</p>
                   </div>
                 </div>
               </Card>
 
               {/* Sample 2: Condolence (with slight desktop tilt) */}
-              <Card cropMarks tilt caption="নমুনা ০২ · শোক ও শ্রদ্ধা" className="bg-paper-hi">
+              <Card cropMarks tilt caption={landingMessages.sampleCondolenceCaption} className="bg-paper-hi">
                 <div className="aspect-[3/4] border border-ink p-3 flex flex-col justify-between bg-paper">
                   <div className="text-center border-b border-ink pb-2">
-                    <p className="font-display font-bold text-xs text-ink">বিনম্র শ্রদ্ধা</p>
-                    <p className="font-display font-extrabold text-sm sm:text-base text-ink">স্মরণ সভা ও দোয়া</p>
+                    <p className="font-display font-bold text-xs text-ink">{landingMessages.sampleCondolenceSub}</p>
+                    <p className="font-display font-extrabold text-sm sm:text-base text-ink">{landingMessages.sampleCondolenceTitle}</p>
                   </div>
                   <div className="my-auto flex flex-col items-center py-2">
                     <div className="w-16 h-16 sm:w-20 sm:h-20 border-2 border-ink rounded bg-lime-wash flex items-center justify-center halftone">
-                      <span className="font-mono text-[10px] text-ink">ছবি</span>
+                      <span className="font-mono text-[10px] text-ink">{landingMessages.samplePhotoLabel}</span>
                     </div>
                   </div>
                   <div className="text-center border-t border-ink pt-2 bg-paper-hi">
-                    <p className="font-display font-bold text-sm text-ink">নমুনা নাম</p>
-                    <p className="font-body text-xs text-ink">সাধারণ সম্পাদক · নমুনা পরিষদ</p>
+                    <p className="font-display font-bold text-sm text-ink">{landingMessages.sampleName}</p>
+                    <p className="font-body text-xs text-ink">{landingMessages.sampleCondolenceDesignation}</p>
                   </div>
                 </div>
               </Card>
 
               {/* Sample 3: Campaign */}
-              <Card cropMarks caption="নমুনা ০৩ · নির্বাচনী প্রচার" className="bg-paper-hi">
+              <Card cropMarks caption={landingMessages.sampleCampaignCaption} className="bg-paper-hi">
                 <div className="aspect-[3/4] border border-ink p-3 flex flex-col justify-between bg-paper">
                   <div className="text-center border-b border-ink pb-2">
-                    <p className="font-display font-bold text-xs text-paddy">নির্বাচনী প্রচার</p>
-                    <p className="font-display font-extrabold text-sm sm:text-base text-ink">উন্নয়নের পক্ষে থাকুন</p>
+                    <p className="font-display font-bold text-xs text-paddy">{landingMessages.sampleCampaignSub}</p>
+                    <p className="font-display font-extrabold text-sm sm:text-base text-ink">{landingMessages.sampleCampaignTitle}</p>
                   </div>
                   <div className="my-auto flex flex-col items-center py-2">
                     <div className="w-16 h-16 sm:w-20 sm:h-20 border-2 border-ink rounded bg-lime-wash flex items-center justify-center halftone">
-                      <span className="font-mono text-[10px] text-ink">ছবি</span>
+                      <span className="font-mono text-[10px] text-ink">{landingMessages.samplePhotoLabel}</span>
                     </div>
                   </div>
                   <div className="text-center border-t border-ink pt-2 bg-paper-hi">
-                    <p className="font-display font-bold text-sm text-ink">নমুনা নাম</p>
-                    <p className="font-body text-xs text-ink">চেয়ারম্যান পদপ্রার্থী · নমুনা ইউনিয়ন</p>
+                    <p className="font-display font-bold text-sm text-ink">{landingMessages.sampleName}</p>
+                    <p className="font-body text-xs text-ink">{landingMessages.sampleCampaignDesignation}</p>
                   </div>
                 </div>
               </Card>
@@ -117,16 +118,16 @@ export default function HomePage() {
         {/* ─── Steps Table ─── */}
         <section aria-labelledby="steps-heading" className="border-t-2 border-ink pt-8">
           <h2 id="steps-heading" className="sr-only">
-            পোস্টার তৈরির ধাপসমূহ
+            {landingMessages.stepsHeading}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 divide-y-2 md:divide-y-0 md:divide-x-2 divide-ink border-b-2 border-ink">
             <div className="py-6 md:py-8 md:pr-6 flex flex-col gap-2">
               <span className="font-display font-extrabold text-4xl sm:text-5xl text-press-red">
                 {toBanglaNumber("01")}
               </span>
-              <h3 className="font-display font-bold text-xl text-ink">ফর্ম পূরণ</h3>
+              <h3 className="font-display font-bold text-xl text-ink">{landingMessages.step1Title}</h3>
               <p className="font-body text-base text-ink">
-                নাম, পদবি ও ছবি দিন — জটিল গ্রাফিক ডিজাইনের কোনো প্রয়োজন নেই।
+                {landingMessages.step1Desc}
               </p>
             </div>
 
@@ -134,9 +135,9 @@ export default function HomePage() {
               <span className="font-display font-extrabold text-4xl sm:text-5xl text-mustard">
                 {toBanglaNumber("02")}
               </span>
-              <h3 className="font-display font-bold text-xl text-ink">আমরা সাজাই</h3>
+              <h3 className="font-display font-bold text-xl text-ink">{landingMessages.step2Title}</h3>
               <p className="font-body text-base text-ink">
-                স্বয়ংক্রিয় বাংলা টাইপোগ্রাফি ও লেআউট নিখুঁতভাবে পোস্টারে বসে যাবে।
+                {landingMessages.step2Desc}
               </p>
             </div>
 
@@ -144,9 +145,9 @@ export default function HomePage() {
               <span className="font-display font-extrabold text-4xl sm:text-5xl text-paddy">
                 {toBanglaNumber("03")}
               </span>
-              <h3 className="font-display font-bold text-xl text-ink">ডাউনলোড</h3>
+              <h3 className="font-display font-bold text-xl text-ink">{landingMessages.step3Title}</h3>
               <p className="font-body text-base text-ink">
-                ছাপার উপযোগী উচ্চ রেজোলিউশন ১৮০০×২৪০০ পিক্সেল PNG পোস্টার সঙ্গে সঙ্গেই প্রস্তুত।
+                {landingMessages.step3Desc}
               </p>
             </div>
           </div>
@@ -156,9 +157,9 @@ export default function HomePage() {
         <section aria-labelledby="occasion-heading" className="flex flex-col gap-4">
           <div className="border-b-2 border-ink pb-2 flex items-baseline justify-between">
             <h2 id="occasion-heading" className="font-display font-extrabold text-2xl text-ink">
-              উপলক্ষ সূচি
+              {landingMessages.occasionsHeading}
             </h2>
-            <span className="font-mono text-xs uppercase tracking-wider text-ink">CLASSIFIEDS INDEX</span>
+            <span className="font-mono text-xs uppercase tracking-wider text-ink">{landingMessages.classifiedsIndex}</span>
           </div>
 
           <ul className="flex flex-col divide-y divide-ink/30 border-b-2 border-ink font-body">
@@ -192,9 +193,9 @@ export default function HomePage() {
       <footer className="border-t-2 border-ink bg-paper-hi mt-auto py-6">
         <div className="mx-auto max-w-5xl px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm font-body text-ink">
           <p>
-            প্রচারে: <span className="font-semibold">Prochar Studio</span>
+            {commonMessages.creditPrefix} <span className="font-semibold">Prochar Studio</span>
           </p>
-          <p className="text-ink/80">গোপনীয়তা ও শর্তাবলী সংরক্ষিত</p>
+          <p className="text-ink/80">{landingMessages.footerTerms}</p>
         </div>
       </footer>
     </div>

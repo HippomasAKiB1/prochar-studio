@@ -13,10 +13,11 @@ import { Button, Input, Textarea, Card, EmptyState, Skeleton, useToast } from "@
 import { AppHeader } from "@/components/layout/AppHeader";
 import { PhotoUploader, type UploadedPhoto } from "@/components/poster/PhotoUploader";
 import { get, post, ApiError } from "@/lib/api";
+import { createMessages, navMessages, commonMessages } from "@/messages/bn";
 
 const CreateFormSchema = PosterFormDataSchema.omit({ occasionType: true }).extend({
   consent: z.literal(true, {
-    errorMap: () => ({ message: "ছবি ও চিহ্ন ব্যবহারের অনুমতি স্বীকার করতে হবে" }),
+    errorMap: () => ({ message: createMessages.consentError }),
   }),
 });
 
@@ -76,14 +77,14 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
 
   const onSubmit = async (values: CreateFormValues) => {
     if (photos.length === 0) {
-      setPhotoError("অন্তত ১টি ছবি যোগ করতে হবে");
-      toast("অন্তত ১টি ছবি আপলোড করুন", "error");
+      setPhotoError(createMessages.requiredPhotoError);
+      toast(createMessages.requiredPhotoError, "error");
       return;
     }
     setPhotoError(null);
 
     if (!template) {
-      toast("টেমপ্লেটের তথ্য পাওয়া যায়নি", "error");
+      toast(createMessages.templateNotFound, "error");
       return;
     }
 
@@ -112,28 +113,22 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
 
     try {
       const res = await post<{ id: string }>("/api/posters", payload);
-      toast("পোস্টার তৈরির কাজ শুরু হয়েছে", "success");
+      toast(createMessages.createStartedToast, "success");
       router.push(`/posters/${res.id}`);
     } catch (err: unknown) {
       setSubmitting(false);
       if (err instanceof ApiError) {
         if (err.status === 422 || err.code === "CONTENT_REJECTED") {
-          toast(
-            "এই লেখাটি আমরা ছাপতে পারছি না। অনুগ্রহ করে বদলে আবার চেষ্টা করুন।",
-            "error"
-          );
+          toast(createMessages.contentRejectedToast, "error");
         } else if (err.status === 403 || err.code === "PHOTO_NOT_OWNED") {
-          toast(
-            "ছবির মালিকানা যাচাই করা যায়নি। অনুগ্রহ করে আবার আপলোড করুন।",
-            "error"
-          );
+          toast(createMessages.photoNotOwnedToast, "error");
         } else if (err.status === 429) {
-          toast("একটু পরে আবার চেষ্টা করুন।", "error");
+          toast(createMessages.rateLimitedToast, "error");
         } else {
-          toast(err.message || "পোস্টার তৈরি করা যায়নি।", "error");
+          toast(err.message || createMessages.genericCreateError, "error");
         }
       } else {
-        toast("পোস্টার তৈরি করা যায়নি। পুনরায় চেষ্টা করুন।", "error");
+        toast(createMessages.genericCreateError, "error");
       }
     }
   };
@@ -154,10 +149,10 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-paper text-ink p-4">
         <EmptyState
-          message="টেমপ্লেট পাওয়া যায়নি।"
+          message={createMessages.templateNotFound}
           action={
             <Link href="/templates">
-              <Button>টেমপ্লেট তালিকায় ফিরুন</Button>
+              <Button>{navMessages.backToGallery}</Button>
             </Link>
           }
         />
@@ -179,7 +174,7 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
             className="inline-flex items-center gap-2 min-h-12 py-2 font-body font-semibold text-ink hover:text-press-red focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
           >
             <ArrowLeft size={18} weight="bold" />
-            <span>টেমপ্লেট বদলান</span>
+            <span>{navMessages.changeTemplate}</span>
           </Link>
           <span className="font-mono text-xs uppercase tracking-wider text-ink/75">
             TEMPLATE № {template.slug.toUpperCase().slice(0, 8)}
@@ -192,10 +187,10 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
         {/* Double-ruled Title */}
         <div className="border-y-4 border-double border-ink py-2 text-center mb-8">
           <h1 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">
-            নতুন পোস্টার
+            {createMessages.pageTitle}
           </h1>
           <p className="font-body text-sm text-ink/80 mt-1">
-            নির্বাচিত নকশা: <span className="font-bold">{template.title}</span>
+            {createMessages.selectedTemplate} <span className="font-bold">{template.title}</span>
           </p>
         </div>
 
@@ -203,26 +198,26 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
           {/* Left: Form (7 cols on lg) */}
           <div className="lg:col-span-7">
             <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-8 pb-20 lg:pb-8">
-              {/* SECTION 1: আপনার পরিচয় */}
+              {/* SECTION 1: Identity */}
               <fieldset className="border-2 border-ink rounded bg-paper-hi p-5 sm:p-6 shadow-hard flex flex-col gap-4">
                 <legend className="font-display font-bold text-lg text-ink px-2 bg-paper-hi border-2 border-ink rounded">
-                  ১ · আপনার পরিচয়
+                  {createMessages.section1Title}
                 </legend>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <Input
                     id="create-name"
-                    label="নাম *"
+                    label={createMessages.nameLabel}
                     bangla
-                    helper="পোস্টারে প্রদর্শিত আপনার পূর্ণ নাম"
+                    helper={createMessages.nameHelper}
                     error={errors.name?.message}
                     {...register("name")}
                   />
                   <Input
                     id="create-designation"
-                    label="পদবি *"
+                    label={createMessages.designationLabel}
                     bangla
-                    helper="যেমন: সভাপতি, সাধারণ সম্পাদক"
+                    helper={createMessages.designationHelper}
                     error={errors.designation?.message}
                     {...register("designation")}
                   />
@@ -230,9 +225,9 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
 
                 <Input
                   id="create-org"
-                  label="দল বা সংগঠন *"
+                  label={createMessages.orgLabel}
                   bangla
-                  helper="যেমন: বাংলাদেশ আওয়ামী লীগ, ছাত্রলীগ"
+                  helper={createMessages.orgHelper}
                   error={errors.partyOrOrganization?.message}
                   {...register("partyOrOrganization")}
                 />
@@ -240,21 +235,21 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <Input
                     id="create-union"
-                    label="ইউনিয়ন/পৌরসভা"
+                    label={createMessages.unionLabel}
                     bangla
                     error={errors.union?.message}
                     {...register("union")}
                   />
                   <Input
                     id="create-thana"
-                    label="থানা/উপজেলা"
+                    label={createMessages.thanaLabel}
                     bangla
                     error={errors.thana?.message}
                     {...register("thana")}
                   />
                   <Input
                     id="create-district"
-                    label="জেলা *"
+                    label={createMessages.districtLabel}
                     bangla
                     error={errors.district?.message}
                     {...register("district")}
@@ -262,10 +257,10 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
                 </div>
               </fieldset>
 
-              {/* SECTION 2: ছবি (১-৩টি) */}
+              {/* SECTION 2: Photos */}
               <fieldset className="border-2 border-ink rounded bg-paper-hi p-5 sm:p-6 shadow-hard flex flex-col gap-4">
                 <legend className="font-display font-bold text-lg text-ink px-2 bg-paper-hi border-2 border-ink rounded">
-                  ২ · ছবি (১–৩টি)
+                  {createMessages.section2Title}
                 </legend>
 
                 <PhotoUploader
@@ -278,26 +273,26 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
                 />
               </fieldset>
 
-              {/* SECTION 3: শিরোনাম ও বার্তা */}
+              {/* SECTION 3: Headline and Message */}
               <fieldset className="border-2 border-ink rounded bg-paper-hi p-5 sm:p-6 shadow-hard flex flex-col gap-4">
                 <legend className="font-display font-bold text-lg text-ink px-2 bg-paper-hi border-2 border-ink rounded">
-                  ৩ · শিরোনাম ও বার্তা
+                  {createMessages.section3Title}
                 </legend>
 
                 <Input
                   id="create-headline"
-                  label="শিরোনাম (বাংলায়) *"
+                  label={createMessages.headlineLabel}
                   bangla
-                  helper="পোস্টারের প্রধান বাণী বা স্লোগান"
+                  helper={createMessages.headlineHelper}
                   error={errors.headline?.message}
                   {...register("headline")}
                 />
 
                 <Textarea
                   id="create-subtext"
-                  label="সংক্ষিপ্ত বার্তা (ঐচ্ছিক)"
+                  label={createMessages.subtextLabel}
                   bangla
-                  helper="সর্বোচ্চ ১৪০ অক্ষরের শুভেচ্ছা বার্তা"
+                  helper={createMessages.subtextHelper}
                   rows={2}
                   error={errors.subtext?.message}
                   {...register("subtext")}
@@ -305,9 +300,9 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
 
                 <Input
                   id="create-credit"
-                  label="প্রচারে লাইন (ঐচ্ছিক)"
+                  label={createMessages.creditLabel}
                   bangla
-                  helper="যেমন: প্রচারে: এলাকাবাসী"
+                  helper={createMessages.creditHelper}
                   error={errors.creditLine?.message}
                   {...register("creditLine")}
                 />
@@ -329,7 +324,7 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
                     )}
                   />
                   <span className="font-body text-base font-semibold text-ink">
-                    ছবি ও চিহ্ন ব্যবহারের অনুমতি আমার আছে
+                    {createMessages.consentLabel}
                   </span>
                 </label>
                 {errors.consent && (
@@ -348,7 +343,7 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
                   disabled={isSubmitDisabled}
                   className="w-full text-lg min-h-14"
                 >
-                  পোস্টার তৈরি করুন
+                  {createMessages.submitButton}
                 </Button>
               </div>
 
@@ -361,7 +356,7 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
                   disabled={isSubmitDisabled}
                   className="w-full text-lg min-h-14"
                 >
-                  পোস্টার তৈরি করুন
+                  {createMessages.submitButton}
                 </Button>
               </div>
             </form>
@@ -369,7 +364,7 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
 
           {/* Right: Sticky Template Preview Panel (5 cols on lg) */}
           <div className="lg:col-span-5 sticky top-24 hidden lg:block">
-            <Card cropMarks caption="নির্বাচিত টেমপ্লেটের প্রমাণচিত্র" className="bg-paper-hi">
+            <Card cropMarks caption={createMessages.previewCaption} className="bg-paper-hi">
               <div className="aspect-[3/4] w-full border border-ink bg-paper overflow-hidden flex items-center justify-center mb-3">
                 {template.thumbnailUrl ? (
                   <img
@@ -386,7 +381,7 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
               <div className="border-t border-ink/40 pt-2 flex flex-col gap-1">
                 <h3 className="font-display font-bold text-lg text-ink">{template.title}</h3>
                 <p className="font-mono text-xs text-ink/75 uppercase">
-                  অনুপাত: {template.aspectRatio} · ১৮০০ × ২৪০০ PX
+                  {createMessages.aspectRatioPrefix} {template.aspectRatio} · 1800 × 2400 PX
                 </p>
               </div>
             </Card>
@@ -396,7 +391,7 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
 
       {/* Footer */}
       <footer className="border-t-2 border-ink bg-paper-hi py-4 text-center text-xs font-body text-ink/70 mt-auto">
-        প্রচারে: Prochar Studio · গোপনীয়তা
+        {commonMessages.footerCopyright}
       </footer>
     </div>
   );
