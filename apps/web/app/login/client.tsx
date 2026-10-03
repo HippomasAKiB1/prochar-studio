@@ -49,9 +49,9 @@ export function LoginForm() {
   return (
     <div className="min-h-screen flex flex-col bg-paper text-ink">
       {/* Header */}
-      <header className="border-b-2 border-ink bg-paper-hi py-4">
+      <header className="border-b-2 border-ink bg-paper-hi py-3">
         <div className="mx-auto max-w-5xl px-4 flex justify-center sm:justify-start">
-          <Link href="/" className="inline-flex items-center focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard">
+          <Link href="/" className="inline-flex items-center min-h-12 py-2 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard">
             <Wordmark />
           </Link>
         </div>
@@ -94,7 +94,7 @@ export function LoginForm() {
           <div className="mt-6 pt-4 border-t border-ink/30 text-center">
             <Link
               href={`/register${nextUrl !== "/templates" ? `?next=${encodeURIComponent(nextUrl)}` : ""}`}
-              className="font-body text-sm font-semibold text-ink hover:text-press-red underline focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-mustard"
+              className="inline-flex items-center justify-center min-h-12 py-2 font-body text-sm font-semibold text-ink hover:text-press-red underline focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-mustard"
             >
               নতুন অ্যাকাউন্ট? নিবন্ধন করুন
             </Link>

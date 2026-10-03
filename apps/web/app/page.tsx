@@ -16,7 +16,7 @@ export default function HomePage() {
       {/* ─── Header ─── */}
       <header className="border-b-2 border-ink bg-paper-hi">
         <div className="mx-auto max-w-5xl px-4 py-3 sm:py-4 flex items-center justify-between">
-          <Link href="/" className="inline-flex items-center focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard">
+          <Link href="/" className="inline-flex items-center min-h-12 py-2 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard">
             <Wordmark />
           </Link>
           <Link
@@ -175,7 +175,7 @@ export default function HomePage() {
                 <li key={occ.slug}>
                   <Link
                     href={`/templates?occasion=${occ.slug}`}
-                    className="group flex items-center justify-between py-3 px-1 hover:bg-paper-hi focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-mustard"
+                    className="group flex items-center justify-between min-h-12 py-3 px-2 hover:bg-paper-hi focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-mustard"
                   >
                     <span className="font-body font-semibold text-lg text-ink group-hover:text-press-red transition-colors">
                       {occ.label}
