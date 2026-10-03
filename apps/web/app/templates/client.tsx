@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { Card, Chip, EmptyState, Skeleton, Wordmark, Button } from "@/components/ui";
+import { Card, Chip, EmptyState, Skeleton, Button } from "@/components/ui";
+import { AppHeader } from "@/components/layout/AppHeader";
 import { get } from "@/lib/api";
 
 export interface TemplateSummary {
@@ -55,38 +56,25 @@ export function TemplatesGallery() {
 
   return (
     <div className="min-h-screen flex flex-col bg-paper text-ink">
-      {/* Header */}
-      <header className="border-b-2 border-ink bg-paper-hi sticky top-0 z-30">
-        <div className="mx-auto max-w-6xl px-4 py-3 sm:py-4 flex items-center justify-between">
-          <Link
-            href="/"
-            className="inline-flex items-center min-h-12 py-2 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
-          >
-            <Wordmark />
-          </Link>
-          <span className="font-mono text-xs uppercase tracking-wider text-ink/80">
-            গ্যালারি
-          </span>
-        </div>
+      <AppHeader />
 
-        {/* Sticky Chip Bar */}
-        <div className="border-t-2 border-ink bg-paper py-3 px-4 overflow-x-auto">
-          <div className="mx-auto max-w-6xl flex items-center gap-2 sm:gap-3 min-w-max">
-            {OCCASIONS.map((occ) => {
-              const isSelected = currentOccasion === occ.slug;
-              return (
-                <Chip
-                  key={occ.slug || "all"}
-                  selected={isSelected}
-                  onClick={() => handleSelectOccasion(occ.slug)}
-                >
-                  {occ.label}
-                </Chip>
-              );
-            })}
-          </div>
+      {/* Sticky Chip Bar */}
+      <div className="border-b-2 border-ink bg-paper py-3 px-4 sticky top-[65px] z-20 overflow-x-auto shadow-hard">
+        <div className="mx-auto max-w-6xl flex items-center gap-2 sm:gap-3 min-w-max">
+          {OCCASIONS.map((occ) => {
+            const isSelected = currentOccasion === occ.slug;
+            return (
+              <Chip
+                key={occ.slug || "all"}
+                selected={isSelected}
+                onClick={() => handleSelectOccasion(occ.slug)}
+              >
+                {occ.label}
+              </Chip>
+            );
+          })}
         </div>
-      </header>
+      </div>
 
       {/* Main Content */}
       <main className="flex-1 mx-auto w-full max-w-6xl px-4 py-8">

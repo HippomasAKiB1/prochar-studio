@@ -2,20 +2,19 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, Eye, DownloadSimple, Trash, SignOut } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, ArrowRight, Eye, DownloadSimple, Trash } from "@phosphor-icons/react/dist/ssr";
 import {
   Button,
   Card,
   EmptyState,
   Skeleton,
   Stamp,
-  Wordmark,
   useToast,
   useConfirm,
 } from "@/components/ui";
-import { get, del, post, ApiError } from "@/lib/api";
+import { AppHeader } from "@/components/layout/AppHeader";
+import { get, del, ApiError } from "@/lib/api";
 import { toBanglaNumber, formatBanglaDate } from "@/lib/format";
 
 export interface PosterListItem {
@@ -48,12 +47,10 @@ interface UserProfile {
 }
 
 export function PostersHistoryView() {
-  const router = useRouter();
   const toast = useToast();
   const confirm = useConfirm();
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
-  const [loggingOut, setLoggingOut] = useState(false);
 
   // 1. Current user
   const { data: authData } = useQuery<UserProfile>({
@@ -63,7 +60,6 @@ export function PostersHistoryView() {
   });
 
   const userId = authData?.user?.id;
-  const userIdentifier = authData?.user?.email || authData?.user?.phone || authData?.user?.name || "";
 
   // 2. Posters query
   const {
@@ -77,20 +73,6 @@ export function PostersHistoryView() {
     enabled: !!userId,
     staleTime: 10_000,
   });
-
-  // Logout handler
-  const handleLogout = async () => {
-    setLoggingOut(true);
-    try {
-      await post("/api/auth/logout", {});
-      queryClient.clear();
-      router.push("/");
-      router.refresh();
-    } catch {
-      setLoggingOut(false);
-      toast("লগআউট করতে সমস্যা হয়েছে।", "error");
-    }
-  };
 
   // Delete handler with confirm dialog and optimistic removal
   const handleDelete = async (posterId: string, status: string) => {
@@ -144,44 +126,7 @@ export function PostersHistoryView() {
 
   return (
     <div className="min-h-screen flex flex-col bg-paper text-ink">
-      {/* Header */}
-      <header className="border-b-2 border-ink bg-paper-hi sticky top-0 z-30 py-3 sm:py-4">
-        <div className="mx-auto max-w-6xl px-4 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <Link
-              href="/templates"
-              className="inline-flex items-center min-h-12 py-2 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
-            >
-              <Wordmark />
-            </Link>
-          </div>
-
-          <div className="flex items-center gap-3 sm:gap-6">
-            {userIdentifier && (
-              <span className="hidden sm:inline font-mono text-xs text-ink/75 truncate max-w-[200px]">
-                {userIdentifier}
-              </span>
-            )}
-            <Link
-              href="/templates"
-              className="inline-flex items-center gap-1 min-h-12 py-2 font-body font-semibold text-ink hover:text-press-red focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
-            >
-              <ArrowLeft size={16} weight="bold" />
-              <span>নতুন পোস্টার</span>
-            </Link>
-            <button
-              type="button"
-              onClick={handleLogout}
-              disabled={loggingOut}
-              aria-label="লগআউট"
-              className="inline-flex items-center gap-1 min-h-12 py-2 px-3 border border-ink rounded bg-paper hover:bg-lime-wash font-body text-sm font-semibold text-ink transition-[transform,box-shadow] duration-[80ms] active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
-            >
-              <SignOut size={16} weight="bold" />
-              <span className="hidden xs:inline">লগআউট</span>
-            </button>
-          </div>
-        </div>
-      </header>
+      <AppHeader />
 
       {/* Main Container */}
       <main className="flex-1 mx-auto w-full max-w-6xl px-4 py-8">

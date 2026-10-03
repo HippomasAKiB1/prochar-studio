@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { ArrowLeft, CaretDown, CaretUp, DownloadSimple } from "@phosphor-icons/react/dist/ssr";
-import { Button, Card, EmptyState, Input, Skeleton, Textarea, Stamp, Stepper, Wordmark, useToast } from "@/components/ui";
+import { Button, Card, EmptyState, Input, Skeleton, Textarea, Stamp, Stepper, useToast } from "@/components/ui";
+import { AppHeader } from "@/components/layout/AppHeader";
 import { get, post, ApiError } from "@/lib/api";
 import { toBanglaNumber } from "@/lib/format";
 
@@ -189,21 +190,23 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-paper text-ink">
-      {/* Header */}
-      <header className="border-b-2 border-ink bg-paper-hi py-3 sm:py-4">
-        <div className="mx-auto max-w-5xl px-4 flex items-center justify-between">
+      <AppHeader />
+
+      {/* Sub Header / Breadcrumb */}
+      <div className="border-b-2 border-ink bg-paper py-2 px-4">
+        <div className="mx-auto max-w-5xl flex items-center justify-between">
           <Link
             href="/templates"
-            className="inline-flex items-center gap-2 min-h-12 py-2 font-body font-semibold text-ink hover:text-press-red focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard"
+            className="inline-flex items-center gap-2 min-h-12 py-2 font-body font-semibold text-ink hover:text-press-red focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
           >
             <ArrowLeft size={18} weight="bold" />
             <span>গ্যালারিতে ফিরুন</span>
           </Link>
-          <Link href="/" className="inline-flex items-center">
-            <Wordmark />
-          </Link>
+          <span className="font-mono text-xs uppercase tracking-wider text-ink/75">
+            পোস্টার প্রস্তুতি
+          </span>
         </div>
-      </header>
+      </div>
 
       {/* Main Content Area */}
       <main className="flex-1 mx-auto w-full max-w-5xl px-4 py-8">

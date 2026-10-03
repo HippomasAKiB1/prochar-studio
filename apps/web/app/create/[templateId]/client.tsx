@@ -9,7 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import { PosterFormDataSchema } from "@prochar/shared";
-import { Button, Input, Textarea, Card, EmptyState, Skeleton, Wordmark, useToast } from "@/components/ui";
+import { Button, Input, Textarea, Card, EmptyState, Skeleton, useToast } from "@/components/ui";
+import { AppHeader } from "@/components/layout/AppHeader";
 import { PhotoUploader, type UploadedPhoto } from "@/components/poster/PhotoUploader";
 import { get, post, ApiError } from "@/lib/api";
 
@@ -168,9 +169,11 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-paper text-ink">
-      {/* Header */}
-      <header className="border-b-2 border-ink bg-paper-hi sticky top-0 z-30 py-3 sm:py-4">
-        <div className="mx-auto max-w-6xl px-4 flex items-center justify-between">
+      <AppHeader />
+
+      {/* Sub Header / Breadcrumb */}
+      <div className="border-b-2 border-ink bg-paper py-2 px-4">
+        <div className="mx-auto max-w-6xl flex items-center justify-between">
           <Link
             href="/templates"
             className="inline-flex items-center gap-2 min-h-12 py-2 font-body font-semibold text-ink hover:text-press-red focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
@@ -178,19 +181,11 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
             <ArrowLeft size={18} weight="bold" />
             <span>টেমপ্লেট বদলান</span>
           </Link>
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-xs uppercase tracking-wider text-ink/75">
-              TEMPLATE № {template.slug.toUpperCase().slice(0, 8)}
-            </span>
-            <Link
-              href="/"
-              className="inline-flex items-center min-h-12 py-2 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
-            >
-              <Wordmark />
-            </Link>
-          </div>
+          <span className="font-mono text-xs uppercase tracking-wider text-ink/75">
+            TEMPLATE № {template.slug.toUpperCase().slice(0, 8)}
+          </span>
         </div>
-      </header>
+      </div>
 
       {/* Main Container */}
       <main className="flex-1 mx-auto w-full max-w-6xl px-4 py-8">
