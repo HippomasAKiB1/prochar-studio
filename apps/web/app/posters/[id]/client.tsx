@@ -210,6 +210,20 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
 
       {/* Main Content Area */}
       <main className="flex-1 mx-auto w-full max-w-5xl px-4 py-8">
+        {/* Double-ruled Title */}
+        <div className="border-y-4 border-double border-ink py-2 text-center mb-6">
+          <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-ink">
+            {poster.status === "completed"
+              ? "পোস্টার প্রস্তুত"
+              : poster.status === "failed" || isTimedOut
+              ? "পোস্টার তৈরিতে ত্রুটি"
+              : "পোস্টার তৈরি হচ্ছে"}
+          </h1>
+          <p className="font-body text-xs sm:text-sm text-ink/75 mt-0.5">
+            {poster.formData?.headline || "প্রচার পোস্টার"}
+          </p>
+        </div>
+
         <div
           ref={statusContainerRef}
           tabIndex={-1}
