@@ -173,7 +173,7 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
         <div className="mx-auto max-w-6xl px-4 flex items-center justify-between">
           <Link
             href="/templates"
-            className="inline-flex items-center gap-2 min-h-12 py-2 font-body font-semibold text-ink hover:text-press-red focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard"
+            className="inline-flex items-center gap-2 min-h-12 py-2 font-body font-semibold text-ink hover:text-press-red focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
           >
             <ArrowLeft size={18} weight="bold" />
             <span>টেমপ্লেট বদলান</span>
@@ -182,7 +182,10 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
             <span className="font-mono text-xs uppercase tracking-wider text-ink/75">
               TEMPLATE № {template.slug.toUpperCase().slice(0, 8)}
             </span>
-            <Link href="/" className="inline-flex items-center">
+            <Link
+              href="/"
+              className="inline-flex items-center min-h-12 py-2 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+            >
               <Wordmark />
             </Link>
           </div>
@@ -326,7 +329,7 @@ export function CreatePosterForm({ templateId }: { templateId: string }) {
                         type="checkbox"
                         checked={field.value === true}
                         onChange={(e) => field.onChange(e.target.checked ? true : undefined)}
-                        className="mt-1 h-5 w-5 border-2 border-ink rounded bg-paper checked:bg-press-red text-paper-hi focus:ring-mustard"
+                        className="mt-1 h-5 w-5 border-2 border-ink rounded bg-paper checked:bg-press-red text-paper-hi focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink cursor-pointer"
                       />
                     )}
                   />

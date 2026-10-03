@@ -327,7 +327,7 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
                     <a
                       href={`/api/posters/${poster.id}/download?format=png`}
                       download
-                      className="flex-1 inline-flex items-center justify-center gap-2 min-h-12 px-6 font-body font-bold text-paper-hi bg-press-red border-2 border-ink rounded shadow-hard transition-[transform,box-shadow] duration-[80ms] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard"
+                      className="flex-1 inline-flex items-center justify-center gap-2 min-h-12 px-6 font-body font-bold text-paper-hi bg-press-red border-2 border-ink rounded shadow-hard transition-[transform,box-shadow] duration-[80ms] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                     >
                       <DownloadSimple size={20} weight="bold" />
                       <span>PNG ডাউনলোড</span>
@@ -350,7 +350,7 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
                   <button
                     type="button"
                     onClick={() => setAccordionOpen((prev) => !prev)}
-                    className="w-full flex items-center justify-between font-display font-bold text-lg text-ink focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-mustard"
+                    className="w-full flex items-center justify-between min-h-12 font-display font-bold text-lg text-ink focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                   >
                     <span>লেখা বদলান</span>
                     {accordionOpen ? <CaretUp size={20} weight="bold" /> : <CaretDown size={20} weight="bold" />}
