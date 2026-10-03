@@ -95,4 +95,35 @@ body::before {
     background-image: radial-gradient(rgba(27, 26, 23, 0.12) 1.5px, transparent 1.6px);
     background-size: 10px 10px;
   }
+
+  /* Press roller sweep animation */
+  @keyframes roller-sweep {
+    0% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(350%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  .animate-roller {
+    animation: roller-sweep 2.4s ease-in-out infinite;
+  }
+
+  /* Stamp landing animation (scale 1.15 -> 1 with -3deg rotation in 180ms) */
+  @keyframes stamp-land {
+    0% {
+      transform: scale(1.15) rotate(-3deg);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1) rotate(-3deg);
+      opacity: 1;
+    }
+  }
+  .animate-stamp-land {
+    animation: stamp-land 180ms ease-out both;
+  }
 }
