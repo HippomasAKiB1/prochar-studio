@@ -15,3 +15,5 @@ Thumbs.db
 *.tsbuildinfo
 .samples/
 apps/api/.samples/
+apps/web/.screenshots/
+next-env.d.ts
