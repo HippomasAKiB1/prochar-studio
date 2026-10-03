@@ -164,13 +164,13 @@ export function PhotoUploader({
                   type="button"
                   onClick={() => handleRemove(idx)}
                   aria-label={`ছবি ${toBanglaNumber(idx + 1)} মুছুন`}
-                  className="absolute top-1 right-1 z-10 w-6 h-6 border-2 border-ink rounded bg-press-red text-paper-hi flex items-center justify-center hover:bg-press-red-deep focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-mustard"
+                  className="absolute top-1 right-1 z-10 w-8 h-8 border-2 border-ink rounded bg-press-red text-paper-hi flex items-center justify-center hover:bg-press-red-deep transition-[transform,box-shadow] duration-[80ms] active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                 >
-                  <X size={14} weight="bold" />
+                  <X size={16} weight="bold" />
                 </button>
 
                 {/* Image Thumbnail */}
-                <div className="w-full aspect-[3/4] border border-ink bg-paper overflow-hidden mt-6 mb-2">
+                <div className="w-full aspect-[3/4] border border-ink bg-paper overflow-hidden mt-8 mb-2">
                   <img
                     src={photo.url}
                     alt={`পোস্টারের ছবি ${toBanglaNumber(idx + 1)}`}
@@ -185,18 +185,18 @@ export function PhotoUploader({
                     disabled={idx === 0}
                     onClick={() => handleMove(idx, -1)}
                     aria-label="বামে নিন"
-                    className="flex-1 py-1 flex items-center justify-center border border-ink rounded text-ink bg-paper hover:bg-lime-wash disabled:opacity-30 disabled:pointer-events-none"
+                    className="flex-1 min-h-12 py-1 flex items-center justify-center border border-ink rounded text-ink bg-paper hover:bg-lime-wash disabled:opacity-30 disabled:pointer-events-none transition-[transform,box-shadow] duration-[80ms] active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                   >
-                    <ArrowLeft size={14} weight="bold" />
+                    <ArrowLeft size={16} weight="bold" />
                   </button>
                   <button
                     type="button"
                     disabled={idx === photos.length - 1}
                     onClick={() => handleMove(idx, 1)}
                     aria-label="ডানে নিন"
-                    className="flex-1 py-1 flex items-center justify-center border border-ink rounded text-ink bg-paper hover:bg-lime-wash disabled:opacity-30 disabled:pointer-events-none"
+                    className="flex-1 min-h-12 py-1 flex items-center justify-center border border-ink rounded text-ink bg-paper hover:bg-lime-wash disabled:opacity-30 disabled:pointer-events-none transition-[transform,box-shadow] duration-[80ms] active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                   >
-                    <ArrowRight size={14} weight="bold" />
+                    <ArrowRight size={16} weight="bold" />
                   </button>
                 </div>
               </div>
