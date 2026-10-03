@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { logger } from "../../config/logger.js";
 
 export interface FontFamilyRequest {
   family: string;
@@ -16,24 +17,27 @@ const FAMILY_MAP: Record<string, string> = {
 // In-memory cache for generated @font-face CSS
 const fontCssCache = new Map<string, string>();
 
+let fontsRootLogged = false;
+
 /**
- * Finds the directory path for an installed @fontsource package.
+ * Resolves the directory of an installed @fontsource package deterministically via Node module
+ * resolution (never process.cwd(), which differs between the seed script and the server).
  */
-function resolveFontsourcePackageDir(packageId: string): string {
-  const possiblePaths = [
-    path.resolve(process.cwd(), "node_modules/@fontsource", packageId),
-    path.resolve(process.cwd(), "apps/api/node_modules/@fontsource", packageId),
-    path.resolve(process.cwd(), "../../node_modules/@fontsource", packageId),
-  ];
-
-  for (const p of possiblePaths) {
-    if (fs.existsSync(p)) {
-      return p;
-    }
+function resolveFontsourcePackageDir(family: string, packageId: string, weight: number): string {
+  let cssPath: string;
+  try {
+    cssPath = require.resolve(`@fontsource/${packageId}/${weight}.css`);
+  } catch {
+    throw new Error(
+      `FONT_ASSET_MISSING: ${family} ${weight} (@fontsource/${packageId}/${weight}.css not resolvable)`
+    );
   }
-
-  // Fallback to the first path if none exist (will trigger FONT_ASSET_MISSING on file read)
-  return possiblePaths[0];
+  const dir = path.dirname(cssPath);
+  if (!fontsRootLogged) {
+    fontsRootLogged = true;
+    logger.debug({ fontsRoot: dir }, "fonts root resolved");
+  }
+  return dir;
 }
 
 /**
@@ -64,7 +68,7 @@ export function getFontFaceCss(families: FontFamilyRequest[]): string {
       throw new Error(`FONT_ASSET_MISSING: ${family} ${weight} (unknown font family '${family}')`);
     }
 
-    const packageDir = resolveFontsourcePackageDir(packageId);
+    const packageDir = resolveFontsourcePackageDir(family, packageId, weight);
     const cssPath = path.join(packageDir, `${weight}.css`);
 
     if (!fs.existsSync(cssPath)) {

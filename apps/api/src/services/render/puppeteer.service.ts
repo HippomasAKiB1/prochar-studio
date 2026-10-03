@@ -129,11 +129,25 @@ export async function renderHtmlToPng(
     }
     const fontsToVerify = fontsToCheck;
 
-    for (const f of fontsToVerify) {
-      const fontSpec = `${f.weight} 36px '${f.family}'`;
-      const ok = await page.evaluate((spec) => document.fonts.check(spec), fontSpec);
+    // @font-face unicode-range subsets load lazily, and document.fonts.check(spec) tests the default
+    // text " " (Latin range) - so an all-Bangla poster never loads the Latin subset and the bare check
+    // fails. Explicitly load every face with probe text spanning both subsets, then check with it.
+    const PROBE_TEXT = "ক A0";
+    const fontSpecs = fontsToVerify.map((f) => `${f.weight} 36px '${f.family}'`);
+
+    await page.evaluate(() => document.fonts.ready);
+    await page.evaluate(
+      async (specs, text) => {
+        await Promise.all(specs.map((s) => document.fonts.load(s, text).catch(() => null)));
+      },
+      fontSpecs,
+      PROBE_TEXT
+    );
+
+    for (const spec of fontSpecs) {
+      const ok = await page.evaluate((s, text) => document.fonts.check(s, text), spec, PROBE_TEXT);
       if (!ok) {
-        throw new Error(`FONT_LOAD_FAILED: ${f.family} ${f.weight}`);
+        throw new Error(`FONT_LOAD_FAILED: ${spec}`);
       }
     }
 
