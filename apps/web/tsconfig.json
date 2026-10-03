@@ -9,10 +9,14 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    "incremental": true,
+    "declaration": false,
+    "declarationMap": false,
+    "plugins": [{ "name": "next" }],
     "paths": {
-      "@/*": ["./src/*"],
-      "@prochar/shared": ["../../packages/shared/src/index.ts"]
+      "@/*": ["./*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["next-env.d.ts", "app/**/*", "components/**/*", "lib/**/*", "middleware.ts", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

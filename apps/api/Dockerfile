@@ -9,6 +9,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY packages/shared/package*.json ./packages/shared/
 COPY apps/api/package*.json ./apps/api/
+COPY apps/web/package*.json ./apps/web/
 
 # Install all dependencies (including devDependencies for build)
 RUN npm ci
@@ -33,6 +34,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY packages/shared/package*.json ./packages/shared/
 COPY apps/api/package*.json ./apps/api/
+COPY apps/web/package*.json ./apps/web/
 
 # Install production dependencies only (preserves workspace layout)
 ARG CACHEBUST
