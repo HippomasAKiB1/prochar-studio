@@ -5,33 +5,14 @@ import Link from "next/link";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { ArrowLeft, CaretDown, CaretUp, DownloadSimple } from "@phosphor-icons/react/dist/ssr";
+import type { PosterDetailResponse, RegeneratePosterRequest } from "@prochar/shared";
 import { Button, Card, EmptyState, Input, Skeleton, Textarea, Stamp, Stepper, useToast } from "@/components/ui";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { get, post, ApiError } from "@/lib/api";
 import { toBanglaNumber } from "@/lib/format";
 import { posterProgressMessages, navMessages, createMessages, commonMessages } from "@/messages/bn";
 
-export interface PosterDetail {
-  id: string;
-  status: "queued" | "generating" | "completed" | "failed";
-  stage?: "queued" | "photos" | "layout" | "rendering" | "saving" | "done";
-  generatedImageUrl?: string;
-  formData: {
-    name: string;
-    designation: string;
-    partyOrOrganization: string;
-    union?: string;
-    thana?: string;
-    district: string;
-    occasionType: string;
-    headline: string;
-    subtext?: string;
-    creditLine?: string;
-  };
-  retriesLeft: number;
-  aiAssisted?: boolean;
-  error?: { code: string; message: string };
-}
+export type PosterDetail = PosterDetailResponse;
 
 interface RegenerateFormValues {
   headline: string;
@@ -123,14 +104,15 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
   const onRegenerateSubmit = async (values: RegenerateFormValues) => {
     if (!poster || poster.retriesLeft <= 0) return;
     setRegenerating(true);
+    const body: RegeneratePosterRequest = {
+      formData: {
+        headline: values.headline,
+        subtext: values.subtext || undefined,
+        creditLine: values.creditLine || undefined,
+      },
+    };
     try {
-      await post(`/api/posters/${posterId}/regenerate`, {
-        formData: {
-          headline: values.headline,
-          subtext: values.subtext || undefined,
-          creditLine: values.creditLine || undefined,
-        },
-      });
+      await post(`/api/posters/${posterId}/regenerate`, body);
       toast(posterProgressMessages.regenerateStartedToast, "success");
       setElapsed(0);
       setAccordionOpen(false);
@@ -149,8 +131,9 @@ export function PosterProgressView({ posterId }: { posterId: string }) {
   const handleRetryFailed = async () => {
     // Note: until Phase 8 backend refinement, this calls regenerate directly (costs a retry)
     setRegenerating(true);
+    const body: RegeneratePosterRequest = {};
     try {
-      await post(`/api/posters/${posterId}/regenerate`, {});
+      await post(`/api/posters/${posterId}/regenerate`, body);
       toast(posterProgressMessages.retryStartedToast, "success");
       setElapsed(0);
       await queryClient.invalidateQueries({ queryKey: ["poster", posterId] });
