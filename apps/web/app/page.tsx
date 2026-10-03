@@ -31,22 +31,15 @@ export default function HomePage() {
       <main className="flex-1 mx-auto w-full max-w-5xl px-4 py-8 sm:py-12 flex flex-col gap-12 sm:gap-16">
         {/* ─── Hero Section ─── */}
         <section className="flex flex-col items-start gap-6 pt-2 sm:pt-4">
-          {/* Misregistration Headline: ink layer over press-red offset by 2px */}
-          <div className="relative select-none">
-            <span
-              aria-hidden="true"
-              className="absolute top-[2px] left-[2px] text-press-red font-display font-extrabold text-3xl sm:text-5xl md:text-6xl leading-[1.15]"
-            >
-              আপনার প্রচার,
-              <br />
-              আপনার পোস্টার
-            </span>
-            <h1 className="relative text-ink font-display font-extrabold text-3xl sm:text-5xl md:text-6xl leading-[1.15]">
-              আপনার প্রচার,
-              <br />
-              আপনার পোস্টার
-            </h1>
-          </div>
+          {/* Misregistration Headline: ink layer with 2px press-red text-shadow */}
+          <h1
+            className="text-ink font-display font-extrabold text-3xl sm:text-5xl md:text-6xl leading-[1.15] select-none"
+            style={{ textShadow: "2px 2px 0 var(--press-red)" }}
+          >
+            আপনার প্রচার,
+            <br />
+            আপনার পোস্টার
+          </h1>
 
           <p className="font-body text-lg sm:text-xl text-ink max-w-prose leading-relaxed">
             ছবি দিন, নাম লিখুন — ছাপার উপযোগী পোস্টার পান কয়েক মিনিটে।
