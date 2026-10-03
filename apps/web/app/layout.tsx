@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Anek_Bangla, Hind_Siliguri, Archivo, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 
 // next/font self-hosts these at build time; nothing is fetched from Google at runtime.
 // Only the display + body faces are preloaded.
@@ -47,7 +48,9 @@ const FONT_VARS = [anek.variable, hind.variable, archivo.variable, plexMono.vari
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="bn" className={FONT_VARS}>
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
