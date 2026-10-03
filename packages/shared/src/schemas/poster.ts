@@ -113,3 +113,21 @@ export const RegeneratePosterRequestSchema = z.object({
 });
 
 export type RegeneratePosterRequest = z.infer<typeof RegeneratePosterRequestSchema>;
+
+export const PosterDetailResponseSchema = z.object({
+  id: z.string(),
+  status: z.enum(["queued", "generating", "completed", "failed"]),
+  stage: z.enum(["queued", "photos", "layout", "rendering", "saving", "done"]).optional(),
+  generatedImageUrl: z.string().optional(),
+  formData: PosterFormDataSchema,
+  retriesLeft: z.number().int().min(0),
+  aiAssisted: z.boolean().optional(),
+  error: z
+    .object({
+      code: z.string(),
+      message: z.string(),
+    })
+    .optional(),
+});
+
+export type PosterDetailResponse = z.infer<typeof PosterDetailResponseSchema>;
