@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, ArrowRight, Eye, DownloadSimple, Trash } from "@phosphor-icons/react/dist/ssr";
 import {
@@ -216,11 +217,14 @@ export function PostersHistoryView() {
                         </div>
 
                         {poster.generatedImageUrl ? (
-                          <img
+                          <Image
                             src={poster.generatedImageUrl}
                             alt={poster.headline || postersHistoryMessages.fallbackThumbnail}
-                            className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-100"
+                            fill
+                            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                            className="object-cover group-hover:scale-[1.02] transition-transform duration-100"
                             loading="lazy"
+                            unoptimized={poster.generatedImageUrl.startsWith("/api/storage")}
                           />
                         ) : (
                           <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center bg-paper halftone">
