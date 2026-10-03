@@ -1,10 +1,11 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { TemplatesGallery } from "./client";
+import { metaMessages, commonMessages } from "@/messages/bn";
 
 export const metadata: Metadata = {
-  title: "পোস্টার টেমপ্লেট — Prochar Studio",
-  description: "প্রচার পোস্টারের জন্য টেমপ্লেট বেছে নিন।",
+  title: metaMessages.templatesTitle,
+  description: metaMessages.templatesDesc,
 };
 
 export default function TemplatesPage() {
@@ -12,7 +13,7 @@ export default function TemplatesPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-paper text-ink font-body">
-          লোড হচ্ছে...
+          {commonMessages.loading}
         </div>
       }
     >

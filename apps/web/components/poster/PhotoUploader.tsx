@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { UploadSimple, X, ArrowLeft, ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { Spinner, useToast } from "@/components/ui";
 import { toBanglaNumber } from "@/lib/format";
+import { uploaderMessages } from "@/messages/bn";
 
 export interface UploadedPhoto {
   url: string;
@@ -36,7 +37,7 @@ export function PhotoUploader({
 
     const remainingSlots = maxFiles - photos.length;
     if (remainingSlots <= 0) {
-      toast(`সর্বোচ্চ ${toBanglaNumber(maxFiles)}টি ছবি যোগ করা যাবে।`, "error");
+      toast(uploaderMessages.maxFilesLimit(toBanglaNumber(maxFiles)), "error");
       return;
     }
 
@@ -45,11 +46,11 @@ export function PhotoUploader({
     // Validate size & type
     for (const f of filesToUpload) {
       if (!["image/jpeg", "image/png", "image/webp"].includes(f.type)) {
-        toast(`"${f.name}" ফাইলটি সমর্থিত নয়। কেবল JPEG, PNG বা WebP দিন।`, "error");
+        toast(uploaderMessages.unsupportedFile(f.name), "error");
         return;
       }
       if (f.size > MAX_SIZE) {
-        toast(`"${f.name}" ফাইলটির আকার ৫MB এর বেশি।`, "error");
+        toast(uploaderMessages.fileTooLarge(f.name), "error");
         return;
       }
     }
@@ -69,7 +70,7 @@ export function PhotoUploader({
 
       if (!res.ok) {
         const errJson = await res.json().catch(() => null);
-        const msg = errJson?.message || "ছবি আপলোড করতে ব্যর্থ হয়েছে।";
+        const msg = errJson?.message || uploaderMessages.networkError;
         toast(msg, "error");
         return;
       }
@@ -78,10 +79,10 @@ export function PhotoUploader({
       if (data.photos && Array.isArray(data.photos)) {
         const newPhotos = [...photos, ...data.photos].slice(0, maxFiles);
         onChange(newPhotos);
-        toast("ছবি সফলভাবে আপলোড হয়েছে", "success");
+        toast(uploaderMessages.uploadSuccess, "success");
       }
     } catch {
-      toast("নেটওয়ার্ক সমস্যার কারণে ছবি আপলোড করা যায়নি।", "error");
+      toast(uploaderMessages.networkError, "error");
     } finally {
       setUploading(false);
       if (fileInputRef.current) {
@@ -128,17 +129,17 @@ export function PhotoUploader({
         >
           {uploading ? (
             <div className="flex flex-col items-center gap-2">
-              <Spinner label="আপলোড হচ্ছে..." />
-              <span className="font-body text-sm font-semibold text-ink">ছবি আপলোড হচ্ছে...</span>
+              <Spinner label={uploaderMessages.uploading} />
+              <span className="font-body text-sm font-semibold text-ink">{uploaderMessages.uploading}</span>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2 text-center">
               <div className="w-10 h-10 border-2 border-ink rounded flex items-center justify-center bg-paper text-ink">
                 <UploadSimple size={22} weight="bold" />
               </div>
-              <span className="font-display font-bold text-lg text-ink">+ ছবি দিন</span>
+              <span className="font-display font-bold text-lg text-ink">{uploaderMessages.addPhoto}</span>
               <span className="font-body text-xs text-ink/75">
-                সর্বোচ্চ ৩টি JPEG/PNG/WebP, প্রতিটি ৫MB পর্যন্ত
+                {uploaderMessages.formatHint}
               </span>
             </div>
           )}
@@ -163,7 +164,7 @@ export function PhotoUploader({
                 <button
                   type="button"
                   onClick={() => handleRemove(idx)}
-                  aria-label={`ছবি ${toBanglaNumber(idx + 1)} মুছুন`}
+                  aria-label={uploaderMessages.deletePhotoN(toBanglaNumber(idx + 1))}
                   className="absolute top-1 right-1 z-10 w-8 h-8 border-2 border-ink rounded bg-press-red text-paper-hi flex items-center justify-center hover:bg-press-red-deep transition-[transform,box-shadow] duration-[80ms] active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                 >
                   <X size={16} weight="bold" />
@@ -173,7 +174,7 @@ export function PhotoUploader({
                 <div className="w-full aspect-[3/4] border border-ink bg-paper overflow-hidden mt-8 mb-2">
                   <img
                     src={photo.url}
-                    alt={`পোস্টারের ছবি ${toBanglaNumber(idx + 1)}`}
+                    alt={uploaderMessages.photoAlt(toBanglaNumber(idx + 1))}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -184,7 +185,7 @@ export function PhotoUploader({
                     type="button"
                     disabled={idx === 0}
                     onClick={() => handleMove(idx, -1)}
-                    aria-label="বামে নিন"
+                    aria-label={uploaderMessages.moveLeft}
                     className="flex-1 min-h-12 py-1 flex items-center justify-center border border-ink rounded text-ink bg-paper hover:bg-lime-wash disabled:opacity-30 disabled:pointer-events-none transition-[transform,box-shadow] duration-[80ms] active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                   >
                     <ArrowLeft size={16} weight="bold" />
@@ -193,7 +194,7 @@ export function PhotoUploader({
                     type="button"
                     disabled={idx === photos.length - 1}
                     onClick={() => handleMove(idx, 1)}
-                    aria-label="ডানে নিন"
+                    aria-label={uploaderMessages.moveRight}
                     className="flex-1 min-h-12 py-1 flex items-center justify-center border border-ink rounded text-ink bg-paper hover:bg-lime-wash disabled:opacity-30 disabled:pointer-events-none transition-[transform,box-shadow] duration-[80ms] active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                   >
                     <ArrowRight size={16} weight="bold" />
@@ -211,11 +212,11 @@ export function PhotoUploader({
                 className="border-2 border-dashed border-ink rounded bg-paper-hi hover:bg-paper flex flex-col items-center justify-center p-4 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-mustard min-h-[140px]"
               >
                 {uploading ? (
-                  <Spinner label="আপলোড হচ্ছে..." />
+                  <Spinner label={uploaderMessages.uploading} />
                 ) : (
                   <div className="flex flex-col items-center gap-1 text-center">
                     <span className="font-display font-extrabold text-2xl text-ink">+</span>
-                    <span className="font-body text-xs font-semibold text-ink">আরও ছবি</span>
+                    <span className="font-body text-xs font-semibold text-ink">{uploaderMessages.addMore}</span>
                   </div>
                 )}
               </button>

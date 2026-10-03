@@ -1,3 +1,5 @@
+import { commonMessages } from "@/messages/bn";
+
 /** Registration crosshair: circle + cross. */
 function Crosshair() {
   return (
@@ -8,12 +10,12 @@ function Crosshair() {
   );
 }
 
-/** Brand mark: "প্রচার" + registration crosshair + "STUDIO" (Archivo wide). */
+/** Brand mark: Wordmark + registration crosshair + "STUDIO" (Archivo wide). */
 export function Wordmark() {
   return (
-    <span className="inline-flex items-center gap-2 text-ink" aria-label="প্রচার স্টুডিও">
+    <span className="inline-flex items-center gap-2 text-ink" aria-label={commonMessages.appBrandLabel}>
       <span aria-hidden="true" className="font-display text-2xl font-extrabold leading-none">
-        প্রচার
+        {commonMessages.appName}
       </span>
       <Crosshair />
       <span
@@ -21,7 +23,7 @@ export function Wordmark() {
         className="font-display-en text-lg font-extrabold uppercase leading-none tracking-wide"
         style={{ fontVariationSettings: '"wdth" 125' }}
       >
-        Studio
+        {commonMessages.appWordmark}
       </span>
     </span>
   );

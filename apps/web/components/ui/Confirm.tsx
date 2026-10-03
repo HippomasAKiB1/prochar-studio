@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from "react";
 import { Button } from "./Button";
 import { Dialog } from "./Dialog";
+import { commonMessages } from "@/messages/bn";
 
 export interface ConfirmOptions {
   title: string;
@@ -41,10 +42,10 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
         {opts?.message ? <p className="mb-5 font-body">{opts.message}</p> : null}
         <div className="flex flex-col-reverse gap-3 md:flex-row md:justify-end">
           <Button variant="secondary" onClick={() => settle(false)}>
-            {opts?.cancelLabel ?? "বাতিল"}
+            {opts?.cancelLabel ?? commonMessages.cancel}
           </Button>
           <Button variant={opts?.destructive ? "destructive" : "primary"} onClick={() => settle(true)}>
-            {opts?.confirmLabel ?? "নিশ্চিত করুন"}
+            {opts?.confirmLabel ?? commonMessages.confirm}
           </Button>
         </div>
       </Dialog>

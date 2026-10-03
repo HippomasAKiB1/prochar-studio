@@ -9,15 +9,16 @@ import { z } from "zod";
 import { PasswordSchema, normalizeBangladeshiPhone } from "@prochar/shared";
 import { Button, Input, Wordmark, useToast } from "@/components/ui";
 import { post, ApiError } from "@/lib/api";
+import { authMessages, commonMessages } from "@/messages/bn";
 
 const RegisterFormSchema = z.object({
   name: z
     .string()
-    .min(2, { message: "নাম অন্তত ২ অক্ষরের হতে হবে" })
-    .max(60, { message: "নাম সর্বোচ্চ ৬০ অক্ষরের হতে পারে" }),
+    .min(2, { message: authMessages.nameLengthMin })
+    .max(60, { message: authMessages.nameLengthMax }),
   identifier: z
     .string()
-    .min(3, { message: "সঠিক ইমেইল বা ফোন নম্বর দিন" })
+    .min(3, { message: authMessages.identifierInvalid })
     .refine(
       (val) => {
         const trimmed = val.trim();
@@ -25,7 +26,7 @@ const RegisterFormSchema = z.object({
         const isPhone = normalizeBangladeshiPhone(trimmed) !== null;
         return isEmail || isPhone;
       },
-      { message: "সঠিক ইমেইল বা ১১ সংখ্যার বাংলাদেশি মোবাইল নম্বর দিন (যেমন: 01712345678)" }
+      { message: authMessages.identifierBangladeshiPhonePrompt }
     ),
   password: PasswordSchema,
 });
@@ -66,17 +67,17 @@ export function RegisterForm() {
 
     try {
       await post<{ user: unknown }>("/api/auth/register", payload);
-      toast("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে", "success");
+      toast(authMessages.registerSuccessToast, "success");
       router.push(safeNext);
       router.refresh();
     } catch (err: unknown) {
       setLoading(false);
       if (err instanceof ApiError && err.status === 409) {
-        toast("এই ইমেইল বা ফোন নম্বর দিয়ে ইতিমধ্যেই একটি অ্যাকাউন্ট রয়েছে", "error");
+        toast(authMessages.accountConflictToast, "error");
       } else if (err instanceof ApiError && err.message) {
         toast(err.message, "error");
       } else {
-        toast("নিবন্ধন সম্পন্ন করা যায়নি। পুনরায় চেষ্টা করুন।", "error");
+        toast(authMessages.registerErrorToast, "error");
       }
     }
   };
@@ -97,14 +98,14 @@ export function RegisterForm() {
         <div className="w-full max-w-[440px] border-2 border-ink rounded bg-paper-hi p-6 sm:p-8 shadow-hard">
           {/* Double-ruled Title */}
           <div className="border-y-4 border-double border-ink py-2 text-center mb-6">
-            <h1 className="font-display font-extrabold text-3xl text-ink">নিবন্ধন</h1>
+            <h1 className="font-display font-extrabold text-3xl text-ink">{authMessages.registerTitle}</h1>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-5">
             <Input
               id="register-name"
-              label="নাম"
-              helper="আপনার পূর্ণ নাম বাংলায় লিখুন"
+              label={authMessages.nameLabel}
+              helper={authMessages.nameHelperRegister}
               bangla
               autoComplete="name"
               error={errors.name?.message}
@@ -113,8 +114,8 @@ export function RegisterForm() {
 
             <Input
               id="register-identifier"
-              label="ইমেইল বা ফোন"
-              helper="যেকোনো একটি দিলেই হবে"
+              label={authMessages.identifierLabel}
+              helper={authMessages.identifierHelperRegister}
               type="text"
               autoComplete="username"
               error={errors.identifier?.message}
@@ -123,8 +124,8 @@ export function RegisterForm() {
 
             <Input
               id="register-password"
-              label="পাসওয়ার্ড"
-              helper="কমপক্ষে ৮ অক্ষর (অক্ষর ও সংখ্যা মিলিয়ে)"
+              label={authMessages.passwordLabel}
+              helper={authMessages.passwordHelper}
               type="password"
               autoComplete="new-password"
               error={errors.password?.message}
@@ -132,7 +133,7 @@ export function RegisterForm() {
             />
 
             <Button type="submit" size="lg" loading={loading} className="w-full mt-2">
-              নিবন্ধন করুন
+              {authMessages.registerSubmit}
             </Button>
           </form>
 
@@ -142,7 +143,7 @@ export function RegisterForm() {
               href={`/login${nextUrl !== "/templates" ? `?next=${encodeURIComponent(nextUrl)}` : ""}`}
               className="inline-flex items-center justify-center min-h-12 py-2 font-body text-sm font-semibold text-ink hover:text-press-red underline focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-mustard"
             >
-              আগে থেকেই অ্যাকাউন্ট আছে? লগইন করুন
+              {authMessages.switchToLogin}
             </Link>
           </div>
         </div>
@@ -150,7 +151,7 @@ export function RegisterForm() {
 
       {/* Footer */}
       <footer className="border-t-2 border-ink bg-paper-hi py-4 text-center text-xs font-body text-ink/70">
-        প্রচারে: Prochar Studio · গোপনীয়তা
+        {commonMessages.footerCopyright}
       </footer>
     </div>
   );

@@ -1,10 +1,11 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { CreatePosterForm } from "./client";
+import { metaMessages, commonMessages } from "@/messages/bn";
 
 export const metadata: Metadata = {
-  title: "নতুন পোস্টার — Prochar Studio",
-  description: "তথ্য দিন ও পোস্টার তৈরি করুন।",
+  title: metaMessages.createTitle,
+  description: metaMessages.createDesc,
 };
 
 interface PageProps {
@@ -18,7 +19,7 @@ export default function CreatePosterPage({ params }: PageProps) {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-paper text-ink font-body">
-          লোড হচ্ছে...
+          {commonMessages.loading}
         </div>
       }
     >

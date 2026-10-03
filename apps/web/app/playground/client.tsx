@@ -17,6 +17,12 @@ import {
   useConfirm,
   useToast,
 } from "@/components/ui";
+import {
+  commonMessages,
+  templatesMessages,
+  posterProgressMessages,
+  postersHistoryMessages,
+} from "@/messages/bn";
 
 const SECTION = "border-b-2 border-ink py-6 flex flex-col gap-4";
 const H2 = "font-mono text-sm uppercase tracking-wider";
@@ -39,28 +45,28 @@ function Demo() {
       <section className={SECTION}>
         <h2 className={H2}>Buttons</h2>
         <div className="flex flex-wrap gap-4">
-          <Button>প্রাইমারি</Button>
-          <Button variant="secondary">সেকেন্ডারি</Button>
-          <Button variant="destructive">মুছুন</Button>
-          <Button size="lg">বড় বাটন</Button>
-          <Button loading>লোড</Button>
+          <Button>Primary</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="destructive">{postersHistoryMessages.deleteAction}</Button>
+          <Button size="lg">Large</Button>
+          <Button loading>{commonMessages.loading}</Button>
         </div>
       </section>
 
       <section className={SECTION}>
         <h2 className={H2}>Inputs</h2>
-        <Input label="নাম" bangla helper="আপনার পূর্ণ নাম" />
-        <Input label="ইমেইল" type="email" error="সঠিক ইমেইল দিন" />
-        <Textarea label="বার্তা" bangla />
+        <Input label="Name" helper="Full name" />
+        <Input label="Email" type="email" error="Invalid email" />
+        <Textarea label="Message" bangla />
       </section>
 
       <section className={SECTION}>
         <h2 className={H2}>Chip</h2>
         <div className="flex gap-3">
           <Chip selected={chip} onClick={() => setChip((v) => !v)}>
-            বিজয় দিবস
+            {templatesMessages.occasions.victory_day}
           </Chip>
-          <Chip>স্বাধীনতা দিবস</Chip>
+          <Chip>{templatesMessages.occasions.eid_festival}</Chip>
         </div>
       </section>
 
@@ -70,22 +76,22 @@ function Demo() {
           <div className="aspect-[3/4] bg-lime-wash" />
         </Card>
         <div className="flex gap-6">
-          <Stamp variant="ready">প্রস্তুত</Stamp>
-          <Stamp variant="failed">ব্যর্থ</Stamp>
-          <Stamp variant="working">চলছে</Stamp>
+          <Stamp variant="ready">{posterProgressMessages.readyStamp}</Stamp>
+          <Stamp variant="failed">{posterProgressMessages.failedStamp}</Stamp>
+          <Stamp variant="working">{posterProgressMessages.workingStamp}</Stamp>
         </div>
       </section>
 
       <section className={SECTION}>
         <h2 className={H2}>Toast + Dialog</h2>
         <div className="flex flex-wrap gap-4">
-          <Button variant="secondary" onClick={() => toast("সংরক্ষণ হয়েছে", "success")}>
+          <Button variant="secondary" onClick={() => toast("Success", "success")}>
             Success toast
           </Button>
-          <Button variant="secondary" onClick={() => toast("কিছু ভুল হয়েছে", "error")}>
+          <Button variant="secondary" onClick={() => toast("Error", "error")}>
             Error toast
           </Button>
-          <Button variant="secondary" onClick={() => toast("তথ্য", "info")}>
+          <Button variant="secondary" onClick={() => toast("Info", "info")}>
             Info toast
           </Button>
           <Button variant="secondary" onClick={() => setOpen(true)}>
@@ -94,16 +100,20 @@ function Demo() {
           <Button
             variant="destructive"
             onClick={async () => {
-              const ok = await confirm({ title: "মুছে ফেলবেন?", message: "এটি ফেরানো যাবে না।", destructive: true });
-              toast(ok ? "মুছে ফেলা হয়েছে" : "বাতিল", ok ? "success" : "info");
+              const ok = await confirm({
+                title: postersHistoryMessages.deleteConfirmTitle,
+                message: postersHistoryMessages.deleteConfirmMessage,
+                destructive: true,
+              });
+              toast(ok ? postersHistoryMessages.deleteSuccessToast : commonMessages.cancel, ok ? "success" : "info");
             }}
           >
             confirm()
           </Button>
         </div>
-        <Dialog open={open} onClose={() => setOpen(false)} title="ডায়ালগ">
-          <p className="mb-4 font-body">Esc চাপলে বন্ধ হবে।</p>
-          <Button onClick={() => setOpen(false)}>বন্ধ করুন</Button>
+        <Dialog open={open} onClose={() => setOpen(false)} title="Dialog">
+          <p className="mb-4 font-body">Press Esc to close.</p>
+          <Button onClick={() => setOpen(false)}>{commonMessages.cancel}</Button>
         </Dialog>
       </section>
 
@@ -111,8 +121,11 @@ function Demo() {
         <h2 className={H2}>Skeleton, Spinner, Stepper, Empty</h2>
         <Skeleton className="h-8 w-full" />
         <Spinner />
-        <Stepper steps={["ছবি", "তথ্য", "রেন্ডার", "ডাউনলোড"]} current={2} />
-        <EmptyState message="এখনও কোনো পোস্টার নেই" action={<Button>নতুন পোস্টার</Button>} />
+        <Stepper steps={posterProgressMessages.stepperStations as unknown as string[]} current={2} />
+        <EmptyState
+          message={postersHistoryMessages.emptyList}
+          action={<Button>{postersHistoryMessages.createButton}</Button>}
+        />
       </section>
     </main>
   );

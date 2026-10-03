@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Anek_Bangla, Hind_Siliguri, Archivo, IBM_Plex_Mono } from "next/font/google";
+import { metaMessages } from "@/messages/bn";
 import "./globals.css";
 import { Providers } from "./providers";
 
@@ -39,8 +40,8 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Prochar Studio — প্রচার স্টুডিও",
-  description: "ছবি দিন, নাম লিখুন — ছাপার উপযোগী পোস্টার পান কয়েক মিনিটে।",
+  title: metaMessages.rootTitle,
+  description: metaMessages.rootDesc,
 };
 
 const FONT_VARS = [anek.variable, hind.variable, archivo.variable, plexMono.variable].join(" ");

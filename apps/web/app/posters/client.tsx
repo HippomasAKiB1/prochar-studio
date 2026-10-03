@@ -16,6 +16,7 @@ import {
 import { AppHeader } from "@/components/layout/AppHeader";
 import { get, del, ApiError } from "@/lib/api";
 import { toBanglaNumber, formatBanglaDate } from "@/lib/format";
+import { postersHistoryMessages, posterProgressMessages, commonMessages } from "@/messages/bn";
 
 export interface PosterListItem {
   id: string;
@@ -61,7 +62,7 @@ export function PostersHistoryView() {
 
   const userId = authData?.user?.id;
 
-  // 2. Posters query
+  // 2. Posters list with pagination
   const {
     data: postersData,
     isLoading,
@@ -77,15 +78,15 @@ export function PostersHistoryView() {
   // Delete handler with confirm dialog and optimistic removal
   const handleDelete = async (posterId: string, status: string) => {
     if (status === "generating") {
-      toast("পোস্টারটি তৈরি হচ্ছে। এখন মোছা যাবে না।", "error");
+      toast(postersHistoryMessages.cannotDeleteWhileGenerating, "error");
       return;
     }
 
     const confirmed = await confirm({
-      title: "পোস্টার মুছুন",
-      message: "এই পোস্টারটি মুছে ফেলবেন? এটি আর ফিরিয়ে আনা যাবে না।",
-      confirmLabel: "মুছে ফেলুন",
-      cancelLabel: "বাতিল",
+      title: postersHistoryMessages.deleteConfirmTitle,
+      message: postersHistoryMessages.deleteConfirmMessage,
+      confirmLabel: postersHistoryMessages.deleteAction,
+      cancelLabel: commonMessages.cancel,
       destructive: true,
     });
 
@@ -106,7 +107,7 @@ export function PostersHistoryView() {
 
     try {
       await del(`/api/posters/${posterId}`);
-      toast("পোস্টার মুছে ফেলা হয়েছে", "success");
+      toast(postersHistoryMessages.deleteSuccessToast, "success");
       await queryClient.invalidateQueries({ queryKey: ["posters", userId] });
     } catch (err: unknown) {
       // Rollback
@@ -116,7 +117,7 @@ export function PostersHistoryView() {
       if (err instanceof ApiError) {
         toast(err.message, "error");
       } else {
-        toast("কিছু একটা ভুল হয়েছে। একটু পরে আবার চেষ্টা করুন।", "error");
+        toast(postersHistoryMessages.deleteErrorToast, "error");
       }
     }
   };
@@ -133,10 +134,10 @@ export function PostersHistoryView() {
         {/* Double-ruled Title */}
         <div className="border-y-4 border-double border-ink py-2 text-center mb-8">
           <h1 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">
-            আমার পোস্টার
+            {postersHistoryMessages.pageTitle}
           </h1>
           <p className="font-body text-sm text-ink/80 mt-1">
-            আপনার অ্যাকাউন্টে সংরক্ষিত প্রচার পোস্টারসমূহের তালিকা
+            {postersHistoryMessages.pageSubtitle}
           </p>
         </div>
 
@@ -160,10 +161,10 @@ export function PostersHistoryView() {
         {isError && (
           <div className="py-12">
             <EmptyState
-              message="পোস্টার লোড করা যায়নি।"
+              message={postersHistoryMessages.loadError}
               action={
                 <Button variant="secondary" onClick={() => refetch()}>
-                  আবার চেষ্টা করুন
+                  {commonMessages.retry}
                 </Button>
               }
             />
@@ -174,10 +175,10 @@ export function PostersHistoryView() {
         {!isLoading && !isError && posters.length === 0 && (
           <div className="py-12">
             <EmptyState
-              message="এখনো কোনো পোস্টার নেই"
+              message={postersHistoryMessages.emptyList}
               action={
                 <Link href="/templates">
-                  <Button size="lg">পোস্টার তৈরি করুন</Button>
+                  <Button size="lg">{postersHistoryMessages.createButton}</Button>
                 </Link>
               }
             />
@@ -207,24 +208,24 @@ export function PostersHistoryView() {
                       >
                         {/* Status Stamp */}
                         <div className="absolute top-2 right-2 z-10 scale-90">
-                          {poster.status === "completed" && <Stamp variant="ready">প্রস্তুত</Stamp>}
+                          {poster.status === "completed" && <Stamp variant="ready">{posterProgressMessages.readyStamp}</Stamp>}
                           {(poster.status === "generating" || poster.status === "draft") && (
-                            <Stamp variant="working">চলছে</Stamp>
+                            <Stamp variant="working">{posterProgressMessages.workingStamp}</Stamp>
                           )}
-                          {poster.status === "failed" && <Stamp variant="failed">ব্যর্থ</Stamp>}
+                          {poster.status === "failed" && <Stamp variant="failed">{posterProgressMessages.failedStamp}</Stamp>}
                         </div>
 
                         {poster.generatedImageUrl ? (
                           <img
                             src={poster.generatedImageUrl}
-                            alt={poster.headline || "পোস্টার"}
+                            alt={poster.headline || postersHistoryMessages.fallbackThumbnail}
                             className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-100"
                             loading="lazy"
                           />
                         ) : (
                           <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center bg-paper halftone">
                             <span className="font-display font-bold text-sm text-ink">
-                              {poster.status === "generating" ? "ছাপা হচ্ছে..." : "পোস্টার"}
+                              {poster.status === "generating" ? postersHistoryMessages.printingThumbnail : postersHistoryMessages.fallbackThumbnail}
                             </span>
                           </div>
                         )}
@@ -236,7 +237,7 @@ export function PostersHistoryView() {
                           href={`/posters/${poster.id}`}
                           className="font-display font-bold text-sm sm:text-base text-ink hover:text-press-red transition-colors line-clamp-2 focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-mustard"
                         >
-                          {poster.headline || "নামহীন পোস্টার"}
+                          {poster.headline || postersHistoryMessages.untitledPoster}
                         </Link>
                         {formattedDate && (
                           <span className="font-mono text-xs text-ink/70">{formattedDate}</span>
@@ -244,12 +245,12 @@ export function PostersHistoryView() {
                       </div>
                     </div>
 
-                    {/* Action Row: খুলুন · ডাউনলোড · মুছুন */}
+                    {/* Action Row: Open · Download · Delete */}
                     <div className="flex items-center justify-between gap-1 pt-3 mt-3 border-t border-ink/30">
                       <Link
                         href={`/posters/${poster.id}`}
-                        aria-label="পোস্টার খুলুন"
-                        title="খুলুন"
+                        aria-label={postersHistoryMessages.openAction}
+                        title={postersHistoryMessages.openAction}
                         className="flex-1 min-h-10 py-1 inline-flex items-center justify-center border border-ink rounded bg-paper hover:bg-lime-wash text-ink transition-[transform,box-shadow] duration-[80ms] active:scale-95 focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-mustard"
                       >
                         <Eye size={16} weight="bold" />
@@ -259,8 +260,8 @@ export function PostersHistoryView() {
                         <a
                           href={`/api/posters/${poster.id}/download?format=png`}
                           download
-                          aria-label="ডাউনলোড করুন"
-                          title="ডাউনলোড"
+                          aria-label={postersHistoryMessages.downloadAction}
+                          title={postersHistoryMessages.downloadAction}
                           className="flex-1 min-h-10 py-1 inline-flex items-center justify-center border border-ink rounded bg-paper hover:bg-lime-wash text-press-red transition-[transform,box-shadow] duration-[80ms] active:scale-95 focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-mustard"
                         >
                           <DownloadSimple size={16} weight="bold" />
@@ -270,7 +271,7 @@ export function PostersHistoryView() {
                           type="button"
                           disabled
                           aria-disabled="true"
-                          title="ডাউনলোড অনুপলব্ধ"
+                          title={postersHistoryMessages.downloadUnavailable}
                           className="flex-1 min-h-10 py-1 inline-flex items-center justify-center border border-ink/40 rounded bg-lime-wash text-ink/30 cursor-not-allowed"
                         >
                           <DownloadSimple size={16} weight="bold" />
@@ -281,11 +282,11 @@ export function PostersHistoryView() {
                         type="button"
                         onClick={() => handleDelete(poster.id, poster.status)}
                         disabled={poster.status === "generating"}
-                        aria-label="মুছে ফেলুন"
+                        aria-label={postersHistoryMessages.deleteAction}
                         title={
                           poster.status === "generating"
-                            ? "পোস্টার তৈরি চলাকালীন মোছা যাবে না"
-                            : "মুছে ফেলুন"
+                            ? postersHistoryMessages.cannotDeleteWhileGenerating
+                            : postersHistoryMessages.deleteAction
                         }
                         className="flex-1 min-h-10 py-1 inline-flex items-center justify-center border border-ink rounded bg-paper hover:bg-press-red/10 text-press-red-deep disabled:opacity-40 disabled:pointer-events-none transition-[transform,box-shadow] duration-[80ms] active:scale-95 focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-mustard"
                       >
@@ -308,11 +309,11 @@ export function PostersHistoryView() {
                   className="min-h-12"
                 >
                   <ArrowLeft size={16} weight="bold" />
-                  <span>পূর্ববর্তী</span>
+                  <span>{commonMessages.previous}</span>
                 </Button>
 
                 <span className="font-body text-sm font-semibold text-ink px-2">
-                  পৃষ্ঠা {toBanglaNumber(page)} / {toBanglaNumber(totalPages)}
+                  {commonMessages.page} {toBanglaNumber(page)} / {toBanglaNumber(totalPages)}
                 </span>
 
                 <Button
@@ -322,7 +323,7 @@ export function PostersHistoryView() {
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   className="min-h-12"
                 >
-                  <span>পরবর্তী</span>
+                  <span>{commonMessages.next}</span>
                   <ArrowRight size={16} weight="bold" />
                 </Button>
               </div>
@@ -333,7 +334,7 @@ export function PostersHistoryView() {
 
       {/* Footer */}
       <footer className="border-t-2 border-ink bg-paper-hi py-4 text-center text-xs font-body text-ink/70 mt-auto">
-        প্রচারে: Prochar Studio · গোপনীয়তা
+        {commonMessages.footerCopyright}
       </footer>
     </div>
   );
