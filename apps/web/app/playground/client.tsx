@@ -5,7 +5,6 @@ import {
   Button,
   Card,
   Chip,
-  ConfirmProvider,
   Dialog,
   EmptyState,
   Input,
@@ -14,7 +13,6 @@ import {
   Stamp,
   Stepper,
   Textarea,
-  ToastProvider,
   Wordmark,
   useConfirm,
   useToast,
@@ -121,11 +119,5 @@ function Demo() {
 }
 
 export function PlaygroundClient() {
-  return (
-    <ToastProvider>
-      <ConfirmProvider>
-        <Demo />
-      </ConfirmProvider>
-    </ToastProvider>
-  );
+  return <Demo />;
 }
