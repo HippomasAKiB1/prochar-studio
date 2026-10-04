@@ -1,14 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280">
-  <g id="sunburst_rays-group" fill="var(--c-accent)">
-    <polygon id="sunburst_rays-r1" points="300,280 0,220 0,180"/>
-    <polygon id="sunburst_rays-r2" points="300,280 0,110 0,70"/>
-    <polygon id="sunburst_rays-r3" points="300,280 0,0 40,0"/>
-    <polygon id="sunburst_rays-r4" points="300,280 120,0 170,0"/>
-    <polygon id="sunburst_rays-r5" points="300,280 250,0 300,0"/>
-    <polygon id="sunburst_rays-r6" points="300,280 380,0 430,0"/>
-    <polygon id="sunburst_rays-r7" points="300,280 510,0 560,0"/>
-    <polygon id="sunburst_rays-r8" points="300,280 600,0 600,40"/>
-    <polygon id="sunburst_rays-r9" points="300,280 600,110 600,150"/>
-    <polygon id="sunburst_rays-r10" points="300,280 600,220 600,260"/>
+  <g id="sunburst_rays-group">
+    <path id="sunburst_rays-ray-1" d="M 299.2 277.1 Q 448.5 235.2 597.6 193.0 L 601.2 206.5 Q 451.0 244.5 300.8 282.9 Z" fill="var(--c-accent)" opacity="0.85"/>
+    <path id="sunburst_rays-ray-2" d="M 299.4 278.5 Q 392.1 240.9 484.8 203.4 L 487.3 209.9 Q 394.0 245.7 300.6 281.5 Z" fill="var(--c-accent)" opacity="0.45"/>
+    <path id="sunburst_rays-ray-3" d="M 298.6 277.4 Q 434.5 202.9 570.3 128.1 L 576.9 140.4 Q 439.1 211.4 301.4 282.6 Z" fill="var(--c-accent)" opacity="0.85"/>
+    <path id="sunburst_rays-ray-4" d="M 299.1 278.7 Q 380.9 221.2 462.7 163.6 L 466.7 169.4 Q 383.8 225.4 300.9 281.3 Z" fill="var(--c-accent)" opacity="0.45"/>
+    <path id="sunburst_rays-ray-5" d="M 298.0 277.7 Q 413.7 174.5 529.1 71.0 L 538.3 81.5 Q 420.0 181.8 302.0 282.3 Z" fill="var(--c-accent)" opacity="0.85"/>
+    <path id="sunburst_rays-ray-6" d="M 298.8 278.9 Q 365.5 204.4 432.3 129.9 L 437.4 134.6 Q 369.3 207.9 301.2 281.1 Z" fill="var(--c-accent)" opacity="0.45"/>
+    <path id="sunburst_rays-ray-7" d="M 297.6 278.2 Q 386.9 151.6 476.0 24.7 L 487.3 32.9 Q 394.7 157.2 302.4 281.8 Z" fill="var(--c-accent)" opacity="0.85"/>
+    <path id="sunburst_rays-ray-8" d="M 298.6 279.2 Q 346.8 191.6 395.0 104.0 L 401.1 107.4 Q 351.2 194.1 301.4 280.8 Z" fill="var(--c-accent)" opacity="0.45"/>
+    <path id="sunburst_rays-ray-9" d="M 297.2 278.8 Q 355.7 135.3 413.8 -8.4 L 426.7 -3.0 Q 364.6 139.0 302.8 281.2 Z" fill="var(--c-accent)" opacity="0.85"/>
+    <path id="sunburst_rays-ray-10" d="M 298.5 279.6 Q 325.6 183.3 352.8 87.1 L 359.5 89.0 Q 330.5 184.7 301.5 280.4 Z" fill="var(--c-accent)" opacity="0.45"/>
+    <path id="sunburst_rays-ray-11" d="M 297.0 279.5 Q 321.6 126.4 345.8 -26.7 L 359.6 -24.3 Q 331.1 128.1 303.0 280.5 Z" fill="var(--c-accent)" opacity="0.85"/>
+    <path id="sunburst_rays-ray-12" d="M 298.4 279.9 Q 303.1 180.0 307.9 80.1 L 314.9 80.5 Q 308.2 180.3 301.6 280.1 Z" fill="var(--c-accent)" opacity="0.45"/>
+    <path id="sunburst_rays-ray-13" d="M 297.0 280.2 Q 286.4 125.5 275.4 -29.1 L 289.4 -29.9 Q 296.0 125.0 303.0 279.8 Z" fill="var(--c-accent)" opacity="0.85"/>
+    <path id="sunburst_rays-ray-14" d="M 298.4 280.3 Q 280.5 181.9 262.6 83.5 L 269.5 82.3 Q 285.5 181.0 301.6 279.7 Z" fill="var(--c-accent)" opacity="0.45"/>
+    <path id="sunburst_rays-ray-15" d="M 297.1 280.8 Q 251.9 132.6 206.3 -15.6 L 219.7 -19.5 Q 261.1 129.9 302.9 279.2 Z" fill="var(--c-accent)" opacity="0.85"/>
+    <path id="sunburst_rays-ray-16" d="M 298.5 280.6 Q 258.8 188.8 219.2 97.0 L 225.6 94.3 Q 263.6 186.8 301.5 279.4 Z" fill="var(--c-accent)" opacity="0.45"/>
+    <path id="sunburst_rays-ray-17" d="M 297.4 281.5 Q 219.8 147.2 142.0 13.2 L 154.2 6.4 Q 228.2 142.5 302.6 278.5 Z" fill="var(--c-accent)" opacity="0.85"/>
+    <path id="sunburst_rays-ray-18" d="M 298.7 280.9 Q 239.3 200.5 180.0 120.0 L 185.6 115.9 Q 243.5 197.5 301.3 279.1 Z" fill="var(--c-accent)" opacity="0.45"/>
+    <path id="sunburst_rays-ray-19" d="M 297.8 282.0 Q 192.0 168.8 85.8 55.8 L 96.2 46.3 Q 199.0 162.3 302.2 278.0 Z" fill="var(--c-accent)" opacity="0.85"/>
+    <path id="sunburst_rays-ray-20" d="M 298.9 281.2 Q 222.9 216.2 147.0 151.2 L 151.6 145.9 Q 226.3 212.4 301.1 278.8 Z" fill="var(--c-accent)" opacity="0.45"/>
+    <path id="sunburst_rays-ray-21" d="M 298.3 282.5 Q 169.6 196.0 40.7 109.9 L 48.7 98.4 Q 175.1 188.1 301.7 277.5 Z" fill="var(--c-accent)" opacity="0.85"/>
+    <path id="sunburst_rays-ray-22" d="M 299.2 281.4 Q 210.5 235.2 121.8 189.1 L 125.1 182.9 Q 212.9 230.7 300.8 278.6 Z" fill="var(--c-accent)" opacity="0.45"/>
+    <path id="sunburst_rays-ray-23" d="M 298.9 282.8 Q 154.0 227.6 9.0 172.8 L 14.2 159.8 Q 157.6 218.7 301.1 277.2 Z" fill="var(--c-accent)" opacity="0.85"/>
+    <path id="sunburst_rays-ray-24" d="M 299.6 281.5 Q 202.7 256.6 105.9 231.6 L 107.7 224.9 Q 204.1 251.6 300.4 278.5 Z" fill="var(--c-accent)" opacity="0.45"/>
   </g>
 </svg>
