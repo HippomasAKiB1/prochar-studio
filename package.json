@@ -17,8 +17,9 @@
     "format:check": "prettier --check .",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "vitest run",
-    "seed": "npm run seed --workspace=@prochar/api",
-    "seed:thumbnails": "npm run seed:thumbnails --workspace=@prochar/api"
+    "postinstall": "npm run build --workspace=@prochar/shared",
+    "seed": "npm run build --workspace=@prochar/shared && npm run seed --workspace=@prochar/api",
+    "seed:thumbnails": "npm run build --workspace=@prochar/shared && npm run seed:thumbnails --workspace=@prochar/api"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",
