@@ -5,6 +5,7 @@ import crypto from "node:crypto";
 import { requireAuth } from "../middleware/auth.middleware.js";
 import { uploadLimiter } from "../middleware/rate-limit.js";
 import { getStorageProvider } from "../services/storage/index.js";
+import { logger } from "../config/logger.js";
 
 export const uploadRouter = Router();
 
