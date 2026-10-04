@@ -94,39 +94,47 @@ uploadRouter.post(
     }
 
     // Step 3, 4, 5: Sharp processing & storage upload
-    for (const file of files) {
-      // 3. sharp rotate() (auto-EXIF-orient), resize longest side to 2400 max, without .withMetadata() (EXIF/GPS stripped)
-      // 4. Re-encode to WebP quality 88
-      const { data: outputBuffer, info } = await sharp(file.buffer)
-        .rotate()
-        .resize({
-          width: 2400,
-          height: 2400,
-          fit: "inside",
-          withoutEnlargement: true,
-        })
-        .webp({ quality: 88 })
-        .toBuffer({ resolveWithObject: true });
+    try {
+      for (const file of files) {
+        // 3. sharp rotate() (auto-EXIF-orient), resize longest side to 2400 max, without .withMetadata() (EXIF/GPS stripped)
+        // 4. Re-encode to WebP quality 88
+        const { data: outputBuffer, info } = await sharp(file.buffer)
+          .rotate()
+          .resize({
+            width: 2400,
+            height: 2400,
+            fit: "inside",
+            withoutEnlargement: true,
+          })
+          .webp({ quality: 88 })
+          .toBuffer({ resolveWithObject: true });
 
-      // 5. StorageProvider.upload with folder posters/uploads/{userId}/
-      const fileUuid = crypto.randomUUID();
-      const publicId = `posters/uploads/${userId}/${fileUuid}`;
-      const folder = `posters/uploads/${userId}`;
+        // 5. StorageProvider.upload with folder posters/uploads/{userId}/
+        const fileUuid = crypto.randomUUID();
+        const publicId = `posters/uploads/${userId}/${fileUuid}`;
+        const folder = `posters/uploads/${userId}`;
 
-      const uploadResult = await storage.upload(outputBuffer, {
-        folder,
-        publicId,
-      });
+        const uploadResult = await storage.upload(outputBuffer, {
+          folder,
+          publicId,
+        });
 
-      processedPhotos.push({
-        url: uploadResult.url,
-        publicId: uploadResult.publicId,
-        width: info.width,
-        height: info.height,
+        processedPhotos.push({
+          url: uploadResult.url,
+          publicId: uploadResult.publicId,
+          width: info.width,
+          height: info.height,
+        });
+      }
+
+      // Response 201: { photos: [{ url, publicId, width, height }] }
+      res.status(201).json({ photos: processedPhotos });
+    } catch (err: unknown) {
+      logger.error({ err }, "Image processing error in upload");
+      res.status(422).json({
+        error: "IMAGE_PROCESSING_FAILED",
+        message: "Failed to process image buffer. The file may be corrupted.",
       });
     }
-
-    // Response 201: { photos: [{ url, publicId, width, height }] }
-    res.status(201).json({ photos: processedPhotos });
   }
 );
