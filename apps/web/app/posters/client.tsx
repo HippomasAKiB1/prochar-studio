@@ -55,7 +55,7 @@ export function PostersHistoryView() {
   const [page, setPage] = useState(1);
 
   // 1. Current user
-  const { data: authData } = useQuery<UserProfile>({
+  const { data: authData, isLoading: isAuthLoading } = useQuery<UserProfile>({
     queryKey: ["auth", "me"],
     queryFn: () => get<UserProfile>("/api/auth/me"),
     staleTime: 60_000,
@@ -66,7 +66,7 @@ export function PostersHistoryView() {
   // 2. Posters list with pagination
   const {
     data: postersData,
-    isLoading,
+    isLoading: isPostersLoading,
     isError,
     refetch,
   } = useQuery<PostersResponse>({
@@ -75,6 +75,8 @@ export function PostersHistoryView() {
     enabled: !!userId,
     staleTime: 10_000,
   });
+
+  const isLoading = isAuthLoading || (!userId && !isError) || isPostersLoading;
 
   // Delete handler with confirm dialog and optimistic removal
   const handleDelete = async (posterId: string, status: string) => {
@@ -133,8 +135,8 @@ export function PostersHistoryView() {
       {/* Main Container */}
       <main className="flex-1 mx-auto w-full max-w-6xl px-4 py-8">
         {/* Double-ruled Title */}
-        <div className="border-y-4 border-double border-ink py-2 text-center mb-8">
-          <h1 className="font-display font-extrabold text-3xl sm:text-4xl text-ink">
+        <div className="border-y-4 border-double border-ink py-2 text-center mb-8 min-h-[84px] flex flex-col justify-center">
+          <h1 className="font-display font-extrabold text-3xl sm:text-4xl text-ink leading-tight">
             {postersHistoryMessages.pageTitle}
           </h1>
           <p className="font-body text-sm text-ink/80 mt-1">

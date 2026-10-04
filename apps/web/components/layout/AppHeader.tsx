@@ -47,8 +47,8 @@ export function AppHeader() {
   };
 
   return (
-    <header className="border-b-2 border-ink bg-paper-hi sticky top-0 z-30 min-h-[58px] py-2 sm:py-3">
-      <div className="mx-auto max-w-6xl px-4 flex items-center justify-between gap-3">
+    <header className="border-b-2 border-ink bg-paper-hi sticky top-0 z-30 h-16 min-h-[64px] flex items-center">
+      <div className="mx-auto max-w-6xl w-full px-4 flex items-center justify-between gap-3">
         {/* Left: Wordmark links to /templates */}
         <Link
           href="/templates"
