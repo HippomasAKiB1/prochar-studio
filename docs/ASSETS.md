@@ -31,9 +31,9 @@ All fonts are licensed under the **SIL Open Font License 1.1 (OFL)** and may be 
 | Asset path (under `apps/api/assets/`) | Status | Author | Licence |
 |---|---|---|---|
 | `templates/shared/placeholder_person.svg` | PLACEHOLDER | Project | Project (all rights reserved / replace later) |
-| `templates/victory-day-classic/*` (5 files) | PLACEHOLDER | Project | Project |
-| `templates/condolence-tribute/*` (3 files) | PLACEHOLDER | Project | Project |
-| `templates/campaign-bold/*` (5 files) | PLACEHOLDER | Project | Project |
+| `templates/victory-day-classic/*` (5 files) | FINAL | Project | Project |
+| `templates/condolence-tribute/*` (3 files) | FINAL | Project | Project |
+| `templates/campaign-bold/*` (5 files) | FINAL | Project | Project |
 
 Update the Status column to `FINAL` when a placeholder is replaced by finished artwork.
 
