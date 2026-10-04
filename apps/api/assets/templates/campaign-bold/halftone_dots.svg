@@ -1,22 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
-  <g id="halftone_dots-grid" fill="var(--c-on-primary)">
-    <circle id="halftone_dots-c1" cx="50" cy="50" r="2"/>
-    <circle id="halftone_dots-c2" cx="50" cy="150" r="2"/>
-    <circle id="halftone_dots-c3" cx="50" cy="250" r="2"/>
-    <circle id="halftone_dots-c4" cx="150" cy="50" r="3"/>
-    <circle id="halftone_dots-c5" cx="150" cy="150" r="3"/>
-    <circle id="halftone_dots-c6" cx="150" cy="250" r="3"/>
-    <circle id="halftone_dots-c7" cx="250" cy="50" r="4"/>
-    <circle id="halftone_dots-c8" cx="250" cy="150" r="4"/>
-    <circle id="halftone_dots-c9" cx="250" cy="250" r="4"/>
-    <circle id="halftone_dots-c10" cx="350" cy="50" r="5"/>
-    <circle id="halftone_dots-c11" cx="350" cy="150" r="5"/>
-    <circle id="halftone_dots-c12" cx="350" cy="250" r="5"/>
-    <circle id="halftone_dots-c13" cx="450" cy="50" r="6"/>
-    <circle id="halftone_dots-c14" cx="450" cy="150" r="6"/>
-    <circle id="halftone_dots-c15" cx="450" cy="250" r="6"/>
-    <circle id="halftone_dots-c16" cx="550" cy="50" r="7"/>
-    <circle id="halftone_dots-c17" cx="550" cy="150" r="7"/>
-    <circle id="halftone_dots-c18" cx="550" cy="250" r="7"/>
+  <defs id="halftone_dots-defs">
+    <pattern id="halftone_dots-pat-a" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle id="halftone_dots-dot-a" cx="10" cy="10" r="1.2" fill="var(--c-on-primary)"/>
+    </pattern>
+    <pattern id="halftone_dots-pat-b" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle id="halftone_dots-dot-b" cx="10" cy="10" r="2.4" fill="var(--c-on-primary)"/>
+    </pattern>
+    <pattern id="halftone_dots-pat-c" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle id="halftone_dots-dot-c" cx="10" cy="10" r="4.2" fill="var(--c-on-primary)"/>
+    </pattern>
+    <clipPath id="halftone_dots-clip-a">
+      <rect id="halftone_dots-crect-a" x="0" y="0" width="200" height="330"/>
+    </clipPath>
+    <clipPath id="halftone_dots-clip-b">
+      <rect id="halftone_dots-crect-b" x="200" y="0" width="200" height="330"/>
+    </clipPath>
+    <clipPath id="halftone_dots-clip-c">
+      <rect id="halftone_dots-crect-c" x="400" y="0" width="200" height="330"/>
+    </clipPath>
+  </defs>
+  <g id="halftone_dots-group">
+    <rect id="halftone_dots-rect-a" x="0" y="0" width="200" height="330" fill="url(#halftone_dots-pat-a)" clip-path="url(#halftone_dots-clip-a)"/>
+    <rect id="halftone_dots-rect-b" x="200" y="0" width="200" height="330" fill="url(#halftone_dots-pat-b)" clip-path="url(#halftone_dots-clip-b)"/>
+    <rect id="halftone_dots-rect-c" x="400" y="0" width="200" height="330" fill="url(#halftone_dots-pat-c)" clip-path="url(#halftone_dots-clip-c)"/>
   </g>
 </svg>

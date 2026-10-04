@@ -1,14 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
-  <g id="rays_burst-group" fill="var(--c-on-primary)">
-    <polygon id="rays_burst-r1" points="300,0 0,60 0,90"/>
-    <polygon id="rays_burst-r2" points="300,0 0,160 0,200"/>
-    <polygon id="rays_burst-r3" points="300,0 0,280 40,330"/>
-    <polygon id="rays_burst-r4" points="300,0 120,330 160,330"/>
-    <polygon id="rays_burst-r5" points="300,0 240,330 280,330"/>
-    <polygon id="rays_burst-r6" points="300,0 340,330 380,330"/>
-    <polygon id="rays_burst-r7" points="300,0 460,330 500,330"/>
-    <polygon id="rays_burst-r8" points="300,0 580,330 600,280"/>
-    <polygon id="rays_burst-r9" points="300,0 600,180 600,140"/>
-    <polygon id="rays_burst-r10" points="300,0 600,70 600,40"/>
+  <g id="rays_burst-group">
+    <path id="rays_burst-ray-1" d="M 300.4 -2.2 Q 442.5 21.0 615.2 55.0 L 615.0 56.2 Q 441.1 29.0 299.6 2.2 Z" fill="var(--c-on-primary)" opacity="0.4"/>
+    <path id="rays_burst-ray-2" d="M 300.4 -1.2 Q 382.4 22.8 481.8 55.1 L 481.7 55.7 Q 381.1 27.1 299.6 1.2 Z" fill="var(--c-on-primary)" opacity="0.2"/>
+    <path id="rays_burst-ray-3" d="M 300.9 -2.1 Q 433.3 54.7 592.8 129.2 L 592.3 130.3 Q 430.0 62.1 299.1 2.1 Z" fill="var(--c-on-primary)" opacity="0.4"/>
+    <path id="rays_burst-ray-4" d="M 300.6 -1.1 Q 374.5 41.9 463.2 97.2 L 462.9 97.7 Q 372.2 45.8 299.4 1.1 Z" fill="var(--c-on-primary)" opacity="0.2"/>
+    <path id="rays_burst-ray-5" d="M 301.4 -1.8 Q 416.2 85.1 553.1 195.8 L 552.4 196.7 Q 411.3 91.5 298.6 1.8 Z" fill="var(--c-on-primary)" opacity="0.4"/>
+    <path id="rays_burst-ray-6" d="M 300.9 -0.9 Q 362.3 58.6 435.1 133.6 L 434.6 134.1 Q 359.1 61.8 299.1 0.9 Z" fill="var(--c-on-primary)" opacity="0.2"/>
+    <path id="rays_burst-ray-7" d="M 301.8 -1.4 Q 392.4 110.6 498.6 250.9 L 497.7 251.6 Q 386.0 115.6 298.2 1.4 Z" fill="var(--c-on-primary)" opacity="0.4"/>
+    <path id="rays_burst-ray-8" d="M 301.1 -0.6 Q 346.3 71.9 399.0 162.2 L 398.5 162.5 Q 342.5 74.2 298.9 0.6 Z" fill="var(--c-on-primary)" opacity="0.2"/>
+    <path id="rays_burst-ray-9" d="M 302.0 -0.9 Q 363.1 129.5 432.5 291.3 L 431.4 291.8 Q 355.7 132.9 298.0 0.9 Z" fill="var(--c-on-primary)" opacity="0.4"/>
+    <path id="rays_burst-ray-10" d="M 301.2 -0.4 Q 327.7 80.9 357.1 181.2 L 356.5 181.4 Q 323.4 82.3 298.8 0.4 Z" fill="var(--c-on-primary)" opacity="0.2"/>
+    <path id="rays_burst-ray-11" d="M 302.2 -0.4 Q 330.1 140.9 358.5 314.6 L 357.4 314.8 Q 322.1 142.4 297.8 0.4 Z" fill="var(--c-on-primary)" opacity="0.4"/>
+    <path id="rays_burst-ray-12" d="M 301.2 -0.1 Q 307.4 85.2 311.8 189.6 L 311.2 189.7 Q 302.9 85.5 298.8 0.1 Z" fill="var(--c-on-primary)" opacity="0.2"/>
+    <path id="rays_burst-ray-13" d="M 302.2 0.1 Q 295.3 144.0 281.2 319.4 L 280.0 319.4 Q 287.2 143.5 297.8 -0.1 Z" fill="var(--c-on-primary)" opacity="0.4"/>
+    <path id="rays_burst-ray-14" d="M 301.2 0.2 Q 286.7 84.5 265.9 186.9 L 265.3 186.8 Q 282.3 83.7 298.8 -0.2 Z" fill="var(--c-on-primary)" opacity="0.2"/>
+    <path id="rays_burst-ray-15" d="M 302.1 0.7 Q 260.8 138.6 204.9 305.6 L 203.8 305.2 Q 253.1 136.2 297.9 -0.7 Z" fill="var(--c-on-primary)" opacity="0.4"/>
+    <path id="rays_burst-ray-16" d="M 301.1 0.5 Q 266.8 78.8 221.9 173.2 L 221.4 173.0 Q 262.7 77.0 298.9 -0.5 Z" fill="var(--c-on-primary)" opacity="0.2"/>
+    <path id="rays_burst-ray-17" d="M 301.9 1.2 Q 228.6 125.1 134.2 273.7 L 133.2 273.1 Q 221.7 120.9 298.1 -1.2 Z" fill="var(--c-on-primary)" opacity="0.4"/>
+    <path id="rays_burst-ray-18" d="M 301.0 0.8 Q 248.8 68.5 182.6 149.4 L 182.1 149.0 Q 245.3 65.7 299.0 -0.8 Z" fill="var(--c-on-primary)" opacity="0.2"/>
+    <path id="rays_burst-ray-19" d="M 301.6 1.6 Q 200.6 104.3 73.3 225.8 L 72.4 225.0 Q 194.9 98.6 298.4 -1.6 Z" fill="var(--c-on-primary)" opacity="0.4"/>
+    <path id="rays_burst-ray-20" d="M 300.8 1.0 Q 233.8 54.2 150.1 116.8 L 149.7 116.3 Q 231.1 50.7 299.2 -1.0 Z" fill="var(--c-on-primary)" opacity="0.2"/>
+    <path id="rays_burst-ray-21" d="M 301.2 1.9 Q 178.5 77.4 25.6 164.7 L 25.0 163.7 Q 174.3 70.4 298.8 -1.9 Z" fill="var(--c-on-primary)" opacity="0.4"/>
+    <path id="rays_burst-ray-22" d="M 300.5 1.1 Q 222.8 36.7 126.4 77.3 L 126.2 76.7 Q 220.9 32.6 299.5 -1.1 Z" fill="var(--c-on-primary)" opacity="0.2"/>
+    <path id="rays_burst-ray-23" d="M 300.7 2.2 Q 163.4 45.9 -5.9 93.9 L -6.3 92.8 Q 161.1 38.1 299.3 -2.2 Z" fill="var(--c-on-primary)" opacity="0.4"/>
+    <path id="rays_burst-ray-24" d="M 300.2 1.2 Q 216.2 17.1 112.9 33.3 L 112.8 32.7 Q 215.4 12.6 299.8 -1.2 Z" fill="var(--c-on-primary)" opacity="0.2"/>
   </g>
 </svg>

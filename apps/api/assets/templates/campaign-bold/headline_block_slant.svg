@@ -1,3 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 212">
-  <polygon id="headline_block_slant-poly" points="0,24 600,0 600,212 0,212" fill="var(--c-secondary)"/>
+  <g id="headline_block_slant-group">
+    <path id="headline_block_slant-main" d="M 0 24 L 600 0 L 600 212 L 0 212 Z" fill="var(--c-secondary)"/>
+    <line id="headline_block_slant-top-edge" x1="0" y1="24" x2="600" y2="0" stroke="var(--c-primary)" stroke-width="2.5" opacity="0.35"/>
+    <g id="headline_block_slant-seal-group">
+      <rect id="headline_block_slant-seal" x="0" y="192" width="20" height="20" fill="var(--c-accent)"/>
+      <circle id="headline_block_slant-seal-dot" cx="10" cy="202" r="3.5" fill="var(--c-secondary)"/>
+    </g>
+    <line id="headline_block_slant-bottom-rule" x1="20" y1="211" x2="600" y2="211" stroke="var(--c-accent)" stroke-width="2" opacity="0.8"/>
+  </g>
 </svg>

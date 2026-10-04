@@ -1,3 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
-  <polygon id="diagonal_band-poly" points="0,0 600,0 600,330 0,300" fill="var(--c-primary)"/>
+  <g id="diagonal_band-group">
+    <path id="diagonal_band-main" d="M 0 0 L 560 0 L 600 40 L 600 310 L 0 290 Z" fill="var(--c-primary)"/>
+    <polygon id="diagonal_band-notch" points="560,0 600,0 600,40" fill="var(--c-background)"/>
+    <line id="diagonal_band-notch-edge" x1="560" y1="0" x2="600" y2="40" stroke="var(--c-accent)" stroke-width="2"/>
+    <g id="diagonal_band-speed-lines" stroke="var(--c-accent)" stroke-linecap="round">
+      <line id="diagonal_band-line-1" x1="20" y1="282.0" x2="580" y2="302.0" stroke-width="2.5" opacity="0.8"/>
+      <line id="diagonal_band-line-2" x1="20" y1="274.0" x2="580" y2="294.0" stroke-width="2" opacity="0.6"/>
+      <line id="diagonal_band-line-3" x1="20" y1="266.0" x2="580" y2="286.0" stroke-width="1.5" opacity="0.4"/>
+    </g>
+  </g>
 </svg>
