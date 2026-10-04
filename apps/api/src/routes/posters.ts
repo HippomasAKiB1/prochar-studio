@@ -343,7 +343,7 @@ postersRouter.get(
   async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     const idStr = String(id);
-    const format = String(req.query.format ?? "");
+    const format = String(req.query.format ?? "png");
 
     if (!isValidObjectId(idStr)) {
       res.status(400).json({
