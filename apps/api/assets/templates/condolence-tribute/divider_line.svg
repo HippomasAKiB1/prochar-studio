@@ -1,5 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 8">
-  <line id="divider_line-l1" x1="0" y1="4" x2="94" y2="4" stroke="var(--c-secondary)" stroke-width="1"/>
-  <polygon id="divider_line-diamond" points="100,0 104,4 100,8 96,4" fill="var(--c-accent)"/>
-  <line id="divider_line-l2" x1="106" y1="4" x2="200" y2="4" stroke="var(--c-secondary)" stroke-width="1"/>
+  <g id="divider_line-group">
+    <polygon id="divider_line-center-diamond" points="100,0 104,4 100,8 96,4" fill="var(--c-primary)"/>
+    <circle id="divider_line-diamond-dot" cx="100" cy="4" r="1" fill="var(--c-accent)"/>
+    <circle id="divider_line-dot-left" cx="89" cy="4" r="1.6" fill="var(--c-secondary)"/>
+    <circle id="divider_line-dot-right" cx="111" cy="4" r="1.6" fill="var(--c-secondary)"/>
+    <polygon id="divider_line-rule-left" points="0,3.85 84,3.4 84,4.6 0,4.15" fill="var(--c-primary)"/>
+    <polygon id="divider_line-rule-right" points="116,3.4 200,3.85 200,4.15 116,4.6" fill="var(--c-primary)"/>
+  </g>
 </svg>
